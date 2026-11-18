@@ -1,0 +1,108 @@
+{
+  "board": "Seeed Studio XIAO ESP32-C3",
+  "pins": {
+    "PSON_DRV": {
+      "gpio": 3,
+      "xiao": "D1",
+      "dir": "out",
+      "active": "high",
+      "note": "220R to U1 pin 1; high turns the ATX supply on"
+    },
+    "BUZZER": {
+      "gpio": 4,
+      "xiao": "D2",
+      "dir": "out",
+      "active": "high",
+      "note": "active buzzer, fixed pitch"
+    },
+    "LED_SENSE": {
+      "gpio": 5,
+      "xiao": "D3",
+      "dir": "in",
+      "pull": "up",
+      "active": "low",
+      "note": "BC-250 power LED via U1; low = lit"
+    },
+    "PWR_DRV": {
+      "gpio": 6,
+      "xiao": "D4",
+      "dir": "out",
+      "active": "high",
+      "note": "220R to U2 pin 3; high presses the power button"
+    },
+    "RST_DRV": {
+      "gpio": 7,
+      "xiao": "D5",
+      "dir": "out",
+      "active": "high",
+      "note": "220R to U2 pin 1; high presses the reset button"
+    },
+    "SWITCH": {
+      "gpio": 20,
+      "xiao": "D7",
+      "dir": "in",
+      "pull": "up",
+      "active": "low",
+      "note": "front switch contact"
+    },
+    "SWITCH_LED": {
+      "gpio": 10,
+      "xiao": "D10",
+      "dir": "out",
+      "pwm": true,
+      "active": "high"
+    }
+  },
+  "do_not_use_gpio": [
+    2,
+    8,
+    9
+  ],
+  "unconnected_gpio": [
+    2,
+    21,
+    8,
+    9
+  ],
+  "edge_pads": {
+    "L4": "BC-250 power LED anode",
+    "L5": "BC-250 power LED cathode",
+    "L6": "ATX PS_ON#",
+    "L9": "BC-250 power button live pad",
+    "L10": "BC-250 reset button live pad",
+    "R1": "ATX +5VSB",
+    "R2": "ATX ground",
+    "R4": "switch LED + (red)",
+    "R7": "switch contact (white)",
+    "R11": "switch common (yellow)",
+    "R12": "switch LED - (black)"
+  },
+  "test_firmware": {
+    "wifi_ssid": "BC250-Test",
+    "wifi_password": "bc250test",
+    "url": "http://192.168.4.1"
+  },
+  "edge_pads_note": "Edge pads describe the tested perfboard build (docs/HARDWARE.md). PCB rev A uses the connectors J1-J3 below instead.",
+  "pcb_rev_a": {
+    "status": "designed, not yet fabricated or tested",
+    "connectors": {
+      "J1": {
+        "1": "PS_ON# (ATX pin 16, green)",
+        "2": "GND (ATX pin 15, black)",
+        "3": "+5VSB (ATX pin 9, purple)"
+      },
+      "J2": {
+        "1": "BC-250 power LED +",
+        "2": "BC-250 power LED -",
+        "3": "BC-250 power button (live pad)",
+        "4": "BC-250 reset button (live pad)"
+      },
+      "J3": {
+        "1": "switch contact NO (white)",
+        "2": "switch common (yellow), GND",
+        "3": "switch LED + (red)",
+        "4": "switch LED - (black), GND"
+      }
+    }
+  }
+}

@@ -1,0 +1,72 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Builds the firmware and runs every test that needs no hardware.
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  firmware:
+    name: Firmware (${{ matrix.variant }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - variant: default
+            flags: ""
+          - variant: esb2m (experimental protocol)
+            flags: "-DRF_PROTO_ESB2M"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/cache@v4
+        with:
+          path: ~/.platformio
+          key: pio-${{ runner.os }}-${{ hashFiles('firmware/bc250_controller/platformio.ini') }}
+      - run: pip install platformio
+      - name: Build
+        working-directory: firmware/bc250_controller
+        env:
+          PLATFORMIO_BUILD_FLAGS: ${{ matrix.flags }}
+        run: pio run
+      - name: Size
+        working-directory: firmware/bc250_controller
+        run: ls -l .pio/build/xiao_esp32c3/firmware.bin
+
+  host:
+    name: Detector tests and tools
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - name: Host test bench (detectors, false matches, rfreplay)
+        run: make -C firmware/bc250_controller/host_test test
+      - name: Sniffer toolkit selftest
+        run: uv run tools/sniffer/selftest.py
+      - name: Device list
+        run: python3 tools/devices.py check
+      - name: Translations
+        run: python3 tools/i18n.py check
+
+  ui:
+    name: Web UI tests (mock controller)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: oven-sh/setup-bun@v2
+      - name: Install
+        working-directory: firmware/bc250_controller/ui_test
+        run: bun install
+      - name: Run all suites
+        working-directory: firmware/bc250_controller/ui_test
+        run: bash run_all.sh

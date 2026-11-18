@@ -1,0 +1,21 @@
+name: Translation
+description: Offer a new language or report a wrong translation
+labels: [translation]
+body:
+  - type: input
+    id: lang
+    attributes:
+      label: Language and code
+      description: For example Polish, pl.
+    validations: {required: true}
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind
+      options: [New language, Correction, Missing or untranslated text]
+    validations: {required: true}
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: The English text, where it appears, and your suggestion. A pull request is welcome, see docs/TRANSLATING.md.

@@ -1,0 +1,2777 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>BC-250 Power</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M9.57 9.34A10 10 0 1 0 22.43 9.34' fill='none' stroke='%23dc2626' stroke-width='3.2' stroke-linecap='round'/%3E%3Cpath d='M17 2h4.5L18 10.5h4L13 26l2.2-11.5H11z' fill='%23dc2626' stroke='%23fff' stroke-width='1.2' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+:root,[data-theme=light]{--lg:#dc2626;--bg:#f3f5f8;--card:#fff;--tx:#1b2430;--mu:#5f6b7a;--bd:#e1e6ec;--ac:#2563eb;--acx:#fff;--ok:#16a34a;--wa:#d97706;--er:#dc2626;--of:#8b95a3;--in:#eef1f5;--sh:0 1px 3px rgba(20,30,50,.08);--gw:none;--nb:none}
+@media(prefers-color-scheme:dark){:root:not([data-theme]){--lg:#ef4444;--bg:#0f141a;--card:#182029;--tx:#e6ebf1;--mu:#93a0b0;--bd:#27313c;--ac:#60a5fa;--acx:#0b1220;--ok:#4ade80;--wa:#fbbf24;--er:#f87171;--of:#6b7685;--in:#212b36;--sh:none}}
+[data-theme=dark]{--lg:#ef4444;--bg:#0f141a;--card:#182029;--tx:#e6ebf1;--mu:#93a0b0;--bd:#27313c;--ac:#60a5fa;--acx:#0b1220;--ok:#4ade80;--wa:#fbbf24;--er:#f87171;--of:#6b7685;--in:#212b36;--sh:none;--gw:none;--nb:none}
+/* gaming themes: always dark, with a glow on the accent */
+[data-theme=neon]{--lg:#ff2bd6;--bg:#0d0221;--card:#1a0b33;--in:#26124a;--bd:#3b1f6b;--tx:#f5e9ff;--mu:#b7a3d6;--ac:#ff2bd6;--acx:#16001f;--ok:#2de2e6;--wa:#ffb627;--er:#ff4d6d;--of:#6c5a8a;--sh:none;--gw:0 0 14px rgba(255,43,214,.55);--nb:inset 3px 0 0 var(--ac);--bgl:8px}
+[data-theme=toxic]{--lg:#39ff14;--bg:#060906;--card:#0e150e;--in:#162116;--bd:#24382a;--tx:#e4ffe0;--mu:#8fb38a;--ac:#39ff14;--acx:#041004;--ok:#39ff14;--wa:#ffd60a;--er:#ff3b3b;--of:#4e5e4c;--sh:none;--gw:0 0 12px rgba(57,255,20,.45);--nb:inset 3px 0 0 var(--ac);--bgl:8px}
+[data-theme=ember]{--lg:#ff4d1a;--bg:#0e0a08;--card:#1b1310;--in:#271b16;--bd:#3d2a21;--tx:#fff1e8;--mu:#c4a595;--ac:#ff6a1a;--acx:#1a0800;--ok:#9be15d;--wa:#ffc233;--er:#ff3d3d;--of:#6e5a50;--sh:none;--gw:0 0 14px rgba(255,106,26,.5);--nb:inset 3px 0 0 var(--ac);--bgl:8px}
+[data-theme=frost]{--lg:#34e0ff;--bg:#060d16;--card:#0c1a2a;--in:#12253a;--bd:#1d3954;--tx:#e6f6ff;--mu:#8fb3cc;--ac:#34e0ff;--acx:#001520;--ok:#5effc1;--wa:#ffd166;--er:#ff5d73;--of:#4f6a80;--sh:none;--gw:0 0 14px rgba(52,224,255,.45);--nb:inset 3px 0 0 var(--ac);--bgl:8px}
+[data-theme=arcade]{--lg:#ff1744;--bg:#0b0b0f;--card:#15151d;--in:#1f1f2b;--bd:#2e2e40;--tx:#fffbe6;--mu:#b5b09a;--ac:#ffe600;--acx:#141100;--ok:#00e676;--wa:#ff9100;--er:#ff1744;--of:#5c5a6e;--sh:none;--gw:0 0 12px rgba(255,230,0,.4);--nb:inset 3px 0 0 var(--ac);--bgl:8px}
+:root[data-theme=light]{color-scheme:light}:root[data-theme]:not([data-theme=light]){color-scheme:dark}
+*{box-sizing:border-box}
+.sig{display:inline-block;width:64px;height:8px;background:var(--bd);border-radius:4px;overflow:hidden;flex:none;vertical-align:middle}
+.sig i{display:block;height:100%;border-radius:4px}
+.sig.weak i{background:var(--er)}.sig.fair i{background:var(--wa)}.sig.good i{background:var(--ok)}
+.logo{width:26px;height:26px;flex:none;vertical-align:middle;margin-right:8px}.logo.sm{width:22px;height:22px;margin-right:-4px}.logo .lr{fill:none;stroke:var(--lg);stroke-width:3.2;stroke-linecap:round}.logo .lb{fill:var(--lg);stroke:var(--card);stroke-width:1.2;stroke-linejoin:round}
+.sigw{display:inline-flex;align-items:center;gap:6px;flex:none;vertical-align:middle}
+.sigp{font-size:12px;min-width:3.2em;font-variant-numeric:tabular-nums;color:var(--mu)}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-text-size-adjust:100%}
+#app{display:flex;min-height:100vh}
+#side{width:236px;flex:none;position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--card);border-right:1px solid var(--bd);display:flex;flex-direction:column;gap:6px;padding:16px 12px}
+#side .brand{padding:0 8px 4px;display:flex;align-items:center}
+.warn{color:var(--wa);font-weight:600}
+.fp{margin-top:12px;padding:12px;border:1px solid var(--bd);border-radius:10px;background:var(--in)}
+.fp ul{list-style:none;margin:8px 0;padding:0}
+.fp li{display:flex;gap:8px;padding:3px 0}
+.mk{flex:none;min-width:70px;font-size:12px;font-weight:700;text-transform:uppercase}
+.mk.ok{color:var(--ok)}.mk.warn{color:var(--wa)}.mk.err{color:var(--er)}.mk.i{color:var(--mu)}
+.drag{outline:2px dashed var(--ac);outline-offset:-4px}
+/* a shell command to run elsewhere, with a copy button: code, not a field: no box,
+   an accent bar on the left, only as wide as the command, well apart from the fields below */
+.cmd{display:inline-flex;align-items:center;gap:4px;max-width:100%;margin:2px 0 18px;padding:2px 2px 2px 10px;border-left:3px solid var(--ac);background:none}
+.cmd code{flex:1;min-width:0;overflow-wrap:anywhere;font:13px/1.4 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--tx)}
+button.cp{flex:none;min-height:30px;width:32px;padding:0;border:0;background:none;color:var(--mu);display:inline-flex;align-items:center;justify-content:center}
+button.cp:hover:not(:disabled){color:var(--tx)}
+/* OS updates: script and output listings */
+pre.code{contain:inline-size;margin:8px 0;padding:10px;max-height:320px;overflow:auto;white-space:pre;tab-size:4;background:var(--in);border:1px solid var(--bd);border-radius:8px;font:12px/1.4 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--tx)}
+details>summary{cursor:pointer;font-weight:600;padding:6px 0}
+#osu-days{flex-wrap:wrap;gap:6px}
+#osu-fp,#osu-hk{overflow-wrap:anywhere}
+#osu-days label{display:inline-flex;align-items:center;gap:4px;cursor:pointer}
+/* "Advanced" sections that slide open and closed, the same motion as the list cards */
+.adv{margin-top:12px}
+button.advb{min-height:32px;padding:0;border:0;background:none;color:var(--tx);font-weight:600;display:inline-flex;align-items:center;gap:4px}
+button.advb svg{transition:transform .25s ease;color:var(--mu)}
+.adv.open>button.advb svg{transform:rotate(180deg)}
+.adv:not(.open)>.fbody{grid-template-rows:0fr}
+.adv:not(.open)>.fbody>div{visibility:hidden;transition:visibility 0s .25s}
+@media (prefers-reduced-motion:reduce){button.advb svg{transition:none}}
+.abv{font-size:26px;font-weight:700;margin:-4px 0 8px}
+.sst{display:flex;align-items:center;gap:8px;margin:0 8px 8px;padding:8px 10px;border-radius:10px;background:var(--in);font-weight:600}
+.sd{width:11px;height:11px;border-radius:50%;background:var(--of);flex:none}
+body[data-state=starting] .sd{background:var(--ac);animation:bl 1s infinite}
+body[data-state=on] .sd{background:var(--ok)}
+body[data-state=shutting_down] .sd{background:var(--wa);animation:bl .8s infinite}
+@keyframes bl{50%{opacity:.3}}
+.nv{display:flex;align-items:center;gap:12px;width:100%;justify-content:flex-start;border-color:transparent;background:none;color:var(--mu);text-align:left;min-height:44px}
+.nv:hover:not(:disabled){border-color:transparent;background:var(--in);color:var(--tx)}
+.nv[aria-current=page]{background:var(--in);color:var(--tx);font-weight:600;box-shadow:var(--nb)}
+.nv svg{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.mark{width:8px;height:8px;border-radius:50%;background:var(--wa);margin-left:auto}
+.sp{flex:1}
+#content{flex:1;min-width:0;display:flex;flex-direction:column}
+#top{display:none;position:sticky;top:0;z-index:10;height:48px;align-items:center;gap:12px;padding:0 8px;background:var(--card);border-bottom:1px solid var(--bd)}
+#top b{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#top button{min-height:40px;width:44px;padding:0;border-color:transparent;background:none}
+#top svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+#top .sst{margin:0;padding:4px 10px;font-size:13px}
+#backdrop{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:25}
+@media(max-width:820px){
+ #top{display:flex}
+ #side{position:fixed;left:0;top:0;bottom:0;z-index:30;width:min(280px,85vw);transform:translateX(-100%);visibility:hidden;transition:transform .2s,visibility 0s .2s}
+ #side.open{transform:none;visibility:visible;transition:transform .2s}
+ #banners{top:48px!important}
+ #side .sst{display:none}
+}
+/* lasting messages: full-width bars under the top bar, in the page flow
+   (each one moves the page down). Short-lived messages (#toasts): narrow
+   cards floating over the page under them, dismissible. */
+#banners{position:sticky;top:0;z-index:9}
+#toasts{position:absolute;left:0;right:0;top:100%;padding:0 8px;pointer-events:none}
+/* a restart, update, wake method switch, factory reset or new address
+   explains a lost connection: "Connection lost" waits behind them */
+#pend:not([hidden])~#offline,#rmmsg:not([hidden])~#offline,#frmsg:not([hidden])~#offline,#ipnote:not([hidden])~#offline{display:none}
+/* banners: every status message, in the theme's colours: a tint of the
+   kind's colour over the card, with an edge and a dot in that colour
+   (glowing in the gaming themes).
+   err = problem, warn = unusual mode, info = in progress, ok = done */
+.bn{--k:var(--ac);position:relative;padding:8px 16px;line-height:24px;font-weight:600;text-align:center;overflow-wrap:anywhere;color:var(--tx);background:var(--card);background:color-mix(in srgb,var(--k) 16%,var(--card));border-bottom:2px solid var(--k);box-shadow:0 2px var(--bgl,0px) -2px var(--k)}
+.bn:before{content:"";display:inline-block;vertical-align:middle;width:8px;height:8px;margin:0 10px 2px 0;border-radius:50%;background:var(--k);box-shadow:0 0 var(--bgl,0px) var(--k)}
+.bn[hidden]{display:none}
+.bn.err{--k:var(--er)}.bn.warn{--k:var(--wa)}.bn.info{--k:var(--ac)}.bn.ok{--k:var(--ok)}
+.bn a{color:inherit}
+.bn button.sm{height:24px;min-height:0;margin-left:10px;padding:0 10px;line-height:22px;vertical-align:top;color:var(--tx);background:var(--card);border-color:var(--k)}   /* one line high: a bar with a button is as tall as one without */
+#toasts .bn,#gtoasts .bn{max-width:520px;margin:6px auto 0;padding:8px 44px;border:1px solid var(--k);border-bottom-width:2px;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,.3),0 0 var(--bgl,0px) var(--k);pointer-events:auto}
+.bn .x{position:absolute;right:6px;top:50%;transform:translateY(-50%);min-height:28px;width:30px;padding:0;border:0;background:none;color:var(--mu);font-size:20px;line-height:1}
+.bn .x:hover:not(:disabled){color:var(--tx)}
+/* on the login screen the short-lived banners float above the form */
+#gtoasts{position:fixed;top:6px;left:0;right:0;z-index:1;padding:0 16px;pointer-events:none}
+#gtoasts .bn{max-width:400px}
+#gate{position:fixed;inset:0;z-index:50;background:var(--bg);overflow:auto;padding:24px 16px}
+.gbox{max-width:400px;margin:5vh auto 0}
+.gbox label,.sec label{display:block;margin:10px 0 6px;font-weight:600}
+.gbox input{width:100%}
+.sec input:not(.un){width:200px;max-width:100%}   /* as the other fields */
+.pw{display:flex;gap:8px}.pw input{flex:1}
+select{font:inherit;color:var(--tx);background:var(--in);border:1px solid var(--bd);border-radius:8px;padding:8px 10px;min-height:40px;max-width:100%}
+main{flex:1;width:100%;max-width:760px;margin:0 auto;padding:16px 16px 48px;display:grid;gap:16px;align-content:start}
+@media(min-width:1040px){main{max-width:1000px;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}main>section{grid-column:1/-1;width:100%;max-width:760px;justify-self:start}main>section.half{grid-column:auto;max-width:none}}
+.card>p.d{margin:-6px 0 6px;color:var(--mu);font-size:13px}
+#modal{position:fixed;inset:0;z-index:40;display:grid;place-items:center;padding:16px}
+#modal .mbg{position:absolute;inset:0;background:rgba(0,0,0,.55)}
+.mbox{position:relative;max-width:440px;width:100%;background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:20px;box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.mbox:focus{outline:none}
+.mbox h2{margin:0 0 8px;font-size:18px}
+.mbox .row{margin-top:14px}
+#savebar{position:sticky;bottom:0;z-index:8;display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;justify-content:center;padding:10px 16px;background:var(--card);border-top:1px solid var(--bd);box-shadow:0 -2px 10px rgba(0,0,0,.12)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px;box-shadow:var(--sh)}
+.card>h2{margin:0 0 12px;font-size:17px}
+/* the username password managers save with the password (the controller has one user) */
+input.un{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+ul.modes{margin:0 0 8px;padding-left:20px;font-size:14px}
+ul.modes li{margin:6px 0;color:var(--mu);opacity:.6}
+ul.modes li b{font-weight:600}
+ul.modes li.cur{color:var(--tx);opacity:1}
+ul.modes li.cur b{font-weight:700}
+ul.modes li.cur::marker{color:var(--ac)}
+/* foldable list cards: the ^ button hides all but the heading */
+.card>h2.fh{display:flex;align-items:center;gap:8px;transition:margin .25s ease;cursor:pointer;user-select:none}
+.card.folded{cursor:pointer}
+button.fold{margin-left:auto;flex:none;min-height:30px;width:32px;padding:0;border:0;background:none;color:var(--mu);display:inline-flex;align-items:center;justify-content:center}
+button.fold:hover:not(:disabled){color:var(--tx)}
+button.fold svg{transition:transform .25s ease}
+/* the body slides closed: grid rows 1fr -> 0fr; hidden (and out of the tab order) once closed */
+.fbody{display:grid;grid-template-rows:1fr;transition:grid-template-rows .25s ease}
+.fbody>div{min-height:0;overflow:hidden;visibility:visible;transition:visibility 0s;padding:4px;margin:-4px}   /* room for the focus outline */
+.card.folded>h2.fh{margin-bottom:0}
+.card.folded .fbody{grid-template-rows:0fr}
+.card.folded .fbody>div{visibility:hidden;transition:visibility 0s .25s}
+.card.folded button.fold svg{transform:rotate(180deg)}
+@media (prefers-reduced-motion:reduce){.fbody,.card>h2.fh,button.fold svg{transition:none}}
+h3{margin:18px 0 6px;font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--mu)}
+.mu{color:var(--mu)}.sm{font-size:13px}
+p{margin:8px 0}
+[hidden]{display:none!important}
+/* hero */
+.hero{text-align:center;padding:24px 16px 16px;--st:var(--of)}
+body[data-state=starting] .hero{--st:var(--ac)}
+body[data-state=on] .hero{--st:var(--ok)}
+body[data-state=shutting_down] .hero{--st:var(--wa)}
+.ring{width:112px;height:112px;margin:0 auto 12px;border-radius:50%;display:grid;place-items:center;border:4px solid var(--st);color:var(--st);background:color-mix(in srgb,var(--st) 12%,transparent);transition:.3s}
+.ring svg{width:48px;height:48px}
+body[data-state=starting] .ring{animation:br 1s ease-in-out infinite}
+body[data-state=shutting_down] .ring{animation:br .8s ease-in-out infinite}
+body[data-state=on] .ring{box-shadow:0 0 24px color-mix(in srgb,var(--st) 40%,transparent)}
+@keyframes br{50%{opacity:.35;transform:scale(.95)}}
+@media(prefers-reduced-motion:reduce){.ring{animation:none!important}}
+#stname{font-size:28px;font-weight:700;color:var(--st)}
+#stsub{color:var(--mu);min-height:1.4em}
+#err{display:inline-block;margin-top:8px;background:var(--er);color:#fff;border-radius:99px;padding:2px 12px;font-weight:600;font-size:13px}
+.sh{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.sh h2{margin:0;display:flex;gap:8px;align-items:center}
+.sh a{font-size:13px;color:var(--ac)}
+.ic svg{width:18px;height:18px;display:block;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.kv .dot{display:inline-block;margin-right:6px}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--of);flex:none}
+.dot.on{background:var(--ok)}.dot.act{background:var(--wa)}
+.held{margin-top:12px;text-align:left}
+.bar{position:relative;height:8px;border-radius:4px;background:var(--in);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--ac);border-radius:4px}
+.ub{display:flex;align-items:center;gap:8px}.ub .bar{flex:1;min-width:64px;max-width:220px}.ub span{font-size:13px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.bar i.hi{background:var(--wa)}.bar i.crit{background:var(--er)}.bar b{position:absolute;top:0;bottom:0;width:2px;background:var(--tx);opacity:.55}
+.hbar{overflow:visible}
+.hbar span{position:absolute;top:-3px;width:2px;height:14px;background:var(--mu)}
+/* controls */
+button,.btn{font:inherit;border:1px solid var(--bd);background:var(--in);color:var(--tx);padding:9px 14px;border-radius:10px;cursor:pointer;min-height:40px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+button:hover:not(:disabled){border-color:var(--ac)}
+button:disabled{opacity:.45;cursor:not-allowed}
+button.pri{background:var(--ac);color:var(--acx);border-color:var(--ac);box-shadow:var(--gw)}
+button.dan{background:var(--er);color:#fff;border-color:var(--er)}
+button.sm{min-height:32px;padding:4px 10px;font-size:13px}
+.ths{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:8px}
+.th{flex-direction:column;align-items:stretch;gap:6px;padding:6px 6px 8px;font-size:13px}
+.th[aria-pressed=true]{border-color:var(--ac);box-shadow:0 0 0 1px var(--ac);font-weight:600}
+.pv{display:flex;height:46px;border-radius:7px;overflow:hidden;border:1px solid var(--bd)}
+.pv>span{flex:1;position:relative;background:var(--bg)}
+.pv>span:before{content:"";position:absolute;left:6px;top:6px;bottom:6px;width:46%;background:var(--card);border-radius:3px;box-shadow:inset 0 0 0 1px var(--bd)}
+.pv>span:after{content:"";position:absolute;right:7px;top:10px;width:22%;height:7px;border-radius:4px;background:var(--ac);box-shadow:var(--gw)}
+.pv>span i{position:absolute;right:7px;bottom:9px;width:8px;height:8px;border-radius:50%;background:var(--ok)}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px}
+.confirm{margin-top:12px;padding:12px;border-radius:10px;background:var(--in);border-left:4px solid var(--wa)}
+.confirm .row{margin-top:8px}
+.item .confirm,.item .ed{flex-basis:100%;margin-top:0}
+.kh{margin:14px 0 0;font-weight:600}
+.item .en{display:flex;align-items:center;gap:6px}
+.item.off .nm,.item.off .ad{opacity:.55}
+.msg{min-height:1.4em;margin:10px 0 0;font-size:14px}
+.bad{color:var(--er)}.good{color:var(--ok)}
+input[type=text],input[type=number],input[type=time],input[type=file],input[type=password]{font:inherit;color:var(--tx);background:var(--in);border:1px solid var(--bd);border-radius:8px;padding:7px 10px;min-height:38px;max-width:100%}
+input[type=number]{width:96px}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--ac);outline-offset:1px}
+input[type=range]{width:100%;accent-color:var(--ac)}
+.sw{position:relative;display:inline-block;width:46px;height:26px;flex:none}
+.sw input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer;z-index:1}
+.sw i{position:absolute;inset:0;background:var(--of);border-radius:13px;transition:.2s}
+.sw i:after{content:"";position:absolute;left:3px;top:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:.2s}
+.sw input:checked+i{background:var(--ok)}
+.sw input:checked+i:after{transform:translateX(20px)}
+.sw input:focus-visible+i{outline:2px solid var(--ac);outline-offset:2px}
+.sw input:disabled{cursor:not-allowed}
+/* lists */
+.item{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;padding:10px 0;border-top:1px solid var(--bd)}
+.item .grow{flex:1 1 180px;min-width:0}
+.item .nm{font-weight:600;overflow-wrap:anywhere}
+h3.sub{margin:16px 0 4px;font-size:14px}
+.addsec{margin-top:16px;border-top:1px solid var(--bd)}
+.addsec>h3.sub:first-child{margin-top:14px}
+.item .ad{font:12px ui-monospace,Menlo,Consolas,monospace;color:var(--mu)}
+.tag{display:inline-block;font-size:12px;padding:1px 8px;border-radius:99px;background:var(--in);color:var(--mu);margin-right:4px}
+.tag.ok{background:color-mix(in srgb,var(--ok) 18%,transparent);color:var(--ok)}
+.tag.wa{background:color-mix(in srgb,var(--wa) 18%,transparent);color:var(--wa)}
+.item input[type=text]{flex:1 1 140px;min-width:0}
+/* settings */
+.f{display:grid;grid-template-columns:1fr auto;gap:2px 12px;align-items:center;padding:10px 0;border-top:1px solid var(--bd)}
+.f label{font-weight:500}
+.f .h{grid-column:1/-1;color:var(--mu);font-size:13px}
+.f .rg{grid-column:1/-1;display:flex;gap:10px;align-items:center}
+.f .rg output{min-width:3.5em;text-align:right;font-variant-numeric:tabular-nums}
+.f .e{grid-column:1/-1;color:var(--er);font-size:13px}
+.f input[type=text]{width:180px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 16px}
+.kv dt{color:var(--mu)}.kv dd{margin:0;overflow-wrap:anywhere}
+#log{margin:0;padding:0;list-style:none;font-size:14px}
+#log li{display:flex;gap:12px;padding:6px 0;border-top:1px solid var(--bd)}
+#log time{flex:none;width:76px;color:var(--mu);font-variant-numeric:tabular-nums}
+#log span{overflow-wrap:anywhere}
+</style>
+<script>try { var t0 = localStorage.getItem("bc250_theme"); if (/^(light|dark|neon|toxic|ember|frost|arcade)$/.test(t0)) document.documentElement.dataset.theme = t0; } catch (e) {}</script>
+</head>
+<body data-state="off">
+<div id="gate" hidden><div id="gtoasts" aria-live="polite"></div><div class="gbox card">
+ <h2 id="gh"></h2>
+ <form id="gset" hidden>
+  <input type="text" class="un" autocomplete="username" value="bc250" tabindex="-1" aria-hidden="true" readonly>
+  <p data-i18n>This controller has no password yet. Set one before using it; anyone on the network could otherwise switch the BC-250.</p>
+  <label for="gn1" data-i18n>New password (8 to 64 characters)</label><input type="password" id="gn1" autocomplete="new-password" maxlength="64">
+  <label for="gn2" data-i18n>Repeat password</label><input type="password" id="gn2" autocomplete="new-password" maxlength="64">
+  <p class="msg bad" id="gserr"></p>
+  <button class="pri" style="width:100%" data-i18n>Set password</button>
+ </form>
+ <form id="glog" hidden>
+  <input type="text" class="un" autocomplete="username" value="bc250" tabindex="-1" aria-hidden="true" readonly>
+  <label for="gp" data-i18n>Password</label>
+  <div class="pw"><input type="password" id="gp" autocomplete="current-password" maxlength="64"><button type="button" id="geye">Show</button></div>
+  <p class="msg bad" id="glerr"></p>
+  <button class="pri" id="glbtn" style="width:100%" data-i18n>Log in</button>
+  <p class="sm mu" data-i18n>Forgot it? Hold the front button for 10 s while powering up. This erases the password and WiFi.</p>
+ </form>
+ <div class="row" style="margin-top:20px"><label for="glang" style="margin:0" data-i18n>Language</label><select id="glang" class="langsel"></select></div>
+</div></div>
+<div id="app">
+<aside id="side" aria-label="Sidebar" data-i18n-attr="aria-label">
+ <div class="brand"><svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><g id="lgo"><path class="lr" d="M9.57 9.34A10 10 0 1 0 22.43 9.34"/><path class="lb" d="M17 2h4.5L18 10.5h4L13 26l2.2-11.5H11z"/></g></svg><b>BC-250 Power</b></div>
+ <div class="sst" role="status"><i class="sd"></i><span class="sdt">-</span></div>
+ <nav aria-label="Views" data-i18n-attr="aria-label"><button class="nv" data-view="dashboard"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span data-i18n>Dashboard</span></button><button class="nv" data-view="wake"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 10a11 11 0 0 1 15 0M7.5 13.5a6.5 6.5 0 0 1 9 0"/><circle cx="12" cy="17.5" r="1.5"/></svg><span id="nv-ble">Wake</span></button><button class="nv" data-view="osupdate"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 20h16"/></svg><span data-i18n>OS updates</span><i class="mark" id="mark-osupdate" hidden role="img" aria-label="Unsaved changes" title="Unsaved changes" data-i18n-attr="aria-label title"></i></button><button class="nv" data-view="settings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/><circle cx="9" cy="6" r="2" fill="var(--card)"/><circle cx="15" cy="12" r="2" fill="var(--card)"/><circle cx="8" cy="18" r="2" fill="var(--card)"/></svg><span data-i18n>Settings</span><i class="mark" id="mark-settings" hidden role="img" aria-label="Unsaved changes" title="Unsaved changes" data-i18n-attr="aria-label title"></i></button><button class="nv" data-view="network"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0M12 20h.01"/></svg><span data-i18n>Network</span></button><button class="nv" data-view="security"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span data-i18n>Security</span></button><button class="nv" data-view="controller"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="1.5"/><rect x="9.5" y="9.5" width="5" height="5" rx=".5"/><path d="M9.5 2.5V6M14.5 2.5V6M9.5 18v3.5M14.5 18v3.5M2.5 9.5H6M2.5 14.5H6M18 9.5h3.5M18 14.5h3.5"/></svg><span data-i18n>Controller</span></button><button class="nv" data-view="debug"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8h8v8a4 4 0 0 1-8 0zM9 5l1.5 2M15 5l-1.5 2M4 12h4M16 12h4M4 18l4-2M20 18l-4-2"/></svg><span data-i18n>Debug</span></button><button class="nv" data-view="log"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></svg><span data-i18n>Log</span></button></nav>
+ <span class="sp"></span>
+ <button class="nv" id="sidelogout"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5V3h4M16 17l5-5-5-5M21 12H9"/></svg><span data-i18n>Log out</span></button>
+</aside>
+<div id="backdrop" hidden></div>
+<div id="content">
+<header id="top"><button id="menu" aria-label="Open menu" aria-expanded="false" aria-controls="side" data-i18n-attr="aria-label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button><svg class="logo sm" viewBox="0 0 32 32" aria-hidden="true"><use href="#lgo"/></svg><b id="vtitle">Dashboard</b><div class="sst" role="status"><i class="sd"></i><span class="sdt">-</span></div></header>
+<div id="banners"><!-- lasting messages, most important first -->
+<div class="bn info" id="pend" role="status" hidden></div>
+<div class="bn info" id="rmmsg" role="status" hidden></div>
+<div class="bn info" id="frmsg" role="status" hidden></div>
+<div class="bn ok" id="ipnote" role="status" hidden></div>
+<div class="bn err" id="offline" role="alert" hidden data-i18n>Connection lost. Reconnecting…</div>
+<div class="bn warn" id="dbg" hidden><span id="dbgt"></span><button class="sm" id="dbgback" data-i18n>Back to real</button></div>
+<div id="toasts" aria-live="polite"></div></div>
+<main>
+
+<section class="card hero half" id="status" data-view="dashboard">
+ <div class="ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v9M6.4 6.6a8 8 0 1 0 11.2 0"/></svg></div>
+ <div id="stname">…</div>
+ <div id="stsub">Waiting for the controller</div>
+ <span id="err" hidden data-i18n>Error signal active</span>
+ <div class="held" id="heldbox" hidden>
+  <div class="row" style="justify-content:space-between"><span><span data-i18n>Front button held</span> <b id="held">0.0 s</b></span><span class="sm mu" id="heldhint"></span></div>
+  <div class="bar hbar" style="margin-top:6px"><i id="heldbar"></i><span id="heldmk" style="left:50%"></span></div>
+ </div>
+</section>
+
+<section class="card half" id="power" data-view="dashboard">
+ <h2 data-i18n>Power</h2>
+ <div class="grid4">
+  <button class="pri" data-act="on" data-i18n>Power on</button>
+  <button data-act="shutdown" data-i18n>Shut down</button>
+  <button data-act="reset" data-i18n>Reset</button>
+  <button class="dan" data-act="force_off" data-i18n>Force off</button>
+ </div>
+ <div class="confirm" id="pconf" hidden><div id="pconft"></div><div class="row"><button class="dan" id="pyes" data-i18n>Confirm</button><button id="pno" data-i18n>Cancel</button></div></div>
+ <p class="sm mu" id="hhnote">Shut down asks the OS to stop, like a short press of the front button. The same button resets the BC-250 when held for 5–10 s, and forces power off at 10 s.</p>
+</section>
+
+<section class="card half sum" id="sum-pc" data-view="dashboard" aria-labelledby="sum-pc-h">
+ <div class="sh"><h2 id="sum-pc-h"><span class="ic" data-ic="gpu"></span>BC-250</h2></div>
+ <dl class="kv">
+  <dt data-i18n>BC-250 power LED</dt><dd><i class="dot" id="d-sense"></i><span id="t-sense">-</span></dd>
+  <dt data-i18n>ATX power</dt><dd><i class="dot" id="d-pson"></i><span id="t-pson">-</span></dd>
+  <dt data-i18n>Power</dt><dd><i class="dot" id="d-pwr"></i><span id="t-pwr">-</span></dd>
+  <dt data-i18n>Reset</dt><dd><i class="dot" id="d-rst"></i><span id="t-rst">-</span></dd>
+  <dt data-i18n>Front button</dt><dd><i class="dot" id="d-btn"></i><span id="t-btn">-</span></dd>
+ </dl>
+</section>
+
+<section class="card half sum" id="sum-ble" data-view="dashboard" aria-labelledby="sum-ble-h">
+ <div class="sh"><h2 id="sum-ble-h"><span class="ic" data-ic="wake"></span>Wake</h2><a href="#wake" id="sum-ble-a" aria-label="Open wake">Open</a></div>
+ <dl class="kv">
+  <dt data-i18n>Wake</dt><dd><span id="b-on">-</span></dd>
+  <dt id="b-countl">Wake list</dt><dd><span id="b-count">-</span></dd>
+  <dt data-i18n>Bluetooth Classic hosts</dt><dd><span id="b-hosts">-</span></dd>
+  <dt id="b-presentl">In range now</dt><dd><span id="b-present">-</span></dd>
+  <dt data-i18n>Ready to start the BC-250</dt><dd><span id="b-armed">-</span></dd>
+ </dl>
+ <p class="sm mu" id="b-empty" hidden data-i18n>No controller on the wake list yet. <a href="#wake">Add one</a></p>
+</section>
+
+<section class="card half sum" id="sum-net" data-view="dashboard" aria-labelledby="sum-net-h">
+ <div class="sh"><h2 id="sum-net-h"><span class="ic" data-ic="network"></span><span data-i18n>Network</span></h2><a href="#network" aria-label="Open Network" data-i18n data-i18n-attr="aria-label">Open</a></div>
+ <dl class="kv">
+  <dt data-i18n>WiFi</dt><dd><span id="dn-wifi">-</span></dd>
+  <dt data-i18n>Signal</dt><dd><span id="dn-sig">-</span></dd>
+  <dt data-i18n>IP address</dt><dd><span id="dn-ip">-</span></dd>
+  <dt data-i18n>Hostname</dt><dd><span id="dn-host">-</span></dd>
+  <dt data-i18n>Setup access point</dt><dd><span id="dn-ap">-</span></dd>
+ </dl>
+</section>
+
+<section class="card half sum" id="sum-clk" data-view="dashboard" aria-labelledby="sum-clk-h">
+ <div class="sh"><h2 id="sum-clk-h"><span class="ic" data-ic="clock"></span><span data-i18n>Clock</span></h2><a href="#settings" aria-label="Open Clock" data-i18n data-i18n-attr="aria-label">Open</a></div>
+ <dl class="kv">
+  <dt data-i18n>Time</dt><dd><span id="dc-time">-</span></dd>
+  <dt data-i18n>Date</dt><dd><span id="dc-date">-</span></dd>
+  <dt data-i18n>Timezone</dt><dd><span id="dc-tz">-</span></dd>
+  <dt data-i18n>Source</dt><dd><span id="dc-src">-</span></dd>
+  <dt data-i18n>Quiet hours</dt><dd><span id="dc-quiet">-</span></dd>
+ </dl>
+</section>
+
+<section class="card half sum" id="sum-btn" data-view="dashboard" aria-labelledby="sum-btn-h">
+ <div class="sh"><h2 id="sum-btn-h"><span class="ic" data-ic="power"></span><span data-i18n>Front button</span></h2><a href="#settings" aria-label="Open Front button" data-i18n data-i18n-attr="aria-label">Open</a></div>
+ <dl class="kv">
+  <dt data-i18n>Reset after</dt><dd><span id="db-r">-</span></dd>
+  <dt data-i18n>Forced off after</dt><dd><span id="db-f">-</span></dd>
+  <dt data-i18n>Buzzer</dt><dd><span id="db-buz">-</span></dd>
+ </dl>
+</section>
+
+<section class="card half sum" id="sum-ctl" data-view="dashboard" aria-labelledby="sum-ctl-h">
+ <div class="sh"><h2 id="sum-ctl-h"><span class="ic" data-ic="controller"></span><span data-i18n>Controller</span></h2><a href="#controller" aria-label="Open Controller" data-i18n data-i18n-attr="aria-label">Open</a></div>
+ <dl class="kv">
+  <dt data-i18n>Firmware</dt><dd><span id="t-fw">-</span></dd>
+  <dt data-i18n>Uptime</dt><dd><span id="t-up">-</span></dd>
+  <dt id="t-cpu-l" data-i18n>CPU</dt><dd><div class="ub"><div class="bar"><i id="t-cpu-b"></i></div><span id="t-cpu">-</span></div></dd>
+  <dt id="t-mem-l" data-i18n>Memory</dt><dd><div class="ub"><div class="bar"><i id="t-mem-b"></i></div><span id="t-mem">-</span></div></dd>
+  <dt data-i18n>Chip temperature</dt><dd><span id="t-temp">-</span></dd>
+  <dt data-i18n>Started after</dt><dd><span id="c-start">-</span></dd>
+ </dl>
+</section>
+
+<section class="card" id="radiocard" data-view="wake" hidden>
+ <h2 data-i18n>Wake method</h2>
+ <ul class="modes">
+  <li id="rm-ble" data-i18n><b>BLE (Bluetooth Low Energy)</b>: BLE game controllers, found by Scan.</li>
+  <li id="rm-2g4" data-i18n><b>2.4G/BT</b>: devices with a 2.4G USB dongle and classic Bluetooth controllers through their host.</li>
+ </ul>
+ <p class="sm mu" data-i18n>Switching restarts the controller; the BC-250’s power state is unaffected.</p>
+ <div class="row"><button id="rm-sw"></button></div>
+ <div class="confirm" id="rmask" hidden><div></div><div class="row"><button class="dan" data-i18n>Switch and restart</button><button data-i18n>Cancel</button></div></div>
+</section>
+<section class="card" id="ble" data-view="wake" hidden>
+ <h2 id="ble-h">BLE wake</h2>
+ <p class="d" id="ble-d">Start the BC-250 from a BLE (Bluetooth Low Energy) controller.</p>
+ <div class="row" style="justify-content:space-between">
+  <label for="blesw"><b id="ble-l">Start the BC-250 when a listed device appears</b></label>
+  <span class="sw"><input type="checkbox" id="blesw" disabled><i></i></span>
+ </div>
+<p class="sm mu" id="blenote" hidden>Turn wake on to edit the list and scan.</p>
+ </section>
+<section class="card" id="wcard" data-view="wake" data-need="ble" hidden>
+ <h2 class="fh"><span id="wtitle">Bluetooth Low Energy devices</span><button type="button" class="fold" aria-expanded="true" aria-label="Hide"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 15l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></h2>
+ <div class="fbody"><div>
+ <h3 class="sub"><span data-i18n>Wake list</span> <span id="wcount"></span></h3>
+ <div id="wlist"></div>
+ <p class="mu" id="wempty" hidden>No devices in the list.</p>
+ <div class="addsec" id="scancard">
+ <h3 class="sub" data-i18n>Add a device</h3>
+ <p class="sm mu" data-i18n>Find a nearby controller and add it.</p>
+ <div class="row"><button class="pri" id="scanbtn">Scan for devices</button><span class="sm mu" id="scanmsg"></span></div>
+ <p class="sm mu" id="scanhelp" hidden data-i18n>Put the controller in pairing mode. It appears below within a few seconds.</p>
+<p class="sm mu" id="scanrearm" hidden></p>
+ <div id="dlist"></div>
+ <p class="sm mu kh" id="dknownh" hidden data-i18n>Already in the wake list</p>
+ <div id="dknown"></div>
+ <p class="sm mu" id="dempty" hidden data-i18n>No controllers found. Check that it is in pairing mode, or turn on “Show all BLE devices” under Debug. Classic Bluetooth controllers are only detected with 2.4G/BT wake.</p>
+ <p class="sm mu" id="dhid"></p>
+ <p class="sm mu" id="dnote" hidden data-i18n>All devices are shown because of the Debug option. <a href="#debug">Change it</a></p>
+ <p class="sm mu" id="dhint" hidden data-i18n>A <b>random</b> address may change, and the entry then stops working.</p>
+ </div>
+ <div class="addsec" id="learn" hidden>
+ <h3 class="sub" data-i18n>Learn a 2.4G Dongle device</h3>
+ <p class="sm mu" data-i18n>Find a device with a 2.4G USB dongle and add it.</p>
+ <div class="row"><button class="pri" id="learnbtn">Learn</button><span class="sm mu" id="learnmsg"></span></div>
+ <p class="sm mu" id="learnhelp" hidden data-i18n>Switch the device on in 2.4G mode, with the BC-250 off or its dongle unplugged. It appears below within a few seconds.</p>
+<p class="sm mu" id="learnrearm" hidden></p>
+ <div id="llist"></div>
+ <p class="sm mu kh" id="lknownh" hidden data-i18n>Already in the wake list</p>
+ <div id="lknown"></div>
+ </div>
+ </div></div>
+</section>
+<section class="card nd" id="hcard" data-view="wake" data-need="ble" hidden>
+ <h2 class="fh"><span data-i18n>Bluetooth Classic hosts</span><button type="button" class="fold" aria-expanded="true" aria-label="Hide"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 15l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></h2>
+ <div class="fbody"><div>
+ <p class="sm mu" data-i18n><b>Note:</b> any device that calls a listed host wakes the BC-250, for example a paired headset that reconnects by itself.</p>
+ <h3 class="sub"><span data-i18n>Wake list</span> <span id="hwcount"></span></h3>
+ <div id="hwlist"></div>
+ <p class="mu" id="hwempty" hidden data-i18n>No Bluetooth Classic hosts in the list.</p>
+ <div class="addsec" id="hlearn">
+ <h3 class="sub" data-i18n>Learn a Bluetooth Classic host</h3>
+ <p class="sm mu" data-i18n>Find the host a classic Bluetooth controller calls and add it.</p>
+ <div class="row"><button class="pri" id="hlearnbtn">Learn</button><span class="sm mu" id="hlearnmsg"></span></div>
+ <p class="sm mu" id="hlearnhelp" hidden data-i18n>With the BC-250 off, switch the controller on (its home button). The host it calls appears below within a few seconds; other Bluetooth devices nearby may show up too.</p>
+<p class="sm mu" id="hlearnrearm" hidden></p>
+ <div id="hllist"></div>
+ <p class="sm mu kh" id="hlknownh" hidden data-i18n>Already in the wake list</p>
+ <div id="hlknown"></div>
+ <h3 class="sub" data-i18n>Or enter its address</h3>
+ <p class="sm mu" data-i18n>The BC-250’s Bluetooth address. Run on the BC-250:</p>
+ <div class="cmd"><code id="bth-cmd">bluetoothctl show</code><button type="button" class="cp" id="bth-cp" aria-label="Copy the command" title="Copy" data-i18n-attr="aria-label title"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
+ <div class="row"><input type="text" id="bth-a" autocomplete="off" maxlength="17" placeholder="XX:XX:XX:XX:XX:XX" autocapitalize="characters" spellcheck="false" aria-label="Bluetooth address" style="width:190px" data-i18n-attr="aria-label"><input type="text" id="bth-n" autocomplete="off" maxlength="31" placeholder="Name" aria-label="Name" style="width:150px" data-i18n-attr="aria-label"><button class="sm pri" id="bth-b" data-i18n>Add to wake list</button></div>
+ <p class="sm bad" id="bth-e"></p>
+ </div>
+ </div></div>
+</section>
+
+<section class="card" id="osu" data-view="osupdate" hidden>
+ <h2 data-i18n>OS updates</h2>
+ <p class="sm mu" id="osu-old" hidden data-i18n>This firmware has no OS updates.</p>
+ <div id="osu-top">
+  <p class="sm mu" data-i18n>Installs the BC-250’s system updates by itself at night, over SSH.</p>
+  <div class="f" style="border-top:0"><label for="osu-en"><b data-i18n>Automatic OS updates</b></label><span class="sw"><input type="checkbox" id="osu-en" disabled><i></i></span></div>
+ </div>
+</section>
+<section class="card" id="osu-st" data-view="osupdate" data-osu hidden>
+ <h2 data-i18n>Status</h2>
+ <dl class="kv">
+  <dt data-i18n>Now</dt><dd><span id="osu-job">-</span></dd>
+  <dt data-i18n>Next automatic run</dt><dd><span id="osu-next">-</span></dd>
+  <dt data-i18n>Connection</dt><dd><span id="osu-link">-</span></dd>
+ </dl>
+ <p class="warn sm" id="osu-clk" hidden data-i18n>The clock is not set, so there are no automatic updates. Set it under Settings, Time.</p>
+ <h3 data-i18n>Last run</h3>
+ <p class="sm mu" id="osu-nolast" data-i18n>Nothing has run yet.</p>
+ <dl class="kv" id="osu-last">
+  <dt data-i18n>Time</dt><dd><span id="osu-l-at">-</span></dd>
+  <dt data-i18n>Result</dt><dd><span id="osu-l-res">-</span></dd>
+  <dt data-i18n>Error</dt><dd><span id="osu-l-err">-</span></dd>
+  <dt data-i18n>Took</dt><dd><span id="osu-l-dur">-</span></dd>
+  <dt data-i18n>Restart needed</dt><dd><span id="osu-l-rb">-</span></dd>
+  <dt data-i18n>BC-250 afterwards</dt><dd><span id="osu-l-end">-</span></dd>
+ </dl>
+ <details id="osu-outd" hidden><summary data-i18n>Output</summary><pre class="code" id="osu-out" tabindex="0"></pre></details>
+ <div class="row" style="margin-top:12px"><button class="pri" id="osu-run" data-i18n>Run now</button><button class="dan" id="osu-stop" hidden data-i18n>Stop</button><button id="osu-test" data-i18n>Test connection</button><button id="osu-forget" hidden data-i18n>Forget host key</button></div>
+</section>
+<section class="card" id="osu-cf" data-view="osupdate" data-osu hidden>
+ <h2 data-i18n>Settings</h2>
+ <ul class="sm mu">
+  <li data-i18n>The update is silent: the front LED breathes and the buzzer never beeps.</li>
+  <li data-i18n>It runs only if the BC-250 is off when the window starts.</li>
+  <li data-i18n>If anything fails, the BC-250 is shut down gracefully.</li>
+  <li data-i18n>Pressing the front button or waking the BC-250 during an update hands it back to you.</li>
+ </ul>
+ <h3 data-i18n>BC-250 (SSH)</h3>
+ <div class="f"><label for="osu-host" data-i18n>Address</label><span><input type="text" id="osu-host" maxlength="63" autocomplete="off" autocapitalize="none" spellcheck="false"></span></div>
+ <div class="f"><label for="osu-port" data-i18n>Port</label><span><input type="number" id="osu-port" min="1" max="65535" step="1" inputmode="numeric" autocomplete="off"></span></div>
+ <div class="f"><label for="osu-user" data-i18n>User</label><span><input type="text" id="osu-user" maxlength="32" autocomplete="off" autocapitalize="none" spellcheck="false"></span></div>
+ <h3 data-i18n>Update window</h3>
+ <p class="sm mu" data-i18n>The window follows the controller’s clock and timezone.</p>
+ <div class="f"><label for="osu-from" data-i18n>Start time</label><span><input type="time" id="osu-from"></span></div>
+ <div class="f"><label for="osu-len" data-i18n>Length</label><span><input type="number" id="osu-len" min="15" max="120" step="1" inputmode="numeric" autocomplete="off"> <span data-i18n>minutes</span></span><div class="h" data-i18n>15 to 120 minutes. The BC-250 is shut down by the end of the window.</div></div>
+ <div class="f"><label data-i18n>Days</label><div class="rg" id="osu-days" role="group" aria-label="Days" data-i18n-attr="aria-label"></div></div>
+ <div class="f"><label for="osu-after" data-i18n>After a successful update</label><span><select id="osu-after"><option value="off" data-i18n>Shut down</option><option value="reboot" data-i18n>Restart</option></select></span></div>
+ <p class="sm bad" id="osu-err"></p>
+ <div class="row"><button class="pri" id="osu-save" disabled data-i18n>Save</button><span class="sm mu" id="osu-uns" hidden data-i18n>Unsaved changes</span></div>
+ <h3 data-i18n>Controller key</h3>
+ <p class="sm mu" id="osu-fp"></p>
+ <div class="cmd" id="osu-kbox"><code id="osu-key"></code><button type="button" class="cp" id="osu-cp1" aria-label="Copy the command" title="Copy" data-i18n-attr="aria-label title"></button></div>
+ <p class="sm mu" id="osu-hk" hidden></p>
+</section>
+<section class="card" id="osu-su" data-view="osupdate" data-osu="setup" hidden>
+ <h2 data-i18n>First-time setup</h2>
+ <p class="sm mu" data-i18n>1. Run this on the BC-250 (it asks for the sudo password):</p>
+ <div class="cmd" id="osu-cbox"><code id="osu-cmd"></code><button type="button" class="cp" id="osu-cp2" aria-label="Copy the command" title="Copy" data-i18n-attr="aria-label title"></button></div>
+ <p class="sm bad" id="osu-nocmd" hidden data-i18n>The controller has no network address yet.</p>
+ <p class="sm mu" data-i18n>2. With the BC-250 on, press Test connection.</p>
+ <div class="row"><button id="osu-test2" data-i18n>Test connection</button></div>
+</section>
+<section class="card" id="osu-sc" data-view="osupdate" data-osu hidden>
+ <h2 data-i18n>Scripts on the BC-250</h2>
+ <details id="osu-sh1" data-src="/bc250-setup.sh"><summary data-i18n>Setup script (runs once, installs the update script)</summary><pre class="code" tabindex="0"></pre></details>
+ <details id="osu-sh2" data-src="/bc250-update.sh"><summary data-i18n>Update script (installed as /usr/local/sbin/bc250-update)</summary><pre class="code" tabindex="0"></pre></details>
+</section>
+
+<section class="card half" id="appear" data-view="settings" hidden>
+ <h2 data-i18n>Appearance</h2>
+ <p class="d" data-i18n>Saved in this browser only.</p>
+ <div class="ths" id="ths" role="group" aria-label="Theme" data-i18n-attr="aria-label"></div>
+ <p class="sm mu" id="themeh"></p>
+ <div><label for="langsel" style="display:block;margin:14px 0 6px;font-weight:600" data-i18n>Language</label><select id="langsel" class="langsel"></select></div>
+</section>
+<section class="card half gen" id="timec" data-view="settings" hidden>
+ <h2 data-i18n>Time</h2>
+ <p class="d" data-i18n>Used for the quiet hours and for automatic OS updates.</p>
+ <p class="sm mu" id="tmold" hidden data-i18n>Needs firmware 1.0.13.</p>
+ <div id="tmbody">
+  <div class="abv" id="tm-local">-</div>
+  <p class="sm mu" id="tm-info"></p>
+  <p class="sm mu" id="tm-last"></p>
+  <label for="tzsel" data-i18n><b>Timezone</b></label>
+  <select id="tzsel" style="width:100%;margin-top:6px"></select>
+  <div class="sm bad" id="tzerr" hidden></div>
+  <div class="row" style="margin-top:8px"><button id="tzbrowser" data-i18n>Use this browser’s timezone</button></div>
+  <input type="hidden" id="c_tz"><input type="hidden" id="c_tz_name">
+  <div class="adv" id="tmadv"><button type="button" class="advb" aria-expanded="false" aria-controls="tmadvb"><span data-i18n>Advanced</span><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <div class="fbody" id="tmadvb"><div>
+   <label for="ntp" style="display:block;margin:8px 0 6px" data-i18n>NTP server</label>
+   <input type="text" id="ntp" autocomplete="off" maxlength="63" autocapitalize="none" spellcheck="false" style="width:100%">
+   <div class="sm bad" id="ntperr" hidden></div>
+   <p class="sm mu" data-i18n>Host name or IPv4 address.</p>
+   <div id="ntphrow">
+    <label for="ntph" style="display:block;margin:8px 0 6px" data-i18n>Check internet time every</label>
+    <input type="number" id="ntph" autocomplete="off" min="0" max="720" step="1" inputmode="numeric" style="width:96px"> <span data-i18n>hours</span>
+    <div class="sm bad" id="ntphe" hidden></div>
+    <p class="sm mu" data-i18n>0 = only when the clock is not set.</p>
+   </div>
+   <div class="row"><button id="tmsync" data-i18n>Sync now</button></div>
+  </div></div></div>
+ </div>
+</section>
+
+<section class="card" id="net" data-view="network" hidden>
+ <h2 data-i18n>Network</h2>
+ <dl class="kv">
+  <dt data-i18n>Mode</dt><dd id="n-mode">-</dd>
+  <dt data-i18n>Status</dt><dd id="n-conn">-</dd>
+  <dt data-i18n>Network</dt><dd id="n-ssid">-</dd>
+  <dt data-i18n>IP address</dt><dd id="n-ip">-</dd>
+  <dt data-i18n>Signal</dt><dd id="n-rssi">-</dd>
+  <dt data-i18n>Access point</dt><dd id="n-bssid">-</dd>
+  <dt data-i18n>Active hostname</dt><dd id="n-host">-</dd>
+  <dt data-i18n>Setup access point</dt><dd id="n-ap">-</dd>
+  <dt data-i18n>Addressing</dt><dd id="n-dhcp">-</dd>
+  <dt data-i18n>Subnet mask</dt><dd id="n-mask">-</dd>
+  <dt data-i18n>Gateway</dt><dd id="n-gw">-</dd>
+  <dt data-i18n>DNS server</dt><dd id="n-dns1">-</dd>
+  <dt hidden data-i18n>Second DNS server</dt><dd id="n-dns2" hidden>-</dd>
+ </dl>
+</section>
+
+<section class="card" id="ipc" data-view="network" hidden>
+ <h2 data-i18n>IP settings</h2>
+ <p class="sm mu" id="ipold" hidden data-i18n>Needs firmware 1.0.13.</p>
+ <div id="ipbody">
+  <select id="ipmode" aria-label="Addressing" data-i18n-attr="aria-label"><option value="dhcp" data-i18n>Automatic (DHCP)</option><option value="fixed" data-i18n>Manual</option></select>
+  <div class="adv" id="ipfixw"><div class="fbody"><div id="ipfix"></div></div></div>
+  <div class="row" style="margin-top:12px"><button class="pri" id="ipsave" disabled data-i18n>Save</button><span class="sm mu" id="ipun" hidden data-i18n>Unsaved changes</span></div>
+ </div>
+</section>
+
+<section class="card" data-view="network" hidden>
+ <h2 data-i18n>Hostname</h2>
+ <div class="row"><input type="text" id="hn" autocomplete="off" maxlength="31" autocapitalize="none" spellcheck="false" aria-label="Hostname" style="width:200px" data-i18n-attr="aria-label"><button class="pri" id="hnsave" disabled data-i18n>Save</button></div>
+ <p class="sm mu"><span data-i18n>Address:</span> <b id="hnaddr"></b></p>
+ <p class="sm bad" id="hnerr"></p>
+ <p class="sm mu" data-i18n>Takes effect after a restart (Controller page).</p>
+</section>
+
+<section class="card" data-view="network" hidden>
+ <h2 data-i18n>WiFi login</h2>
+ <div class="row"><a class="btn" href="/setup" data-i18n>Change WiFi network</a><button class="dan" id="forget" data-i18n>Forget network</button></div>
+ <div class="confirm" id="fconf" hidden><div>The controller leaves this network and starts the <b>BC250-Setup</b> access point for setup.</div><div class="row"><button class="dan" id="fyes" data-i18n>Forget network</button><button id="fno" data-i18n>Cancel</button></div></div>
+</section>
+
+<section class="card sec" id="sec" data-view="security" hidden>
+ <h2 data-i18n>Security</h2>
+ <form id="secform">
+  <input type="text" class="un" autocomplete="username" value="bc250" tabindex="-1" aria-hidden="true" readonly>
+  <b data-i18n>Change password</b>
+  <label for="so" data-i18n>Current password</label><input type="password" id="so" autocomplete="current-password" maxlength="64">
+  <label for="s1" data-i18n>New password (8 to 64 characters)</label><input type="password" id="s1" autocomplete="new-password" maxlength="64">
+  <label for="s2" data-i18n>Repeat new password</label><input type="password" id="s2" autocomplete="new-password" maxlength="64">
+  <div class="row" style="margin-top:12px"><button class="pri" data-i18n>Change password</button><button type="button" id="logout" data-i18n>Log out</button></div>
+ </form>
+ <p class="sm bad" id="secerr"></p>
+ <p class="sm mu" data-i18n>Forgot it? Hold the front button for 10 s while powering up. This erases the password and WiFi; other settings stay.</p>
+</section>
+
+<section class="card" id="hw" data-view="controller" hidden>
+ <h2 data-i18n>Hardware</h2>
+ <p class="sm mu" id="hwold" hidden data-i18n>This firmware does not report hardware details.</p>
+ <dl class="kv" id="hw-dl" hidden>
+  <dt data-i18n>Chip</dt><dd id="ab-chip"></dd>
+  <dt data-i18n>Flash size</dt><dd id="ab-flash"></dd>
+  <dt data-i18n>MAC address</dt><dd id="ab-mac"></dd>
+  <dt data-i18n>Chip temperature</dt><dd id="ab-temp"></dd>
+  <dt data-i18n>CPU</dt><dd><div class="ub"><div class="bar"><i id="ab-cpu-b"></i></div><span id="ab-cpu"></span></div></dd>
+  <dt data-i18n>Memory</dt><dd><div class="ub"><div class="bar" title=""><i id="ab-mem-b"></i><b id="ab-mem-m" hidden></b></div><span id="ab-mem"></span></div><div class="sm mu" id="ab-heap"></div></dd>
+ </dl>
+</section>
+
+<section class="card" id="about" data-view="controller" hidden>
+ <h2 data-i18n>Firmware</h2>
+ <div class="abv" id="ab-ver">-</div>
+ <dl class="kv" id="ab-dl" hidden>
+  <dt data-i18n>Built</dt><dd id="ab-build"></dd>
+  <dt>ESP-IDF</dt><dd id="ab-idf"></dd>
+  <dt data-i18n>Running from</dt><dd id="ab-part"></dd>
+  <dt data-i18n>Firmware size</dt><dd><span id="ab-size"></span></dd>
+  <dt data-i18n>Uptime</dt><dd id="ab-up"></dd>
+  <dt data-i18n>Started after</dt><dd id="ab-rst"></dd>
+ </dl>
+</section>
+
+<section class="card" id="fw" data-view="controller" hidden>
+ <h2 data-i18n>Update firmware</h2>
+ <p class="sm mu" id="fwnote"></p>
+ <div class="row"><input type="file" id="file" accept=".bin,application/octet-stream"><span class="sm mu" data-i18n>or drop a file here</span></div>
+ <div class="fp" id="fpanel" role="region" aria-live="polite" aria-label="Selected file" hidden data-i18n-attr="aria-label">
+  <b data-i18n>Selected file</b>
+  <div class="sm" id="fname"></div>
+  <ul id="fchecks"></ul>
+  <label id="fany" hidden><input type="checkbox" id="anyway"> <span data-i18n>Install anyway</span></label>
+   <p class="sm bad" id="freason"></p>
+  <div class="row"><button class="pri" id="upbtn" disabled data-i18n>Install</button><button id="fclear" data-i18n>Clear</button></div>
+ </div>
+ <div class="bar" id="upbar" style="margin-top:12px" hidden><i id="upfill"></i></div>
+ <p class="msg" id="upmsg" role="status"></p>
+ </section>
+<section class="card" data-view="controller" hidden>
+ <h2 data-i18n>Restart</h2>
+ <p class="sm mu" id="rnote"></p>
+ <button id="restart" disabled data-i18n>Restart controller</button>
+ <div class="confirm" id="rconf" hidden><div>The page reloads when the controller is back.</div><div class="row"><button class="pri" id="ryes" data-i18n>Restart</button><button id="rno" data-i18n>Cancel</button></div></div>
+</section>
+<section class="card" id="clearc" data-view="controller" hidden>
+ <h2 data-i18n>Clear wake lists</h2>
+ <div class="item"><div class="grow"><div class="nm" data-i18n>Bluetooth Low Energy devices wake list</div><div class="sm mu" id="cl-ble">-</div></div><button class="dan sm" id="cl-ble-b" disabled data-i18n>Clear</button></div>
+ <div class="item"><div class="grow"><div class="nm" data-i18n>2.4G Dongle devices wake list</div><div class="sm mu" id="cl-dongle">-</div></div><button class="dan sm" id="cl-dongle-b" disabled data-i18n>Clear</button></div>
+ <div class="item"><div class="grow"><div class="nm" data-i18n>Bluetooth Classic hosts wake list</div><div class="sm mu" id="cl-bt">-</div></div><button class="dan sm" id="cl-bt-b" disabled data-i18n>Clear</button></div>
+ <div class="confirm" id="clask" hidden><div></div><div class="row"><button class="dan" data-i18n>Clear list</button><button data-i18n>Cancel</button></div></div>
+</section>
+<section class="card" data-view="controller" id="cfgreset" hidden>
+ <h2 data-i18n>Reset settings</h2>
+ <p class="d" data-i18n>Settings and wake options go back to their defaults. The password, WiFi, IP settings, hostname, wake method, wake lists and the wake switch stay.</p>
+ <button class="dan" id="crbtn" disabled data-i18n>Reset settings</button>
+ <div class="confirm" id="crask" hidden><div></div><div class="row"><button class="dan" data-i18n>Reset settings</button><button data-i18n>Cancel</button></div></div>
+</section>
+<section class="card" data-view="controller" id="factory" hidden>
+ <h2 data-i18n>Factory reset</h2>
+ <p class="d" data-i18n>Erases the password, WiFi, all settings and both wake lists. The firmware stays.</p>
+ <button class="dan" id="frbtn" disabled data-i18n>Factory reset</button>
+ <div class="confirm" id="frask" hidden><div></div><div class="row"><button class="dan" data-i18n>Erase and restart</button><button data-i18n>Cancel</button></div></div>
+</section>
+
+<section class="card" data-view="debug" hidden>
+ <h2 data-i18n>BLE scan</h2>
+ <div class="row"><span class="sw"><input type="checkbox" id="showall"><i></i></span><label for="showall" data-i18n>Show all BLE devices in the scan list</label></div>
+ <p class="sm mu" data-i18n>Also lists devices that are not controllers. This browser only.</p>
+</section>
+
+<section class="card" id="dbgc" data-view="debug" hidden>
+ <h2 data-i18n>Debug</h2>
+ <p class="sm bad" data-i18n><b>Danger:</b> “Always dark” or “Simulated BC-250” cuts power to a running BC-250. For bench tests; resets to Real on restart.</p>
+ <label for="dbgsel" data-i18n><b>LED sense</b></label>
+ <div class="row" style="margin-top:6px"><select id="dbgsel"><option value="real" data-i18n>Real</option><option value="lit" data-i18n>Always lit</option><option value="dark" data-i18n>Always dark</option><option value="sim" data-i18n>Simulated BC-250</option></select></div>
+ <p class="sm mu" id="dbgdesc"></p>
+</section>
+
+<section class="card" id="evlog" data-view="log" hidden>
+ <h2 data-i18n>Event log</h2>
+ <ul id="log"></ul>
+ <p class="mu" id="logempty" hidden data-i18n>No events yet.</p>
+</section>
+
+</main>
+<div id="savebar" hidden><button class="pri" id="cfgsave" data-i18n>Save changes</button><button id="cfgrev" data-i18n>Discard</button></div>
+</div></div>
+<div id="modal" hidden><div class="mbg"></div><div class="mbox" id="mbox" role="dialog" aria-modal="true" aria-labelledby="mt" tabindex="-1"><h2 id="mt"></h2><div id="mb"></div><div class="row"><button class="pri" id="mgo"></button><button id="mcancel">Cancel</button></div></div></div>
+
+<script>
+"use strict";
+var $ = function (id) { return document.getElementById(id); };
+var S = null, cfg = null, online = true, fails = 0, running = false, timer = 0;
+var dashInfo = false, HR = 5, HF = 10, expChecked = false, info = null, infoMissing = false, lastInfo = 0, bleSeen = null, pend = null, pendNote = "", trig = null, MAXFW = 1966080;
+var paused = false, view = "dashboard", started = false, needDev = false;
+var wake = [], lastWake = 0, lastLog = 0, logData = null;
+var scanActive = false, scanStart = 0, bleBusy = false, gated = false, dbgBusy = false;
+
+/* ---------- translations (docs/TRANSLATING.md) ----------
+   English is the source text and the fallback. T(text, params) looks the text up in the catalog of
+   the chosen language; {name} marks a value to put in. TN(n, one, other, params) picks a plural form
+   (the catalog key is "one|other"). N(text) only marks a text for the catalog; it is looked up with T
+   where it is shown. Elements marked data-i18n (text) and data-i18n-attr (attributes) are translated in place;
+   tt/tl/tp mark text, aria-label and placeholder of elements built here. */
+var LANGS = [], LANG = "en", CAT = null, PR = null, ERX = null;
+function N(s) { return s; }
+function has(o, k) { return Object.prototype.hasOwnProperty.call(o, k); }
+function fill(s, p) { return p ? s.replace(/\{(\w+)\}/g, function (m, k) { return has(p, k) ? p[k] : m; }) : s; }
+function T(s, p) {
+  var r = CAT && has(CAT, s) ? CAT[s] : "";
+  return fill(typeof r === "string" && r ? r : s, p);
+}
+function TN(n, one, other, p) {
+  var q = { n: n }, k, s, r = CAT && PR && has(CAT, one + "|" + other) ? CAT[one + "|" + other] : null;
+  for (k in p || {}) q[k] = p[k];
+  if (r && typeof r === "object") s = r[PR.select(n)] || r.other;
+  else if (typeof r === "string") s = r;
+  return fill(s || (n === 1 ? one : other), q);
+}
+/* a text from the controller (API "error"): looked up whole, or as a pattern when the catalog
+   key has {placeholders} (the firmware's %d and %s are {a}, {b}, ...) */
+function TE(m) {
+  if (typeof m !== "string" || !CAT) return m;
+  if (has(CAT, m) && typeof CAT[m] === "string" && CAT[m]) return CAT[m];
+  if (!ERX) {
+    ERX = [];
+    Object.keys(CAT).forEach(function (k) {
+      if (!/\{\w+\}/.test(k) || typeof CAT[k] !== "string" || !CAT[k]) return;
+      try { ERX.push([new RegExp("^" + k.replace(/[.*+?^$()|[\]\\]/g, "\\$&").replace(/\{(\w+)\}/g, "(?<$1>.+?)") + "$"), CAT[k]]); } catch (e) {}
+    });
+  }
+  for (var i = 0; i < ERX.length; i++) { var g = ERX[i][0].exec(m); if (g) return fill(ERX[i][1], g.groups); }
+  return m;
+}
+function tt(e, k) { e.dataset.tk = k; e.textContent = T(k); return e; }
+function tl(e, k) { e.dataset.tkl = k; e.setAttribute("aria-label", T(k)); return e; }
+function tp(e, k) { e.dataset.tkp = k; e.placeholder = T(k); return e; }
+function applyStatic() {
+  document.querySelectorAll("[data-i18n]").forEach(function (e) {
+    if (e._o === undefined) { e._o = e.innerHTML; e._v = e._o; }
+    var k = e._o.replace(/\s+/g, " ").trim(), r = CAT && has(CAT, k) && typeof CAT[k] === "string" && CAT[k], v = r || e._o;
+    if (v !== e._v) { e.innerHTML = v; e._v = v; }
+  });
+  document.querySelectorAll("[data-i18n-attr]").forEach(function (e) {
+    var o = e._a || (e._a = {});
+    e.dataset.i18nAttr.split(" ").forEach(function (a) { if (!(a in o)) o[a] = e.getAttribute(a); e.setAttribute(a, T(o[a])); });
+  });
+}
+applyStatic();   /* in English: only remembers the original texts */
+function langDetect() {
+  var l = [].concat(navigator.languages || navigator.language || []), i, t, p;
+  for (i = 0; i < l.length; i++) {
+    t = String(l[i]).toLowerCase(); p = t.split("-")[0];
+    if (LANGS.some(function (x) { return x.code === t; })) return t;
+    if (LANGS.some(function (x) { return x.code === p; })) return p;
+    if (p === "en") return "en";
+  }
+  return "en";
+}
+function langLoad(code) {
+  if (code === "en") { CAT = PR = ERX = null; return Promise.resolve(); }
+  var ac = new AbortController(), to = setTimeout(function () { ac.abort(); }, 6000);
+  return fetch("/i18n/" + code + ".json", { signal: ac.signal }).then(function (r) { clearTimeout(to); return r.ok ? r.json() : Promise.reject(); }).then(function (c) {
+    if (!c || typeof c !== "object") throw 0;
+    CAT = c; ERX = null;
+    try { PR = new Intl.PluralRules(code); } catch (e) { PR = new Intl.PluralRules("en"); }
+  });
+}
+function langSet(code, save) {
+  return langLoad(code).then(function () {
+    LANG = code; document.documentElement.lang = code;
+    if (save) try { localStorage.setItem("bc250_lang", code); } catch (e) {}
+    langApply();
+  }, function () { langFill(); });
+}
+function langFill() {
+  document.querySelectorAll("select.langsel").forEach(function (s) {
+    var o = [new Option("English", "en")].concat(LANGS.map(function (l) { return new Option(l.name || l.code, l.code); }));
+    s.replaceChildren.apply(s, o); s.value = LANG;
+    s.onchange = function () { langSet(this.value, true); };
+    s.parentNode.hidden = LANGS.length === 0;
+  });
+}
+/* the language list and the language to start with: the one chosen before, else the browser's */
+function langInit() {
+  var saved = "", ac = new AbortController(), to = setTimeout(function () { ac.abort(); }, 4000);
+  try { saved = localStorage.getItem("bc250_lang") || ""; } catch (e) {}
+  return fetch("/i18n/index.json", { signal: ac.signal }).then(function (r) { clearTimeout(to); return r.ok ? r.json() : []; }).then(null, function () { return []; }).then(function (l) {
+    LANGS = Array.isArray(l) ? l : [];
+    var code = saved || langDetect();
+    if (code === "en" || !LANGS.some(function (x) { return x.code === code; })) { langFill(); return; }
+    return langSet(code, false);
+  });
+}
+
+/* ---------- requests: one at a time, with timeout ---------- */
+var chain = Promise.resolve();
+function api(method, path, body, ms) {
+  function run() {
+    var ac = new AbortController();
+    var to = setTimeout(function () { ac.abort(); }, ms || 6000);
+    var opt = { method: method, signal: ac.signal, cache: "no-store" };
+    if (body) { opt.headers = { "Content-Type": "application/json" }; opt.body = JSON.stringify(body); }
+    return fetch(path, opt).then(function (r) {
+      return r.text().then(function (t) {
+        var j = null;
+        try { j = JSON.parse(t); } catch (e) {}
+        if (!j || typeof j !== "object") j = { ok: false, error: T("Unexpected reply (HTTP {status})", { status: r.status }) };
+        if (!r.ok && j.ok !== false) j = { ok: false, error: j.error || "HTTP " + r.status };
+        j._s = r.status;
+        if (r.status === 401 && j.error === "login required") { gate("login"); throw { auth: true }; }
+        if (typeof j.error === "string") j.error = TE(j.error);
+        return j;
+      });
+    }).then(function (j) { clearTimeout(to); return j; }, function (e) { clearTimeout(to); throw e; });
+  }
+  var p = chain.then(run, run);
+  chain = p.then(null, function () {});
+  return p;
+}
+/* POST helper: never throws */
+function post(path, body, ms) {
+  return api("POST", path, body || null, ms).catch(function (e) {
+    return { ok: false, error: e && e.auth ? T("Login required") : T("No connection to the controller") };
+  });
+}
+
+/* ---------- small helpers ---------- */
+function say(id, text) {
+  $(id).textContent = text || "";
+  if (id === "upmsg") modalLine(text);
+}
+/* the first line of the open progress dialog (restart or update running) */
+function modalLine(t) { if (t && pend && pend.phase === "run" && $("mb").firstChild) $("mb").firstChild.textContent = t; }
+/* the controller restarting or updating: the top banner (pendUi), whichever
+   card started it; mirror = also the progress dialog's first line */
+var busyMsg = "";
+function busy(t, mirror) { busyMsg = t || ""; pendUi(); if (mirror) modalLine(t); }
+/* one notification component: kind = "ok" (default), "err", "info" */
+function toast(t, kind) {
+  // a short-lived banner at the top (on the login screen: above the form)
+  var box = $("gate").hidden ? $("toasts") : $("gtoasts"), e = el("div", "bn t " + (kind || "ok")), x = el("button", "x", "\u00d7");
+  e.setAttribute("role", kind === "err" ? "alert" : "status");
+  tl(x, "Dismiss");
+  function gone() { clearTimeout(e._t); e.remove(); }
+  x.onclick = gone;
+  e.append(el("span", "", t), x);
+  box.append(e);
+  while (box.children.length > 2) box.firstChild.remove();   // the newest two
+  e._t = setTimeout(gone, kind === "err" ? 8000 : 4000);
+}
+/* a banner that stays until its state ends; empty text hides it */
+function note(id, t) { $(id).textContent = t || ""; $(id).hidden = !t; }
+var BAD = N("Fix the highlighted fields.");
+function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+function fmtB(n) { return n >= 1048576 ? (n / 1048576).toFixed(2) + " MB" : Math.round(n / 1024) + " KB"; }
+function loadInfo() {
+  return api("GET", "/api/info", null, 4000).then(function (j) {
+    lastInfo = Date.now();
+    if (j._s === 404) { infoMissing = true; info = null; $("ab-dl").hidden = $("hw-dl").hidden = true; $("hwold").hidden = false; kv("c-start", null); return; }
+    if (j.fw === undefined) return;
+    info = j; showInfo(j);
+  });
+}
+function showInfo(j) {
+  {
+    $("ab-dl").hidden = $("hw-dl").hidden = false; $("hwold").hidden = true;
+    var t = function (id, v) { $("ab-" + id).textContent = v; };
+    var pct = j.app_slot ? Math.round(j.app_size / j.app_slot * 100) : 0;
+    t("build", j.build); t("part", j.partition);
+    t("size", T("{size} of {slot} ({pct} %)", { size: fmtB(j.app_size), slot: fmtB(j.app_slot), pct: pct }));
+    t("idf", j.idf);
+    t("chip", T("{chip}, rev {rev}, {mhz} MHz", { chip: j.chip, rev: j.chip_rev, mhz: j.cpu_mhz }));
+    t("flash", fmtB(j.flash_size)); t("mac", j.mac ? mac(j.mac) : j.mac); t("up", fmtUp(j.uptime_s | 0));
+    showStart();
+    t("heap", T("{free} free (lowest since start: {min})", { free: fmtB(j.heap), min: fmtB(j.heap_min) }));
+    var mp = memPct(j.heap, j.heap_total);
+    ubar("ab-mem", mp, mp === null ? "" : T("{pct} % used of {total}", { pct: mp, total: fmtB(j.heap_total) }));
+    var mk = $("ab-mem-m"), peak = memPct(j.heap_min, j.heap_total);
+    mk.hidden = peak === null; if (peak !== null) { mk.style.left = "calc(" + Math.min(100, peak) + "% - 1px)"; mk.parentElement.title = T("Highest use since start: {pct} %", { pct: peak }); }
+    ubar("ab-cpu", typeof j.cpu === "number" ? j.cpu : null, j.cpu + " %");
+    t("temp", fmtTemp(j.chip_temp_c)); $("ab-temp").className = j.chip_temp_c >= TEMP_WARN ? "warn" : "";
+  }
+}
+/* usage bars: pct 0..100 or null (not measured yet: empty bar, dash) */
+function ubar(id, pct, text) {
+  var i = $(id + "-b"), ok = typeof pct === "number";
+  i.style.width = ok ? Math.max(2, Math.min(100, pct)) + "%" : "0";
+  i.className = !ok ? "" : pct >= 90 ? "crit" : pct >= 75 ? "hi" : "";
+  $(id).textContent = ok ? text : "-";
+}
+function memPct(free, total) { return total ? Math.round((total - free) * 100 / total) : null; }
+/* rows that older firmware has no data for are hidden (dt + dd) */
+function showRow(dtId, on) { var dt = $(dtId); dt.hidden = dt.nextElementSibling.hidden = !on; }
+/* chip_temp_c: the ESP32-C3 die temperature, null when not read yet */
+var TEMP_WARN = 75;
+function fmtTemp(c) { return typeof c === "number" ? c.toFixed(1) + " \u00b0C" : "-"; }
+function fmtUp(s) {
+  var d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600), m = Math.floor(s % 3600 / 60);
+  return d ? d + "d " + h + "h" : h ? h + "h " + m + "m" : m ? m + "m " + (s % 60) + "s" : s + "s";
+}
+function rel(ms) {
+  var s = Math.max(0, Math.round(ms / 1000));
+  return s < 3 ? T("just now") : s < 60 ? T("{n} s ago", { n: s }) : s < 3600 ? T("{n} min ago", { n: Math.floor(s / 60) }) : s < 86400 ? T("{n} h ago", { n: Math.floor(s / 3600) }) : T("{n} d ago", { n: Math.floor(s / 86400) });
+}
+/* keep a list of keyed child elements in sync without rebuilding them */
+function sync(box, items, key, make, upd) {
+  var old = {}, i, k, e;
+  for (i = 0; i < box.children.length; i++) old[box.children[i]._k] = box.children[i];
+  items.forEach(function (it, n) {
+    k = key(it); e = old[k];
+    if (e) delete old[k]; else { e = make(it); e._k = k; }
+    upd(e, it);
+    if (box.children[n] !== e) box.insertBefore(e, box.children[n] || null);
+  });
+  for (k in old) old[k].remove();
+}
+/* inline confirmation bar */
+/* switch the wake method (POST /api/radio, then a restart) */
+/* one button: switch to the other wake method */
+var wcountNow = 0;
+function radioButtons(cur) {
+  var r = cur === "2g4" ? "ble" : "2g4", b = $("rm-sw");
+  // the mode in use: bright with an accent bullet, the other dimmed
+  [["rm-ble", cur !== "2g4"], ["rm-2g4", cur === "2g4"]].forEach(function (m) {
+    var li = $(m[0]); li.classList.toggle("cur", m[1]);
+    if (m[1]) li.setAttribute("aria-current", "true"); else li.removeAttribute("aria-current");
+  });
+  b.className = ""; b.disabled = false;
+  b.textContent = r === "2g4" ? T("Switch to 2.4G/BT Classic") : T("Switch to BLE");
+  (function () {
+    b.onclick = function () {
+      var g = r === "2g4";
+      ask($("rmask"), g ? T("Switch to 2.4G/BT wake? The controller restarts; the BC-250\u2019s power state is unaffected.") : T("Switch to BLE wake? The controller restarts; the BC-250\u2019s power state is unaffected."), function () {
+        b.disabled = true;
+        post("/api/radio", { radio: r }).then(function (j) {
+          if (!j.ok) { toast(j.error || T("Could not switch"), "err"); radioButtons(cur); return; }
+          note("rmmsg", T("Switching the wake method. The controller is restarting\u2026"));
+          var t0 = Date.now(), poll = function () {
+            api("GET", "/api/info", null, 2000).then(function (i) {
+              if (i && i.radio === r) location.reload(); else if (Date.now() - t0 < 60000) setTimeout(poll, 1500); else { note("rmmsg", T("The controller did not come back. Reload the page.")); $("rmmsg").className = "bn err"; }
+            }, function () { setTimeout(poll, 1500); });
+          };
+          setTimeout(poll, 3000);
+        });
+      });
+    };
+  })();
+}
+function ask(box, text, fn) {
+  box.hidden = false;
+  box.firstElementChild.textContent = text;
+  var b = box.querySelectorAll("button");
+  b[0].onclick = function () { box.hidden = true; fn(); };
+  b[1].onclick = function () { box.hidden = true; };
+}
+
+/* ---------- state ---------- */
+var DL = { real: N("Real"), lit: N("Always lit"), dark: N("Always dark"), sim: N("Simulated BC-250") };
+var DD = { real: N("The SENSE pin is used."), lit: N("The BC-250 always counts as running."), dark: N("The BC-250 always counts as off."),
+  sim: N("Lit 3 s after PS_ON goes high; a PWR pulse while lit makes it dark 5 s later; a RST pulse makes it dark for 1 s; PS_ON low makes it dark at once.") };
+var STN = { off: N("Off"), starting: N("Starting"), on: N("On"), shutting_down: N("Shutting down") };
+var STS = { off: N("The BC-250 is powered off."), starting: N("Powering up the supply and waiting for the BC-250."),
+  on: N("The BC-250 is running."), shutting_down: N("Waiting for the operating system to shut down.") };
+/* the line under the state name: in on and off, how long, and since when if
+   the clock is set (on_s / off_s, spec section 25); else the sentence above */
+var stSince = null;   /* {k, v}: the start in controller-local ms, kept while polls move it by under 3 s */
+function stSub(s, st) {
+  var on = st === "on" && typeof s.on_s === "number", off = st === "off" && typeof s.off_s === "number";
+  if (!on && !off) { stSince = null; return STS[st] ? T(STS[st]) : ""; }
+  var n = on ? s.on_s : s.off_s, d = { time: fmtUp(n) };
+  if (off && s.off_since_start) { stSince = null; return T("Powered off for at least {time}, since the controller was powered up", d); }
+  if (!clk) { stSince = null; return on ? T("Powered on for {time}", d) : T("Powered off for {time}", d); }
+  var now = clk.base + Date.now() - clk.at, k = on ? "on" : "off", v = now - n * 1000;
+  if (!stSince || stSince.k !== k || Math.abs(stSince.v - v) >= 3000) stSince = { k: k, v: v };
+  var a = new Date(stSince.v).toISOString(), b = new Date(now).toISOString();
+  d.at = a.slice(0, 10) === b.slice(0, 10) ? a.slice(11, 16) : a.slice(0, 10) + " " + a.slice(11, 16);
+  return on ? T("Powered on for {time}, since {at}", d) : T("Powered off for {time}, since {at}", d);
+}
+function setDot(n, on, txt, act) {
+  $("d-" + n).className = "dot" + (on ? (act ? " act" : " on") : "");
+  $("t-" + n).textContent = txt;
+}
+var SQ = { good: N("good"), fair: N("fair"), weak: N("weak") };
+/* ---------- dashboard summary cards ---------- */
+/* signal strength: one horizontal bar in a fixed-width grey track, -100 dBm
+   empty to -40 dBm full, with the percentage beside it; red weak (below
+   -75), yellow fair, green good (-60 and up) */
+function sigBars(rssi) {
+  var has = typeof rssi === "number", w = document.createElement("span"), b = document.createElement("span"), f = document.createElement("i"), t = document.createElement("span");
+  var q = !has ? "" : rssi >= -60 ? "good" : rssi >= -75 ? "fair" : "weak";
+  var pct = has ? Math.max(0, Math.min(100, Math.round((rssi + 100) * 100 / 60))) : 0;
+  w.className = "sigw"; b.className = "sig " + q; f.style.width = (has ? Math.max(4, pct) : 0) + "%"; b.appendChild(f);
+  t.className = "sigp"; t.textContent = has ? pct + "%" : "-";
+  w.setAttribute("role", "img"); w.setAttribute("aria-label", has ? T("Signal {quality}, {pct}%", { quality: T(SQ[q]), pct: pct }) : T("No signal"));
+  b.setAttribute("aria-hidden", "true"); t.setAttribute("aria-hidden", "true");
+  w.append(b, t);
+  return w;
+}
+function kv(id, t) {   /* t === null hides the row; "" shows a dash */
+  var sp = $(id), dd = sp.parentElement, dt = dd.previousElementSibling;
+  dd.hidden = dt.hidden = t === null;
+  if (t !== null) sp.textContent = t === "" || t === undefined || t === "NaN" ? "-" : t;
+}
+function hm(m) { return ("0" + (m / 60 | 0)).slice(-2) + ":" + ("0" + m % 60).slice(-2); }
+var clk = null;
+function clockShow() {
+  if (!clk) { kv("dc-time", $("sum-clk").classList.contains("nd") ? "" : T("Clock not set")); kv("dc-date", ""); return; }
+  var iso = new Date(clk.base + Date.now() - clk.at).toISOString();
+  kv("dc-time", iso.slice(11, 19)); kv("dc-date", iso.slice(0, 10));
+}
+setInterval(function () { if (S) clockShow(); }, 1000);
+function setNd(id, v) { var e = $(id); if (e.classList.contains("nd") !== v) { e.classList.toggle("nd", v); vis(); } }
+function rrInfo(j) {
+  var rr = String(j.reset_reason || ""), bo = /brown/i.test(rr), cr = /crash|watchdog/i.test(rr);
+  var t = T(rr.charAt(0).toUpperCase() + rr.slice(1));
+  if (bo) t = T("{reason} (supply voltage dropped)", { reason: t }); else if (cr) t = T("{reason} (the controller restarted by itself)", { reason: t });
+  // resume: the outcome from the latest state poll (it changes after start), else /api/info's;
+  // without it (older firmware) only whether it was a resume
+  var rs = S && S.resume !== undefined ? S.resume : j.resume, lost = rs === "lost";
+  if (rs !== undefined ? rs === "kept" : j.resumed === true) t = T("{reason} (BC-250 kept on)", { reason: t });
+  else if (rs === "pending") t = T("{reason} (checking whether the BC-250 stayed on)", { reason: t });
+  else if (lost) t = T("{reason} (BC-250 not kept on)", { reason: t });
+  return { t: t, w: bo || cr || lost };
+}
+/* "Started after" on the Controller view and its dashboard card */
+function showStart() {
+  if (!info) return;
+  var ri = rrInfo(info);
+  $("ab-rst").textContent = ri.t; $("ab-rst").className = ri.w ? "warn" : "";
+  kv("c-start", info.reset_reason ? ri.t : null); $("c-start").className = ri.w ? "warn" : "";
+}
+function renderDash(s) {
+  var w = s.wifi || {}, b = s.ble || {}, tm = s.time, c = cfg || {};
+  applyRadio(s);
+  /* Bluetooth */
+  kv("b-on", b.wake ? T("On") : T("Off"));
+  var have = b.wake && b.count !== undefined;
+  // 2.4G/BT: 2.4G devices and Bluetooth hosts on their own lines
+  var hs = b.radio === "2g4" && typeof b.hosts === "number" ? b.hosts : null, dv = have ? b.count - (hs || 0) : 0;
+  $("b-countl").textContent = hs === null ? T("Bluetooth Low Energy devices") : T("2.4G Dongle devices");
+  kv("b-count", have ? (dv ? TN(dv, "{n} device", "{n} devices") : T("None")) : null);
+  kv("b-hosts", have && hs !== null ? (hs ? TN(hs, "{n} host", "{n} hosts") : T("None")) : null);
+  kv("b-present", have && b.present !== undefined ? T("{n} of {total}", { n: b.present, total: b.count }) : null);
+  kv("b-armed", have && b.armed !== undefined ? T("{n} of {total}", { n: b.armed, total: b.count }) : null);
+  $("b-empty").hidden = !(have && b.count === 0);
+  /* Network */
+  kv("dn-wifi", w.connected ? w.ssid || "" : T("Not connected"));
+  kv("dn-sig", w.connected ? "" : null);
+  if (w.connected) $("dn-sig").replaceChildren(sigBars(w.rssi));
+  kv("dn-ip", w.connected && w.ip ? (w.dhcp === undefined ? w.ip : w.dhcp ? T("{ip} (DHCP)", { ip: w.ip }) : T("{ip} (fixed)", { ip: w.ip })) : "");
+  kv("dn-host", w.hostname ? "http://" + w.hostname + ".local" : "");
+  kv("dn-ap", w.ap === undefined ? null : w.ap ? T("On (BC250-Setup)") : T("Off"));
+  /* Clock */
+  setNd("sum-clk", !tm);
+  if (tm) {
+    var SRC = { ntp: N("Internet"), browser: N("This browser"), kept: N("Kept through restart"), none: N("Not set") };
+    clk = null;
+    var m = tm.synced && /^(\d{4})-(\d\d)-(\d\d) (\d\d):(\d\d):(\d\d)$/.exec(tm.local || "");
+    if (m) clk = { base: Date.UTC(m[1], m[2] - 1, m[3], m[4], m[5], m[6]), at: Date.now() };
+    clockShow();
+    kv("dc-tz", tm.tz_name || (tm.synced ? "UTC" : ""));
+    kv("dc-src", tm.source ? T(SRC[tm.source] || "") : tm.synced ? T("Set") : T("Not set"));
+    var qr = { range: hm(c.quiet_from) + "\u2013" + hm(c.quiet_to) };
+    kv("dc-quiet", "quiet_on" in c ? (c.quiet_on ? (!tm.synced ? T("{range}, clock not set", qr) : tm.quiet ? T("{range}, active now", qr) : T("{range}, not active", qr)) : T("Off")) : null);
+  }
+  /* Front button */
+  var hk = !cfg || "hold_reset_s" in c;
+  kv("db-r", hk ? (cfg ? HR + " s" : "") : null); kv("db-f", hk ? (cfg ? HF + " s" : "") : null);
+  kv("db-buz", cfg && "buzzer" in c ? (c.buzzer ? (tm && tm.quiet ? T("Quiet now") : T("On")) : T("Off")) : "");
+  /* Controller */
+  kv("t-fw", s.fw || ""); kv("t-up", fmtUp(s.uptime_s | 0));
+  kv("t-temp", s.chip_temp_c === undefined ? null : fmtTemp(s.chip_temp_c));   // older firmware: no row
+  showRow("t-cpu-l", s.cpu !== undefined); ubar("t-cpu", typeof s.cpu === "number" ? s.cpu : null, s.cpu + " %");
+  var smp = memPct(s.heap, s.heap_total);
+  showRow("t-mem-l", !!s.heap_total); ubar("t-mem", smp, smp + " % used"); $("t-temp").className = s.chip_temp_c >= TEMP_WARN ? "warn" : "";
+}
+function renderState() {
+  var s = S, st = s.state;
+  document.body.dataset.state = st;
+  $("stname").textContent = T(STN[st] || st);
+  $("err").hidden = !s.error;
+  var dm = (s.debug && s.debug.sense) || "real", lit = function (v) { return v ? T("Lit") : T("Not lit"); };
+  setDot("sense", s.sense, dm !== "real" || (s.sense_raw !== undefined && s.sense_raw !== s.sense) ? T("{state} (pin: {pin})", { state: lit(s.sense), pin: lit(s.sense_raw) }) : lit(s.sense));
+  $("dbg").hidden = dm === "real";
+  $("dbgt").textContent = T("Debug: LED sense is spoofed ({mode})", { mode: T(DL[dm]) });
+  if (!dbgBusy) { $("dbgsel").value = dm; $("dbgdesc").textContent = DD[dm] ? T(DD[dm]) : ""; }
+  setDot("pson", s.pson, s.pson ? T("On") : T("Off"));
+  setDot("pwr", s.pwr, s.pwr ? T("Active") : T("Idle"), true);
+  setDot("rst", s.rst, s.rst ? T("Active") : T("Idle"), true);
+  setDot("btn", s.button, s.button ? T("Pressed") : T("Released"), true);
+  renderDash(s);
+  $("stsub").textContent = stSub(s, st);   // after renderDash: it sets the clock
+  var sdt = s.error ? T("{state} (error)", { state: T(STN[st] || st) }) : T(STN[st] || st);
+  document.querySelectorAll(".sdt").forEach(function (e) { e.textContent = sdt; });
+  $("ab-ver").textContent = s.fw;
+  renderTime(s);
+  $("n-dhcp").textContent = s.wifi && s.wifi.dhcp !== undefined ? (s.wifi.dhcp ? T("Automatic (DHCP)") : T("Manual")) : "-";
+  showStart();
+  // after a resume, wait for its outcome before saying whether the BC-250 was kept on
+  if (!expChecked && s.resume !== "pending") {
+    expChecked = true;
+    try {
+      var ss = sessionStorage, ex = ss.getItem("bc250_expect"), kp = ss.getItem("bc250_keepon"), vt = "", bad = false;
+      ss.removeItem("bc250_expect"); ss.removeItem("bc250_keepon");
+      // ex: the version the uploading page expected
+      if (ex !== null) { if (!ex) vt = T("Update finished. Now running {fw}", { fw: s.fw }); else if (ex === s.fw) vt = T("Now running {fw}", { fw: s.fw }); else { vt = T("Update finished, but running {fw} (expected {expected})", { fw: s.fw, expected: ex }); bad = true; } }
+      var kept = s.resume !== undefined ? s.resume === "kept" && st !== "off" : s.resumed === true && st !== "off";
+      if (kp !== null && !kept) toast(vt ? T("The BC-250 was not kept on. {detail}", { detail: vt }) : T("The BC-250 was not kept on"), "err");
+      else if (kept && (ex !== null || kp !== null)) toast(vt ? T("Controller restarted, BC-250 kept on. {detail}", { detail: vt }) : T("Controller restarted, BC-250 kept on"), bad ? "err" : "ok");
+      else if (vt) toast(vt, bad ? "err" : ex ? "ok" : "info");
+    } catch (e) {}
+  }
+  var h = s.button ? s.button_held_ms / 1000 : 0;
+  // The hold timer only shows while the press can still do something;
+  // a press that just started the BC-250 is ignored until released.
+  var live = s.button && s.button_live !== false;
+  $("heldbox").hidden = !live;
+  if (live) {
+    $("held").textContent = h.toFixed(1) + " s";
+    $("heldbar").style.width = Math.min(100, h / HF * 100) + "%";
+    $("heldhint").textContent = h >= HF ? T("Forced power off")
+      : st === "on" ? (h >= HR ? T("Release now to reset; hold to {n} s to force off", { n: HF }) : T("Release before {n} s to shut down", { n: HR }))
+      : T("Hold to {n} s to force power off", { n: HF });
+  }
+  var w = s.wifi || {};
+  var modes = { sta: N("Station (joins your WiFi)"), ap: N("Access point only"), "ap+sta": N("Station + access point") };
+  $("n-mode").textContent = modes[w.mode] ? T(modes[w.mode]) : w.mode || "-";
+  $("n-conn").textContent = w.connected ? T("Connected") : T("Not connected");
+  $("n-ssid").textContent = w.ssid || "-";
+  $("n-ip").textContent = w.connected && w.ip ? w.ip : "-";
+  if (w.connected) $("n-rssi").replaceChildren(sigBars(w.rssi)); else $("n-rssi").textContent = "-";
+  $("n-bssid").textContent = w.connected && w.bssid ? (w.channel ? T("{bssid}, channel {channel}", { bssid: mac(w.bssid), channel: w.channel }) : mac(w.bssid)) : "-";
+  $("n-host").textContent = (w.hostname || "-") + (w.hostname ? ".local" : "");
+  $("n-ap").textContent = w.ap ? T("On (BC250-Setup)") : T("Off");
+  if (!bleBusy) $("blesw").checked = !!(s.ble && s.ble.wake);
+  if (s.ble && s.ble.wake && s.ble.scanning) { if (radio === "2g4") { if (!learnActive) learnBegin(learnKind); } else if (!scanActive) beginScan(); }
+  if (!!(s.ble && s.ble.wake) !== bleSeen) vis();
+  controls();
+}
+function controls() {
+  var st = S ? S.state : "", ok = online && S;
+  var allow = { on: st === "off", shutdown: st === "on", reset: st === "on", force_off: st !== "off" };
+  document.querySelectorAll("[data-act]").forEach(function (b) { b.disabled = !(ok && allow[b.dataset.act]); });
+  var off = ok && st === "off";
+  $("blesw").disabled = !ok || bleBusy;
+  $("scanbtn").disabled = !ok || !bleOn();
+  $("learnbtn").disabled = !ok || !bleOn() || (learnActive && learnKind !== "dongle");
+  $("hlearnbtn").disabled = !ok || !bleOn() || (learnActive && learnKind !== "bt");
+  $("bth-b").disabled = !ok || !bleOn();
+  $("forget").disabled = !ok;
+  $("crbtn").disabled = !ok;
+  // every device is disarmed while a scan or Learn runs
+  var srch = (scanActive || learnActive) && bleOn(), rs = cfg && cfg.ble_rearm_s;
+  // the card that runs it says so
+  var rearm = T("While it runs, no device starts the BC-250. Devices arm again {time} after it stops.", { time: rs ? T("{n} s", { n: rs }) : T("the re-arm time") });
+  [["scanrearm", scanActive], ["learnrearm", learnActive && learnKind === "dongle"], ["hlearnrearm", learnActive && learnKind === "bt"]].forEach(function (a) {
+    var on = srch && a[1]; $(a[0]).textContent = on ? rearm : ""; $(a[0]).hidden = !on;
+  });
+  $("dbgsel").disabled = !ok; $("dbgback").disabled = !ok;
+  var can = ok && (st === "off" || st === "on") && !paused && !pend;
+  $("restart").disabled = !can;
+  // factory reset restarts at once, so only when a restart needs no shutdown
+  // first: off, or on with "keep the BC-250 on during restart" set
+  $("frbtn").disabled = !(can && (st === "off" || (S && S.hold === true))) || frDone;
+  var fs = fsel, fbad = !fs || fs.busy || fs.blocked || (fs.noMarker && !$("anyway").checked);
+  $("upbtn").disabled = !can || fbad;
+  $("file").disabled = $("fclear").disabled = $("anyway").disabled = paused || !!pend;
+  $("freason").textContent = !fs || fs.busy ? "" : fs.blocked ? T("Install is disabled: {reason}", { reason: fs.blocked }) : fs.noMarker && !$("anyway").checked ? T("Tick \u201cInstall anyway\u201d to continue.") : "";
+  var hold = S && S.hold === true;
+  var why = !ok ? "" : st === "on" ? (hold ? "" : T("The BC-250 is running. It will be shut down cleanly first.")) : st === "off" ? "" : T("Wait until the BC-250 is on or off.");
+  var keep = T("The BC-250\u2019s power state is unaffected; the controller is unavailable for a few seconds.");
+  $("rnote").textContent = (hold ? keep : T("Restarting cuts power to the BC-250.")) + (why ? " " + why : "");
+  $("fwnote").textContent = (hold ? keep : T("Updating cuts power to the BC-250.")) + (why ? " " + why : "");
+  if (pend) document.querySelector("[data-act=on]").disabled = true;
+  document.querySelectorAll("main>section.gen input").forEach(function (i) { i.disabled = !ok; });
+  dirty(); if (cfg) hnUpd();
+}
+function setOnline(v) {
+  if (v === online) return;
+  online = v; $("offline").hidden = v;
+  if (v) { if (!cfg && (needCfg() || !autoTz)) loadCfg(); }
+  if (S) controls();
+}
+
+/* ---------- poll loop ---------- */
+function schedule(ms) { clearTimeout(timer); timer = setTimeout(tick, ms); }
+function tick() {
+  if (running) return;
+  if (document.hidden || gated) return;  /* resumed by visibilitychange / login */
+  if (paused) return schedule(1000);
+  running = true;
+  api("GET", "/api/state", null, 4000).then(function (s) {
+    if (!s || !s.state) throw 0;
+    S = s; fails = 0; setOnline(true); renderState(); flowTick();
+    return extras();
+  }).then(null, function (e) {
+    if (e && e.auth) return;
+    if (++fails >= 2) setOnline(false);
+    flowTick();
+  }).then(function () {
+    running = false;
+    schedule(fails >= 2 ? 3000 : 1000);
+  });
+}
+/* slower endpoints, only while their view is shown; strictly one after another */
+function extras() {
+  var n = Date.now(), p = Promise.resolve();
+  if (view === "wake" && bleOn() && (scanActive || needDev || n - lastWake > 3000 || learnActive)) {
+    p = p.then(loadWake);
+    if (radio === "2g4") needDev = false;
+    else if (scanActive || needDev) { needDev = false; p = p.then(loadDevices); }
+  }
+  if (learnActive && view === "wake" && bleOn()) p = p.then(loadLearn);
+  if (view === "log" && n - lastLog > 5000) p = p.then(loadLog);
+  if (view === "osupdate" && !osMissing && !osBusy && n - lastOs > (osJob() ? 1500 : 5000)) p = p.then(loadOs);
+  if (view === "controller" && !infoMissing && n - lastInfo > 10000) p = p.then(loadInfo);
+  return p.then(null, function () {});
+}
+document.addEventListener("visibilitychange", function () { if (!document.hidden) { lastWake = lastLog = lastOs = 0; schedule(0); } });
+
+/* ---------- power ---------- */
+var PCONF = {
+  reset: N("Presses the reset button for half a second. The BC-250 restarts without a clean shutdown; unsaved work is lost."),
+  force_off: N("Cuts power to the BC-250 immediately, like holding the power button. Unsaved work is lost.")
+};
+var PDONE = { on: N("Power on requested"), shutdown: N("Shutdown requested"), reset: N("Reset sent"), force_off: N("Power cut") };
+function doPower(a) {
+  post("/api/power", { action: a }).then(function (j) {
+    if (j.ok) toast(T(PDONE[a])); else toast(j.error || T("Action refused"), "err");
+    schedule(200);
+  });
+}
+document.querySelectorAll("[data-act]").forEach(function (b) {
+  b.onclick = function () {
+    var a = b.dataset.act;
+    $("pconf").hidden = true;
+    if (PCONF[a]) ask($("pconf"), T(PCONF[a]), function () { doPower(a); });
+    else doPower(a);
+  };
+});
+
+/* ---------- Bluetooth ---------- */
+$("blesw").onchange = function () {
+  var v = this.checked, sw = this;
+  bleBusy = true; sw.disabled = true;
+  post("/api/config", { ble_wake: v }).then(function (j) {
+    bleBusy = false;
+    if (!j.ok) { sw.checked = !v; toast(j.error || T("Could not change {name}", { name: RT.name }), "err"); }
+    else {
+      toast(v ? T("{name} on", { name: RT.name }) : T("{name} off", { name: RT.name }));
+      if (S && S.ble) S.ble.wake = v;
+      vis(); lastWake = 0; needDev = true; schedule(100);
+    }
+    controls();
+  });
+};
+/* 2.4G mode: same view, other radio (state.ble.radio) */
+var radio = "", RT = { name: "Wake" }, learnActive = false, learnStart = 0, lfound = [];
+var RTX = { ble: [N("BLE wake"), N("BLE wake"), N("Start the BC-250 from a BLE (Bluetooth Low Energy) controller."), N("Start the BC-250 when a listed device appears"), N("In range now"), N("Turn wake on to edit the list and scan.")],
+  "2g4": [N("2.4G/BT wake"), N("2.4G/BT wake"), N("Start the BC-250 from a device with a 2.4G USB dongle or a classic Bluetooth controller."), N("Start the BC-250 when a listed device is switched on"), N("Switched on now"), N("Turn wake on to edit the list and learn devices.")] };
+function fa(a) { return String(a).replace(/(..)(?!$)/g, "$1 "); }
+/* a 2.4G wake list address: a dongle device (10 hex digits) or a Bluetooth host (its LAP, 6 hex digits) */
+function isBt(d) { return d.kind === "bt" || String(d.addr).length === 6; }
+/* a host: the 3 bytes a calling controller sends (its LAP), also when a full address was typed */
+function wa(d) { return isBt(d) ? "\u2026:" + mac(d.addr).replace(/(..)(?!$)/g, "$1:") : fa(d.addr); }
+/* addresses are shown in capitals; what the user types may be either case */
+function mac(a) { return String(a).toUpperCase(); }
+/* menu name, icon and headings of a wake method; also run at page start with
+   the method remembered from the last visit, so a reload does not show the
+   other method's name first */
+function radioLook(r) {
+  var t = RTX[r], g = r === "2g4";
+  RT.name = T(t[1]); VT.wake = t[0];
+  // icon: Bluetooth rune or a 2.4G antenna with radio waves (nav, and the copies made from it)
+  var ic = g ? '<path d="M12 12v9"/><circle cx="12" cy="10" r="1.5"/><path d="M8.5 6.5a5 5 0 0 0 0 7M15.5 6.5a5 5 0 0 1 0 7M5.6 3.6a9 9 0 0 0 0 12.8M18.4 3.6a9 9 0 0 1 0 12.8"/>' : '<path d="M7 7l10 10-5 5V2l5 5L7 17"/>';
+  document.querySelectorAll('.nv[data-view=wake] svg, [data-ic=wake] svg').forEach(function (v) { v.innerHTML = ic; });
+  $("nv-ble").textContent = T(t[0]); $("sum-ble-h").lastChild.textContent = T(t[1]); $("sum-ble-a").setAttribute("aria-label", T("Open {name}", { name: T(t[1]) }));
+  if (view === "wake") titleShow();
+}
+var rbFor = "", wmax = 8, hmax = 2;
+/* headings and notes of the wake page that depend on the method */
+function radioTexts() {
+  var t = RTX[radio], g = radio === "2g4";
+  if (!t) return;
+  $("ble-h").textContent = T(t[1]); $("ble-d").textContent = T(t[2]); $("ble-l").textContent = T(t[3]); $("b-presentl").textContent = T(t[4]); $("blenote").textContent = T(t[5]);
+  $("wtitle").textContent = g ? T("2.4G Dongle devices") : T("Bluetooth Low Energy devices");
+  $("wempty").textContent = g ? T("No 2.4G Dongle devices in the list.") : T("No devices in the list.");
+}
+function applyRadio(s) {
+  // the wake-method card follows the state
+  if (s.ble && s.ble.radio && s.ble.radio !== rbFor) { rbFor = s.ble.radio; radioButtons(rbFor === "2g4" ? "2g4" : "ble"); }
+  if (s.ble && s.ble.max) wmax = s.ble.max;
+  if (s.ble && s.ble.host_max) hmax = s.ble.host_max;
+  if (s.ble && typeof s.ble.count === "number") wcountNow = s.ble.count;
+  var r = s.ble && s.ble.radio === "2g4" ? "2g4" : "ble";
+  if (r === radio) return;
+  radio = r; var t = RTX[r], g = r === "2g4";
+  try { localStorage.setItem("bc250_radio", r); } catch (e) {}
+  radioLook(r);
+  applyFolds();
+  radioTexts();
+  $("scancard").hidden = g; $("learn").hidden = !g; setNd("hcard", !g);
+  renderLists();
+  lastWake = 0; schedule(0);
+}
+/* two Learn panels: 2.4G devices and Bluetooth hosts; one learns at a time */
+var learnKind = "dongle";
+var LP = { dongle: { btn: "learnbtn", msg: "learnmsg", help: "learnhelp", list: "llist", kh: "lknownh", kn: "lknown" },
+  bt: { btn: "hlearnbtn", msg: "hlearnmsg", help: "hlearnhelp", list: "hllist", kh: "hlknownh", kn: "hlknown" } };
+document.querySelectorAll(".adv>button.advb").forEach(function (b) {
+  b.onclick = function () { var o = b.parentNode.classList.toggle("open"); b.setAttribute("aria-expanded", o ? "true" : "false"); };
+});
+/* foldable cards, remembered in this browser per wake method:
+   BLE starts unfolded, 2.4G/BT folded; the heading (or anywhere on a folded card) toggles */
+var folds = {};
+try { folds = JSON.parse(localStorage.getItem("bc250_fold") || "{}") || {}; } catch (e) {}
+function foldKey(card) { return (radio || "ble") + ":" + card.id; }
+function setFold(card, f, keep) {
+  card.classList.toggle("folded", f);
+  var b = card.querySelector("button.fold");
+  b.setAttribute("aria-expanded", f ? "false" : "true"); b.setAttribute("aria-label", f ? T("Show") : T("Hide"));
+  if (keep) return;
+  folds[foldKey(card)] = f;
+  try { localStorage.setItem("bc250_fold", JSON.stringify(folds)); } catch (e) {}
+}
+function applyFolds() {
+  document.querySelectorAll("button.fold").forEach(function (b) {
+    var card = b.closest("section"), f = folds[foldKey(card)];
+    setFold(card, typeof f === "boolean" ? f : radio === "2g4", true);
+  });
+}
+document.querySelectorAll("button.fold").forEach(function (b) {
+  var card = b.closest("section"), h = b.closest("h2");
+  h.onclick = function (e) { e.stopPropagation(); setFold(card, !card.classList.contains("folded")); };
+  card.addEventListener("click", function () { if (card.classList.contains("folded")) setFold(card, false); });
+});
+function learnBegin(k) {
+  learnActive = true; learnStart = Date.now(); learnKind = k || learnKind;
+  var P = LP[learnKind], cd = $(P.btn).closest("section");
+  if (cd.classList.contains("folded")) setFold(cd, false, true);   // results show in it; not saved
+  $(P.btn).textContent = T("Stop"); $(P.help).hidden = false; $(P.msg).textContent = T("Learning…");
+  controls();
+}
+function learnEnd() {
+  learnActive = false;
+  for (var k in LP) { $(LP[k].btn).textContent = T("Learn"); $(LP[k].help).hidden = true; $(LP[k].msg).textContent = ""; }
+  lfound = []; renderLearn(); controls();
+}
+function learnClick(k) {
+  var on = !learnActive;
+  if (on) learnBegin(k); else learnEnd();
+  post("/api/rf/learn", { on: on, kind: k }).then(function (j) {
+    if (!j.ok) { if (on) learnEnd(); toast(j.error || T("Could not change learning"), "err"); }
+    else toast(on ? T("Learning started") : T("Learning stopped"), "info");
+    lastLearn = 0; schedule(300);
+  });
+}
+$("learnbtn").onclick = function () { learnClick("dongle"); };
+$("hlearnbtn").onclick = function () { learnClick("bt"); };
+var lastLearn = 0;
+function loadLearn() {
+  if (Date.now() - lastLearn < 1400) return Promise.resolve();
+  return api("GET", "/api/rf/learn", null, 4000).then(function (j) {
+    lastLearn = Date.now();
+    lfound = j.active ? j.found || [] : [];   // the results go when learning ends
+    if (j.active && (j.kind || "dongle") !== learnKind) { var f = lfound; learnEnd(); learnBegin(j.kind || "dongle"); lfound = f; }
+    if (j.active) $(LP[learnKind].msg).textContent = T("Learning, {n} s left", { n: j.left_s });
+    else if (learnActive && Date.now() - learnStart > 2500) { learnEnd(); toast(T("Learning stopped"), "info"); }
+    renderLearn();
+  });
+}
+function wakeOf(a) { for (var i = 0; i < wake.length; i++) if (wake[i].addr === a) return wake[i]; return null; }
+function inWake(d) { return d.in_list || !!wakeOf(d.addr); }
+/* found devices that are already in the wake list: shown apart, without a name field */
+function renderKnown(box, head, items, line) {
+  head.hidden = !items.length;
+  sync(box, items, function (d) { return d.addr; }, function () {
+    var r = el("div", "item"), g = el("div", "grow");
+    g.append(el("div", "nm"), el("div", "ad"));
+    r.append(g, el("span", "tag ok"));
+    return r;
+  }, function (r, d) {
+    var c = r.firstChild.children, w = wakeOf(d.addr);
+    c[0].textContent = (w && w.name) || d.name || T("unnamed");
+    r.lastChild.textContent = T("In wake list");
+    c[1].replaceChildren.apply(c[1], [].concat(line(d)));
+  });
+}
+/* copy text: the Clipboard API needs HTTPS, and the page is served over plain HTTP on the LAN,
+   so a selected hidden textarea is copied there instead */
+function copyText(t) {
+  if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(t);
+  return new Promise(function (ok, fail) {
+    var a = el("textarea"); a.value = t; a.setAttribute("readonly", ""); a.style.cssText = "position:fixed;top:0;left:0;opacity:0";
+    document.body.appendChild(a); a.select();
+    var done = false;
+    try { done = document.execCommand("copy"); } catch (e) {}
+    a.remove();
+    if (done) ok(); else fail();
+  });
+}
+function cpWire(b, src) {
+  b.onclick = function () {
+    var t = $(src).textContent;
+    copyText(t).then(function () { toast(T("Copied: {text}", { text: t })); }, function () { toast(T("Could not copy. Select the command and copy it by hand."), "err"); });
+  };
+}
+cpWire($("bth-cp"), "bth-cmd");
+$("bth-a").onkeydown = $("bth-n").onkeydown = function (e) { if (e.key === "Enter" && !$("bth-b").disabled) $("bth-b").click(); };
+$("bth-b").onclick = function () {
+  var raw = $("bth-a").value.trim(), h = raw.replace(/[:\-\s]/g, "").toUpperCase(), n = $("bth-n").value.trim();
+  if (!/^[0-9A-F]{12}$/.test(h) && !/^[0-9A-F]{6}$/.test(h)) { $("bth-e").textContent = T("Enter the address as XX:XX:XX:XX:XX:XX."); return; }
+  $("bth-e").textContent = "";
+  var lap = h.slice(-6);
+  if (kindCount(true) >= hmax) { $("bth-e").textContent = T("The Bluetooth Classic hosts wake list is full."); return; }
+  if (!n) n = hostName();
+  this.disabled = true; var b = this;
+  post("/api/rf/wake/add", { addr: h, name: n }).then(function (j) {
+    b.disabled = false;
+    if (j.ok) { toast(T("Added {name}", { name: n })); $("bth-a").value = $("bth-n").value = ""; } else toast(j.error || T("Could not add"), "err");
+    loadWake().then(renderLearn, function () {});
+  });
+};
+function renderLearn() {
+  for (var k in LP) {
+    var bt = k === "bt", items = learnActive && learnKind === k ? lfound.filter(function (d) { return isBt(d) === bt; }) : [];
+    learnInto(LP[k], items, kindCount(bt) >= (bt ? hmax : wmax));
+  }
+}
+/* default name of a Bluetooth host: it is usually the BC-250 itself; shown as the placeholder */
+function hostName() {
+  var used = wake.map(function (w) { return String(w.name).toLowerCase(); });
+  for (var i = 1; ; i++) { var n = "BC-250" + (i > 1 ? "-" + i : ""); if (used.indexOf(n.toLowerCase()) < 0) return n; }
+}
+function kindCount(bt) { return wake.filter(function (w) { return isBt(w) === bt; }).length; }
+function learnInto(P, items, full) {
+  renderKnown($(P.kn), $(P.kh), items.filter(inWake), function (d) { return wa(d) + " \u00b7 " + TN(d.packets, "{n} packet", "{n} packets"); });
+  sync($(P.list), items.filter(function (d) { return !inWake(d); }), function (d) { return d.addr; }, function (d) {
+    var r = el("div", "item"), g = el("div", "grow"), ni = el("input"), b = el("button", "sm pri", T("Add to wake list"));
+    ni.type = "text"; ni.autocomplete = "off"; ni.maxLength = 31; tp(ni, "Name"); tl(ni, "Name for this device");
+    g.append(el("div", "nm"), el("div", "ad"), el("div", "sm mu"));
+    b.onclick = function () {
+      b.disabled = true;
+      var nm = ni.value.trim() || (isBt(d) ? hostName() : fa(d.addr)), body = { addr: d.addr, name: nm };
+      if (!isBt(d)) body.mhz = r._d.fixed_mhz;
+      post("/api/rf/wake/add", body).then(function (j) {
+        if (j.ok) toast(T("Added {name}", { name: nm })); else toast(j.error || T("Could not add"), "err");
+        loadWake().then(renderLearn, function () {});
+      });
+    };
+    ni.onkeydown = function (e) { if (e.key === "Enter" && !b.disabled && !b.hidden) b.onclick(); };   // Enter adds
+    r.append(g, ni, b); r._ni = ni; r._b = b;
+    return r;
+  }, function (r, d) {
+    r._d = d;
+    var bt = isBt(d), ok = bt ? !!d.ready : d.fixed_mhz != null;
+    var c = r.firstChild.children, inList = d.in_list || wake.some(function (w) { return w.addr === d.addr; });
+    c[0].textContent = wa(d);
+    if (bt) { r._ni.placeholder = hostName(); delete r._ni.dataset.tkp; } else tp(r._ni, "Name");
+    c[1].textContent = TN(d.packets, "{n} packet", "{n} packets") + (bt ? "" : " · " + (d.freqs || []).map(function (f) { return f.mhz + " MHz"; }).join(", "));
+    c[2].textContent = !ok ? T("Seen. Waiting for a few more packets\u2026") : bt ? T("A controller is calling this host. Add it if it showed up when you pressed the button.") : T("Found. It is recognised on any channel it uses.");
+    r._ni.hidden = r._b.hidden = !ok;
+    r._ni.disabled = inList;
+    r._b.disabled = inList || full || !online;
+    r._b.textContent = inList ? T("In list") : full ? T("List full") : T("Add to wake list");
+  });
+}
+/* both wake lists, whichever method runs */
+var lists = null, listsMissing = false;
+function loadLists() {
+  if (listsMissing) return Promise.resolve();
+  return api("GET", "/api/wake/lists", null, 4000).then(function (j) {
+    if (j._s === 404) { listsMissing = true; setNd("clearc", true); vis(); return; }
+    if (typeof j.ble !== "number") return;
+    lists = j; renderLists();
+  });
+}
+var CLN = { ble: N("Bluetooth Low Energy devices"), dongle: N("2.4G Dongle devices"), bt: N("Bluetooth Classic hosts") };
+function renderLists() {
+  if (!lists) return;
+  ["ble", "dongle", "bt"].forEach(function (k) {
+    var n = lists[k], name = T(CLN[k]), b = $("cl-" + k + "-b");
+    var cnt = k === "bt" ? TN(n, "{n} host", "{n} hosts") : TN(n, "{n} device", "{n} devices");
+    $("cl-" + k).textContent = n ? cnt : T("Empty");
+    b.disabled = !n || !online;
+    b.onclick = function () {
+      ask($("clask"), T("Remove all {count} from the {list} wake list? This cannot be undone.", { count: cnt, list: name }), function () {
+        b.disabled = true;
+        post("/api/wake/clear", { list: k }).then(function (j) {
+          if (j.ok) toast(T("{list} wake list cleared", { list: name })); else toast(j.error || T("Could not clear it"), "err");
+          loadLists().then(null, function () {});
+        });
+      });
+    };
+  });
+}
+function loadWake() {
+  return api("GET", radio === "2g4" ? "/api/rf/wake" : "/api/ble/wake", null, 4000).then(function (j) {
+    lastWake = Date.now();
+    wake = j.list || [];
+    renderWake();
+  });
+}
+function renderWake() {
+  // 2.4G mode: 2.4G devices and Bluetooth hosts in their own lists, up to wmax each
+  var g2 = radio === "2g4", dl = g2 ? wake.filter(function (w) { return !isBt(w); }) : wake, hl = g2 ? wake.filter(isBt) : [];
+  $("wcount").textContent = "(" + dl.length + "/" + wmax + ")";
+  $("wempty").hidden = dl.length > 0;
+  $("hwcount").textContent = "(" + hl.length + "/" + hmax + ")";
+  $("hwempty").hidden = hl.length > 0;
+  $("bth-n").placeholder = hostName();
+  wakeRows($("wlist"), dl);
+  wakeRows($("hwlist"), hl);
+}
+function wakeRows(box, items) {
+  sync(box, items, function (w) { return w.addr; }, function (w) {
+    var r = el("div", "item"), g = el("div", "grow");
+    g.append(el("div", "nm"), el("div", "ad"), el("div"));
+    var rn = tt(el("button", "sm"), "Rename"), b = tt(el("button", "sm"), "Remove");
+    // enabled: only enabled devices can start the BC-250
+    var en = el("span", "en"), sw = el("span", "sw"), cb = el("input"), lb = tt(el("label", "sm"), "Enabled");
+    cb.type = "checkbox"; cb.id = "en-" + w.addr.replace(/[^0-9A-Za-z]/g, ""); lb.htmlFor = cb.id;
+    sw.append(cb, el("i")); en.append(lb, sw); r._cb = cb;
+    cb.onchange = function () {
+      var on = cb.checked; r._busy = true;
+      post(radio === "2g4" ? "/api/rf/wake/enable" : "/api/ble/wake/enable", { addr: r._w.addr, enabled: on }).then(function (j) {
+        r._busy = false;
+        if (j.ok) toast((on ? T("{name} can start the BC-250", { name: r._w.name || mac(r._w.addr) }) : T("{name} will not start the BC-250", { name: r._w.name || mac(r._w.addr) })));
+        else { cb.checked = !on; toast(j.error || T("Could not change it"), "err"); }
+        loadWake().then(function () {}, function () {});
+      });
+    };
+    // rename: inline field under the row
+    var ed = el("div", "row ed"), ei = el("input"), es = tt(el("button", "sm pri"), "Save"), ec = tt(el("button", "sm"), "Cancel");
+    ei.type = "text"; ei.autocomplete = "off"; ei.maxLength = 31; tp(ei, "Name"); tl(ei, "New name");
+    ed.append(ei, es, ec); ed.hidden = true;
+    // remove: the same confirm box as elsewhere on the page
+    var cf = el("div", "confirm"), cr = el("div", "row");
+    cr.append(tt(el("button", "dan"), "Remove"), tt(el("button"), "Cancel"));
+    cf.append(el("div"), cr); cf.hidden = true;
+    var nm = function () { return r._w.name || (radio === "2g4" ? wa(r._w) : mac(r._w.addr)); };
+    rn.onclick = function () { cf.hidden = true; ed.hidden = false; ei.value = r._w.name || ""; ei.focus(); ei.select(); };
+    ec.onclick = function () { ed.hidden = true; rn.focus(); };
+    es.onclick = function () {
+      var n = ei.value.trim();
+      if (radio === "2g4" && !n) { toast(T("Enter a name"), "err"); ei.focus(); return; }
+      es.disabled = true;
+      post(radio === "2g4" ? "/api/rf/wake/rename" : "/api/ble/wake/rename", { addr: r._w.addr, name: n }).then(function (j) {
+        es.disabled = false;
+        if (j.ok) { ed.hidden = true; toast(T("Renamed to {name}", { name: n || mac(r._w.addr) })); } else toast(j.error || T("Could not rename"), "err");
+        loadWake().then(function () { renderDevices(); if (radio === "2g4") renderLearn(); }, function () {});
+      });
+    };
+    ei.onkeydown = function (e) { if (e.key === "Enter") es.onclick(); else if (e.key === "Escape") ec.onclick(); };
+    b.onclick = function () {
+      ed.hidden = true;
+      ask(cf, T("Remove {name} from the wake list? It can no longer start the BC-250.", { name: nm() }), function () {
+        b.disabled = true;
+        var n = nm();
+        post(radio === "2g4" ? "/api/rf/wake/remove" : "/api/ble/wake/remove", { addr: r._w.addr }).then(function (j) {
+          b.disabled = false;
+          if (j.ok) toast(T("Removed {name}", { name: n })); else toast(j.error || T("Could not remove"), "err");
+          loadWake().then(function () { renderDevices(); if (radio === "2g4") renderLearn(); }, function () {});
+        });
+      });
+    };
+    r._w = w;
+    r.append(g, en, rn, b, ed, cf); return r;
+  }, function (r, w) {
+    r._w = w;
+    var c = r.firstChild.children, on = w.enabled !== false;
+    if (!r._busy) r._cb.checked = on;
+    r.classList.toggle("off", !on);
+    c[0].textContent = w.name || T("unnamed");
+    var g2 = radio === "2g4";
+    c[1].textContent = g2 ? wa(w) : mac(w.addr);
+    c[2].replaceChildren(
+      // armed first, then one presence tag: switched on, else when it was last heard
+      on ? el("span", "tag " + (w.armed ? "wa" : ""), w.armed ? T("armed") : T("not armed")) : el("span", "tag", T("disabled: will not start the BC-250")),
+      w.present ? el("span", "tag ok", T("switched on")) : el("span", "tag", w.last_s === undefined || w.last_s < 0 ? T("not heard since restart") : T("heard {when}", { when: rel(w.last_s * 1000) })),
+      // signal strength: BLE only, while the device is present
+      !g2 && w.present && typeof w.rssi === "number" ? sigBars(w.rssi) : "");
+  });
+}
+function beginScan() {
+  scanActive = true; scanStart = Date.now();
+  if ($("wcard").classList.contains("folded")) setFold($("wcard"), false, true);
+  $("scanbtn").textContent = T("Stop"); $("scanhelp").hidden = false; $("scanmsg").textContent = T("Scanning…");
+  controls();
+}
+$("scanbtn").onclick = function () {
+  var on = !scanActive;
+  if (on) beginScan(); else endScan();
+  post(on ? "/api/ble/scan" : "/api/ble/scan/stop").then(function (j) {
+    if (!j.ok) { if (on) endScan(); toast(j.error || (on ? T("Could not start scan") : T("Could not stop the scan")), "err"); }
+    else toast(on ? T("Scan started") : T("Scan stopped"), "info");
+    schedule(300);
+  });
+};
+// the results go when the scan ends, as with 2.4G Learn
+function endScan() {
+  scanActive = false; $("scanbtn").textContent = T("Scan for devices"); $("scanhelp").hidden = true;
+  $("scanmsg").textContent = ""; devs = []; renderDevices(); controls();
+}
+var devs = [], showAll = false;
+var KL = { gamepad: N("Gamepad"), joystick: N("Joystick"), hid: N("Input device"), keyboard: N("Keyboard"), mouse: N("Mouse"), other: N("Other") };
+var GP = '<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true" style="vertical-align:-2px;margin-right:4px"><path d="M7 7h10a5 5 0 0 1 5 5v2a3 3 0 0 1-5.2 2L15 14H9l-1.8 2A3 3 0 0 1 2 14v-2a5 5 0 0 1 5-5zm1 2v1H7v2h1v1h2v-1h1v-2h-1V9zm8 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/></svg>';
+function kind(d) { return KL[d.kind] ? d.kind : "other"; }
+function ctl(d) { var k = kind(d); return k === "gamepad" || k === "joystick" || k === "hid" ? 1 : 0; }
+function badge(b, k) {
+  if (b._k === k && b._l === LANG) return;
+  b._k = k; b._l = LANG; b.className = "tag" + (k === "gamepad" || k === "joystick" || k === "hid" ? " ok" : "");
+  b.replaceChildren();
+  if (k === "gamepad" || k === "joystick") { var i = el("span"); i.innerHTML = GP; b.append(i.firstChild); }
+  b.append(document.createTextNode(T(KL[k])));
+}
+try { showAll = localStorage.getItem("bc250_showall") === "1"; } catch (e) {}
+$("showall").checked = showAll;
+$("showall").onchange = function () {
+  showAll = this.checked;
+  try { localStorage.setItem("bc250_showall", showAll ? "1" : "0"); } catch (e) {}
+  renderDevices();
+  toast(showAll ? T("Showing all BLE devices") : T("Showing game controllers only"), "info");
+};
+function loadDevices() {
+  return api("GET", "/api/ble/devices", null, 4000).then(function (j) {
+    devs = j.scanning ? (j.devices || []).slice().sort(function (a, b) { return ctl(b) - ctl(a) || b.rssi - a.rssi; }) : [];
+    if (j.scanning) { if (!scanActive) beginScan(); if (j.left_s) $("scanmsg").textContent = T("Scanning, {n} s left", { n: j.left_s }); }
+    else if (scanActive && Date.now() - scanStart > 2500) { endScan(); toast(T("Scan stopped"), "info"); return; }
+    renderDevices();
+  });
+}
+function renderDevices() {
+  var full = wake.length >= wmax, shown = showAll ? devs : devs.filter(ctl), nh = devs.length - shown.length;
+  $("dhint").hidden = !shown.some(function (d) { return d.type === "random"; });
+  $("dhid").textContent = nh ? TN(nh, "{n} other device hidden", "{n} other devices hidden") : "";
+  $("dnote").hidden = !showAll;
+  $("dempty").hidden = showAll || shown.length || !scanActive || Date.now() - scanStart < 15000;
+  renderKnown($("dknown"), $("dknownh"), shown.filter(inWake), function (d) { return [mac(d.addr) + " \u00b7 ", sigBars(d.rssi)]; });
+  sync($("dlist"), shown.filter(function (d) { return !inWake(d); }), function (d) { return d.addr; }, function (d) {
+    var r = el("div", "item"), g = el("div", "grow"), ni = el("input"), b = el("button", "sm pri", T("Add to wake list"));
+    ni.type = "text"; ni.autocomplete = "off"; ni.maxLength = 31; tp(ni, "Name"); tl(ni, "Name for this device");
+    g.append(el("div", "nm"), el("div", "ad"), el("div"));
+    g.lastChild.append(el("span"));
+    b.onclick = function () {
+      b.disabled = true;
+      post("/api/ble/wake/add", { addr: d.addr, type: d.type, name: ni.value.trim() || d.name || "" }).then(function (j) {
+        var nm = ni.value.trim() || d.name || mac(d.addr);
+        if (j.ok) toast(T("Added {name}", { name: nm })); else toast(j.error || T("Could not add"), "err");
+        loadWake().then(function () { return loadDevices(); }).then(null, function () {});
+      });
+    };
+    ni.onkeydown = function (e) { if (e.key === "Enter" && !b.disabled) b.onclick(); };   // Enter adds
+    r.append(g, ni, b);
+    r._ni = ni; r._b = b; r._named = false;
+    return r;
+  }, function (r, d) {
+    var c = r.firstChild.children;
+    c[0].textContent = d.name || T("unnamed");
+    badge(c[2].firstChild, kind(d));
+    c[1].replaceChildren(mac(d.addr) + " · ", sigBars(d.rssi));
+    if (!r._named) { r._ni.value = d.name || ""; if (d.name) r._named = true; }
+    var inList = d.in_list || wake.some(function (w) { return w.addr === d.addr; });
+    r._b.disabled = inList || full || !online;
+    r._b.textContent = inList ? T("In list") : full ? T("List full") : T("Add to wake list");
+    if (d.type === "random" && !r._w) { r._w = el("div", "sm bad"); r.firstChild.append(r._w); }
+    if (r._w) r._w.textContent = T("Random address: it may change, and the entry can then stop working.");
+  });
+}
+
+/* ---------- settings ---------- */
+var FIELDS = [
+  [N("Front LED"), "", [
+    { k: "led_on", l: N("Brightness when on"), t: "r", min: 0, max: 255, h: N("Also the peak while starting and shutting down.") },
+    { k: "led_off_max", l: N("Brightness when off"), t: "r", min: 0, max: 255, h: N("0 turns the LED off.") },
+    { k: "led_off_period_ms", l: N("Breathing period when off"), t: "n", min: 1, max: 20, sc: 1000, u: "s", step: 0.5 }]],
+  [N("Buzzer"), "", [
+    { k: "buzzer", l: N("Beeps"), t: "b" },
+    { k: "quiet_on", l: N("Quiet hours"), t: "b", h: N("No beeps during these hours. Needs the clock to be set.") },
+    { k: "quiet_from", l: N("Quiet from"), t: "m" },
+    { k: "quiet_to", l: N("Quiet until"), t: "m" }]],
+  [N("Front button"), N("A short press shuts the BC-250 down."), [
+    { k: "hold_reset_s", l: N("Hold for reset"), t: "n", min: 2, max: 30, sc: 1, u: "s", step: 1, h: N("Release after the two beeps to reset the BC-250.") },
+    { k: "hold_force_s", l: N("Hold for forced power off"), t: "n", min: 3, max: 60, sc: 1, u: "s", step: 1, h: N("Cuts the power at once. At least 1 s longer than the reset time.") }]],
+  [N("Power timing"), "", [
+    { k: "off_detect_ms", l: N("Power-off detection time"), t: "n", min: 0.5, max: 30, sc: 1000, u: "s", step: 0.5, h: N("How long the power LED must stay dark to count as off. Raise it if the LED blinks while running.") },
+    { k: "start_pwr_pulse", l: N("Press PWR when starting"), t: "b", h: N("For a BC-250 that does not start by itself when powered.") },
+    { k: "start_pwr_delay_ms", l: N("Wait before the PWR press"), t: "n", min: 0.5, max: 10, sc: 1000, u: "s", step: 0.5 },
+    { k: "start_timeout_ms", l: N("Start timeout"), t: "n", min: 3, max: 120, sc: 1000, u: "s", step: 1, h: N("If the LED is not lit by then, power is cut.") },
+    { k: "shutdown_timeout_ms", l: N("Shutdown timeout"), t: "n", min: 10, max: 600, sc: 1000, u: "s", step: 1, h: N("If it is still running after this, it counts as on again. Power is not cut.") }]],
+  [N("Wake options"), "", [
+    { k: "ble_rearm_s", l: N("Re-arm time"), t: "n", min: 3, max: 600, sc: 1, u: "s", step: 1, h: N("How long a device must be unheard before it can wake the BC-250, so one left on does not restart it. Searching 2.4G controllers are heard only now and then: use 20 s or more.") },
+    { k: "scan_s", l: N("Scan time"), t: "n", min: 30, max: 600, sc: 1, u: "s", step: 10, h: N("How long a scan or Learn runs.") }], "ble"]
+];
+var fi = {};
+function buildForm() {
+  var main = document.querySelector("main");
+  FIELDS.forEach(function (g) {
+    var ble = g[3] === "ble", f = el("section", "card gen" + (ble ? "" : " half"));
+    f.dataset.view = ble ? "wake" : "settings"; if (ble) f.dataset.need = "ble"; if (g[0] === "Front button") f.dataset.key = "hold_reset_s"; f.hidden = view !== f.dataset.view;
+    f.append(tt(el("h2"), g[0])); if (g[1]) f.append(tt(el("p", "d"), g[1]));
+    if (ble) $("ble").after(f); else main.append(f);
+    g[2].forEach(function (d) {
+      d.g = ble ? "ble" : "main";
+      var row = el("div", "f"), lab = tt(el("label"), d.l), id = "c_" + d.k, inp = el("input");
+      lab.htmlFor = id; inp.id = id; inp.autocomplete = "off"; d.inp = inp; fi[d.k] = d;
+      if (d.t === "b") { inp.type = "checkbox"; }
+      else if (d.t === "r") { inp.type = "range"; inp.min = d.min; inp.max = d.max; inp.step = 1; }
+      else if (d.t === "n") { inp.type = "number"; inp.min = d.min; inp.max = d.max; inp.step = d.step; inp.inputMode = "decimal"; }
+      else if (d.t === "m") inp.type = "time";
+      else { inp.type = "text"; inp.maxLength = 31; inp.autocapitalize = "none"; inp.spellcheck = false; }
+      row.append(lab);
+      if (d.t === "b") {
+        var sw = el("span", "sw"); sw.append(inp, el("i")); row.append(sw);
+      } else if (d.t === "r") {
+        var rg = el("div", "rg"), o = el("output"); d.out = o;
+        rg.append(inp, o); row.append(el("span")); row.append(rg);
+      } else {
+        var w = el("span"); w.append(inp);
+        if (d.u) w.append(" " + d.u);
+        row.append(w);
+      }
+      if (d.h) row.append(tt(el("div", "h"), d.h));
+      d.err = el("div", "e"); d.err.hidden = true; row.append(d.err);
+      inp.addEventListener("input", function () { showOut(d); dirty(); });
+      inp.addEventListener("change", function () { showOut(d); dirty(); });
+      d.row = row; f.append(row);
+    });
+    if (g[0] === "Buzzer") { var qs = el("p", "sm mu"); qs.id = "quietst"; f.append(qs); }
+    if (ble) {
+      var r = el("div", "row"), sv = tt(el("button", "pri"), "Save"), un = tt(el("span", "sm mu"), "Unsaved changes");
+      sv.id = "blesave"; sv.disabled = true; un.id = "bleunsaved"; un.hidden = true;
+      r.append(sv, un); f.append(r);
+      sv.onclick = saveBle;
+    }
+  });
+}
+function showOut(d) {
+  if (d.out) d.out.textContent = (d.inp.value + (d.u || ""));
+}
+function getVal(d) {
+  var v = d.inp;
+  if (d.t === "b") return v.checked;
+  if (d.t === "t") return v.value.trim().toLowerCase();
+  if (d.t === "s") return v.value.trim();
+  if (d.t === "m") { var p = v.value.split(":"); return p.length < 2 ? NaN : +p[0] * 60 + +p[1]; }
+  if (v.value === "") return NaN;
+  return Math.round(+v.value * (d.sc || 1));
+}
+function setVal(d, x) {
+  if (d.t === "b") d.inp.checked = !!x;
+  else if (d.t === "t" || d.t === "s") d.inp.value = x;
+  else if (d.t === "m") d.inp.value = ("0" + (x / 60 | 0)).slice(-2) + ":" + ("0" + x % 60).slice(-2);
+  else d.inp.value = x / (d.sc || 1);
+  showOut(d); d.err.hidden = true;
+  if (d.k === "tz_name") tzSync();
+}
+function changed(grp) {
+  var o = {};
+  if (!cfg) return o;
+  for (var k in fi) if (k in cfg && (!grp || fi[k].g === grp)) {
+    var v = getVal(fi[k]);
+    if (v !== cfg[k] && !(v !== v && cfg[k] !== cfg[k])) o[k] = v;
+  }
+  return o;
+}
+function dirty() {
+  var n = Object.keys(changed("main")).length, nb = Object.keys(changed("ble")).length;
+  $("blesave").disabled = !nb || !online; $("bleunsaved").hidden = !nb;
+  $("cfgsave").disabled = !online;
+  $("mark-settings").hidden = !n;
+  $("savebar").hidden = !n || view !== "settings";
+}
+function validate(o) {
+  var ok = true;
+  for (var k in o) {
+    var d = fi[k], v = o[k], m = "";
+    if (d.t === "s") m = d.chk(v);
+    else if (d.t === "m") { if (v !== v) m = T("Enter a time."); }
+    else if (d.t !== "b") {
+      var lo = d.min * (d.sc || 1), hi = d.max * (d.sc || 1);
+      if (v !== v) m = T("Enter a number.");
+      else if (v < lo || v > hi) m = T("Allowed range: {min} to {max}{unit}.", { min: d.min, max: d.max, unit: d.u || "" });
+    }
+    d.err.textContent = m; d.err.hidden = !m;
+    if (m) { if (ok && d.inp.scrollIntoView) d.inp.scrollIntoView({ block: "center" }); ok = false; }
+  }
+  if (ok && ("hold_reset_s" in o || "hold_force_s" in o) && cfg) {
+    var r = "hold_reset_s" in o ? o.hold_reset_s : cfg.hold_reset_s, f = "hold_force_s" in o ? o.hold_force_s : cfg.hold_force_s;
+    if (f < r + 1) {
+      var bd = fi["hold_force_s" in o ? "hold_force_s" : "hold_reset_s"];
+      bd.err.textContent = bd === fi.hold_force_s ? T("Must be at least 1 s longer than the reset time ({n} s).", { n: r }) : T("Must be at least 1 s shorter than the forced off time ({n} s).", { n: f });
+      bd.err.hidden = false; ok = false;
+    }
+  }
+  return ok;
+}
+function syncHold() {
+  HR = cfg && cfg.hold_reset_s || 5; HF = cfg && cfg.hold_force_s || 10;
+  $("hhnote").textContent = T("Shut down asks the OS to stop, like a short press of the front button. The same button resets the BC-250 when held for {reset}\u2013{force} s, and forces power off at {force} s.", { reset: HR, force: HF });
+  $("heldmk").style.left = HR / HF * 100 + "%";
+}
+function loadCfg() {
+  api("GET", "/api/config", null, 5000).then(function (c) {
+    var keep = cfg && $("hn").value !== cfg.hostname;   /* hostname being edited */
+    var ed = cfg ? changed() : {};
+    cfg = c;
+    for (var k in fi) if (k in c && !(k in ed)) setVal(fi[k], c[k]);
+    if (!keep) $("hn").value = c.hostname || "";
+    ["tz", "tz_name", "ntp_server", "quiet_on", "quiet_from", "quiet_to", "hold_reset_s", "hold_force_s", "ntp_check_h", "scan_s"].forEach(function (k) { if (fi[k].row) fi[k].row.hidden = !(k in c); });
+    hnUpd(); dirty(); autoTzSetup(c); syncHold(); vis();
+  }).then(null, function () { setTimeout(function () { if (!cfg && !gated && (needCfg() || !autoTz)) loadCfg(); }, 3000); });
+}
+$("cfgrev").onclick = function () { for (var k in fi) if (k in cfg && fi[k].g === "main") setVal(fi[k], cfg[k]); dirty(); toast(T("Changes discarded"), "info"); };
+function saveBle() {
+  var o = changed("ble");
+  if (!validate(o)) { toast(T(BAD), "err"); return; }
+  $("blesave").disabled = true;
+  post("/api/config", o).then(function (j) {
+    if (j.ok) { for (var k in o) cfg[k] = o[k]; toast(T("Saved")); }
+    else toast(j.error || T("Not saved"), "err");
+    dirty();
+  });
+}
+$("cfgsave").onclick = function () {
+  var o = changed("main");
+  if (!validate(o)) { toast(T(BAD), "err"); return; }
+  $("cfgsave").disabled = true;
+  post("/api/config", o).then(function (j) {
+    if (j.ok) {
+      for (var k in o) cfg[k] = o[k];
+      syncHold();
+      toast(T("Saved"));
+    } else toast(j.error || T("Not saved"), "err");
+    dirty();
+  });
+};
+
+/* ---------- time zone, clock ---------- */
+/* [POSIX TZ string, space separated IANA names] */
+var TZG = [
+  ["UTC0", "UTC"],
+  ["GMT0", "Atlantic/Reykjavik Africa/Abidjan Africa/Accra"],
+  ["GMT0BST,M3.5.0/1,M10.5.0", "Europe/London"],
+  ["GMT0IST,M3.5.0/1,M10.5.0", "Europe/Dublin"],
+  ["WET0WEST,M3.5.0/1,M10.5.0", "Europe/Lisbon Atlantic/Canary Atlantic/Madeira"],
+  ["CET-1CEST,M3.5.0,M10.5.0/3", "Europe/Amsterdam Europe/Belgrade Europe/Berlin Europe/Bratislava Europe/Brussels Europe/Budapest Europe/Copenhagen Europe/Ljubljana Europe/Luxembourg Europe/Madrid Europe/Malta Europe/Monaco Europe/Oslo Europe/Paris Europe/Prague Europe/Rome Europe/Sarajevo Europe/Skopje Europe/Stockholm Europe/Tirane Europe/Vienna Europe/Warsaw Europe/Zagreb Europe/Zurich"],
+  ["CET-1", "Africa/Algiers Africa/Tunis"],
+  ["EET-2EEST,M3.5.0/3,M10.5.0/4", "Europe/Athens Europe/Bucharest Europe/Helsinki Europe/Kyiv Europe/Riga Europe/Sofia Europe/Tallinn Europe/Vilnius Asia/Nicosia"],
+  ["EET-2", "Europe/Kaliningrad Africa/Tripoli"],
+  ["MSK-3", "Europe/Moscow"],
+  ["<+03>-3", "Europe/Istanbul Europe/Minsk Asia/Baghdad Asia/Riyadh Asia/Kuwait Asia/Qatar Asia/Amman Asia/Damascus"],
+  ["<+04>-4", "Asia/Dubai Asia/Tbilisi Asia/Yerevan Asia/Baku Europe/Samara Indian/Mauritius"],
+  ["<+05>-5", "Asia/Tashkent Asia/Almaty Asia/Yekaterinburg"],
+  ["<+06>-6", "Asia/Dhaka Asia/Omsk"],
+  ["<+07>-7", "Asia/Bangkok Asia/Ho_Chi_Minh Asia/Novosibirsk Asia/Krasnoyarsk"],
+  ["<+08>-8", "Asia/Singapore Asia/Kuala_Lumpur Asia/Ulaanbaatar Asia/Irkutsk"],
+  ["<+09>-9", "Asia/Yakutsk"],
+  ["<+10>-10", "Asia/Vladivostok Pacific/Port_Moresby"],
+  ["<+11>-11", "Asia/Magadan Pacific/Noumea"],
+  ["<+12>-12", "Asia/Kamchatka Pacific/Fiji"],
+  ["<+13>-13", "Pacific/Tongatapu Pacific/Apia"],
+  ["<+0330>-3:30", "Asia/Tehran"],
+  ["<+0430>-4:30", "Asia/Kabul"],
+  ["IST-5:30", "Asia/Kolkata"],
+  ["<+0530>-5:30", "Asia/Colombo"],
+  ["<+0545>-5:45", "Asia/Kathmandu"],
+  ["<+0630>-6:30", "Asia/Yangon"],
+  ["PKT-5", "Asia/Karachi"],
+  ["WIB-7", "Asia/Jakarta"],
+  ["CST-8", "Asia/Shanghai Asia/Taipei"],
+  ["HKT-8", "Asia/Hong_Kong"],
+  ["PST-8", "Asia/Manila"],
+  ["JST-9", "Asia/Tokyo"],
+  ["KST-9", "Asia/Seoul"],
+  ["IST-2IDT,M3.4.4/26,M10.5.0", "Asia/Jerusalem"],
+  ["EET-2EEST,M4.5.5/0,M10.5.4/24", "Africa/Cairo"],
+  ["SAST-2", "Africa/Johannesburg"],
+  ["WAT-1", "Africa/Lagos Africa/Kinshasa Africa/Luanda"],
+  ["CAT-2", "Africa/Maputo Africa/Harare Africa/Lusaka Africa/Khartoum Africa/Windhoek"],
+  ["EAT-3", "Africa/Nairobi Africa/Addis_Ababa Africa/Dar_es_Salaam Africa/Kampala"],
+  ["AEST-10AEDT,M10.1.0,M4.1.0/3", "Australia/Sydney Australia/Melbourne Australia/Hobart"],
+  ["AEST-10", "Australia/Brisbane"],
+  ["ACST-9:30ACDT,M10.1.0,M4.1.0/3", "Australia/Adelaide"],
+  ["ACST-9:30", "Australia/Darwin"],
+  ["AWST-8", "Australia/Perth"],
+  ["NZST-12NZDT,M9.5.0,M4.1.0/3", "Pacific/Auckland"],
+  ["ChST-10", "Pacific/Guam"],
+  ["HST10", "Pacific/Honolulu"],
+  ["AKST9AKDT,M3.2.0,M11.1.0", "America/Anchorage"],
+  ["PST8PDT,M3.2.0,M11.1.0", "America/Los_Angeles America/Tijuana"],
+  ["MST7MDT,M3.2.0,M11.1.0", "America/Denver"],
+  ["MST7", "America/Phoenix America/Vancouver"],
+  ["CST6CDT,M3.2.0,M11.1.0", "America/Chicago"],
+  ["CST6", "America/Mexico_City America/Edmonton America/Regina America/Guatemala America/Costa_Rica America/El_Salvador"],
+  ["EST5EDT,M3.2.0,M11.1.0", "America/New_York America/Toronto America/Detroit"],
+  ["EST5", "America/Panama America/Jamaica America/Cancun America/Winnipeg"],
+  ["AST4ADT,M3.2.0,M11.1.0", "America/Halifax"],
+  ["AST4", "America/Puerto_Rico America/Santo_Domingo"],
+  ["NST3:30NDT,M3.2.0,M11.1.0", "America/St_Johns"],
+  ["CST5CDT,M3.2.0/0,M11.1.0/1", "America/Havana"],
+  ["<-05>5", "America/Bogota America/Lima America/Guayaquil"],
+  ["<-04>4", "America/Caracas America/La_Paz America/Manaus"],
+  ["<-03>3", "America/Sao_Paulo America/Argentina/Buenos_Aires America/Montevideo"],
+  ["<-04>4<-03>,M9.1.6/24,M4.1.6/24", "America/Santiago"],
+  ["<-01>1<+00>,M3.5.0/0,M10.5.0/1", "Atlantic/Azores"]
+];
+var TZ = {}, TZN = [];
+TZG.forEach(function (g) { g[1].split(" ").forEach(function (n) { TZ[n] = g[0]; TZN.push(n); }); });
+TZN.sort();
+var TZA = { "Europe/Kiev": "Europe/Kyiv", "Asia/Calcutta": "Asia/Kolkata", "Asia/Saigon": "Asia/Ho_Chi_Minh", "Asia/Katmandu": "Asia/Kathmandu",
+  "Asia/Rangoon": "Asia/Yangon", "America/Buenos_Aires": "America/Argentina/Buenos_Aires", "Asia/Tel_Aviv": "Asia/Jerusalem", "Europe/Belfast": "Europe/London",
+  "Asia/Dacca": "Asia/Dhaka", "Etc/UTC": "UTC", "Etc/GMT": "UTC", "Etc/Zulu": "UTC", "Asia/Chongqing": "Asia/Shanghai", "Australia/Canberra": "Australia/Sydney",
+  "America/Montreal": "America/Toronto", "Europe/Bratislava": "Europe/Bratislava", "Atlantic/Faeroe": "Atlantic/Madeira" };
+delete TZA["Atlantic/Faeroe"]; delete TZA["Europe/Bratislava"];
+function tzFind(n) { n = TZA[n] || n; return TZ[n] ? n : ""; }
+function browserTz() { try { return Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (e) { return ""; } }
+function tzList() {
+  // The whole list, grouped by region (the part before the first slash).
+  var cur = $("c_tz_name").value, sel = $("tzsel"), o = [], grp = {};
+  var custom = $("c_tz").value && !TZ[cur];
+  if (custom) o.push(new Option(T("Custom: {tz}", { tz: $("c_tz").value }), ""));
+  else if (!cur) o.push(new Option(T("Choose a timezone"), ""));
+  TZN.forEach(function (n) {
+    var i = n.indexOf("/"), r = i < 0 ? "" : n.slice(0, i);
+    if (!r) { o.push(new Option(n, n)); return; }
+    if (!grp[r]) { grp[r] = document.createElement("optgroup"); grp[r].label = r; o.push(grp[r]); }
+    grp[r].appendChild(new Option(n.slice(i + 1).replace(/_/g, " "), n));
+  });
+  sel.replaceChildren.apply(sel, o);
+  sel.value = TZ[cur] ? cur : "";
+}
+function tzSync() { tzList(); }
+function tzSet(n) { $("c_tz").value = TZ[n]; $("c_tz_name").value = n; tzList(); dirty(); }
+fi.tz = { k: "tz", t: "s", g: "main", inp: $("c_tz"), err: $("tzerr"), chk: function (v) { return /^[A-Za-z<][A-Za-z0-9+,.\/:<>-]{0,46}$/.test(v) && /\d/.test(v) ? "" : T("Not a valid timezone."); } };
+fi.tz_name = { k: "tz_name", t: "s", g: "main", inp: $("c_tz_name"), err: $("tzerr"), chk: function (v) { return /^[\x20-\x7e]{0,39}$/.test(v) ? "" : T("Use up to 39 printable ASCII characters."); } };
+fi.ntp_server = { k: "ntp_server", t: "s", g: "main", inp: $("ntp"), err: $("ntperr"), chk: function (v) { return /^[A-Za-z0-9.-]{1,63}$/.test(v) ? "" : T("Use 1 to 63 letters, digits, dots or hyphens."); } };
+fi.ntp_check_h = { k: "ntp_check_h", t: "n", g: "main", inp: $("ntph"), err: $("ntphe"), min: 0, max: 720, sc: 1, u: " h", row: $("ntphrow") };
+$("ntp").addEventListener("input", dirty); $("ntph").addEventListener("input", dirty);
+$("tmsync").onclick = function () {
+  post("/api/time/sync").then(function (j) { if (j.ok) toast(T("Time check started")); else toast(j.error || T("Could not start the time check"), "err"); });
+};
+$("tzsel").onchange = function () { if (this.value) tzSet(this.value); };
+$("tzbrowser").onclick = function () {
+  var b = browserTz(), n = tzFind(b);
+  if (n) tzSet(n);
+  else toast(b ? T("Your browser’s timezone ({tz}) is not in the list. Choose one manually.", { tz: b }) : T("Your browser’s timezone is not in the list. Choose one manually."), "info");
+};
+var autoTz = false, timeSent = false, tzBusy = false;
+/* no timezone chosen yet ("Custom: UTC0": first start, factory reset or Reset settings): take the
+   browser's. Checked on every settings load, not only the first. */
+function autoTzSetup(c) {
+  autoTz = true;
+  var n = "tz_name" in c && c.tz_name === "" ? tzFind(browserTz()) : "";
+  if (!n || tzBusy) return;
+  tzBusy = true;
+  post("/api/config", { tz: TZ[n], tz_name: n }).then(function (j) {
+    tzBusy = false;
+    if (!j.ok || !cfg) return;
+    var ed = changed("main");
+    cfg.tz = TZ[n]; cfg.tz_name = n;
+    if (!("tz" in ed || "tz_name" in ed)) { setVal(fi.tz, TZ[n]); setVal(fi.tz_name, n); }
+    dirty(); toast(T("Timezone set to {tz}", { tz: n }), "info");
+  });
+}
+function renderTime(s) {
+  var tm = s.time;
+  $("tmbody").hidden = !tm; $("tmold").hidden = !!tm;
+  if (!tm) return;
+  $("tm-local").textContent = tm.synced ? tm.local : T("Clock not set");
+  // the timezone is in the field below; the clock's source is not shown
+  $("tm-info").hidden = !!tm.synced;
+  $("tm-info").textContent = tm.synced ? "" : T("Clock not set. It needs internet access (NTP); the time of this browser is used once.");
+  $("tmsync").disabled = !online || !(s.wifi && s.wifi.connected);
+  var ls = tm.last_sync_s;
+  $("tm-last").hidden = ls === undefined;
+  if (ls !== undefined) $("tm-last").textContent = ls < 0 ? T("Last internet time check: none since the controller started") : T("Last internet time check: {when}", { when: rel(ls * 1000) });
+  if (!tm.synced && !timeSent) { timeSent = true; post("/api/time", { epoch: Math.floor(Date.now() / 1000) }); }
+  var q = $("quietst");
+  if (q) {
+    var on = fi.quiet_on && fi.quiet_on.inp.checked;
+    q.textContent = !on ? "" : !tm.synced ? T("Warning: the clock is not set, so quiet hours are not applied.") : tm.quiet ? T("Quiet now.") : T("Not quiet now.");
+    q.className = "sm " + (on && !tm.synced ? "bad" : "mu");
+  }
+}
+
+/* ---------- IP settings ---------- */
+var net = null, netMissing = false, netBase = null, NF = [["ip", N("IP address")], ["mask", N("Subnet mask")], ["gw", N("Gateway")], ["dns1", N("DNS 1 (optional)")], ["dns2", N("DNS 2 (optional)")]];
+NF.forEach(function (f) {
+  var l = tt(el("label"), f[1]), i = el("input"), e = el("div", "sm bad");
+  l.htmlFor = i.id = "ip_" + f[0]; l.style.cssText = "display:block;margin:10px 0 6px;font-weight:600";   // room for the focus outline
+  i.type = "text"; i.autocomplete = "off"; i.inputMode = "decimal"; i.autocapitalize = "none"; i.spellcheck = false; i.maxLength = 15; i.style.width = "200px";   // as the hostname field; fits 255.255.255.255
+  e.id = "ipe_" + f[0]; e.hidden = true;
+  i.addEventListener("input", function () { e.hidden = true; netDirty(); });
+  $("ipfix").append(l, i, e);
+});
+function ipNum(t) {
+  var m = /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/.exec(t), n = 0;
+  if (!m) return null;
+  for (var i = 1; i < 5; i++) { if (+m[i] > 255) return null; n = n * 256 + +m[i]; }
+  return n;
+}
+function netVals() {
+  var v = { dhcp: $("ipmode").value === "dhcp" };
+  NF.forEach(function (f) { v[f[0]] = $("ip_" + f[0]).value.trim(); });
+  return v;
+}
+function netDirty() {
+  var v = netVals(), b = netBase, d = !b || v.dhcp !== b.dhcp || (!v.dhcp && NF.some(function (f) { return v[f[0]] !== b[f[0]]; }));
+  $("ipsave").disabled = !d || !online; $("ipun").hidden = !d;
+}
+function netCheck(v) {
+  var ok = true;
+  function bad(k, m) { var e = $("ipe_" + k); e.textContent = m; e.hidden = false; ok = false; }
+  NF.forEach(function (f) { $("ipe_" + f[0]).hidden = true; });
+  if (v.dhcp) return true;
+  var ip = ipNum(v.ip), mk = ipNum(v.mask), gw = ipNum(v.gw);
+  if (ip === null) bad("ip", T("Enter an IPv4 address like 192.168.1.50."));
+  if (mk === null) bad("mask", T("Enter a subnet mask like 255.255.255.0."));
+  else if (!/^1{8,30}0+$/.test(("0000000000000000000000000000000" + mk.toString(2)).slice(-32))) bad("mask", T("Not a valid subnet mask. Use a prefix from /8 to /30, like 255.255.255.0."));
+  if (gw === null) bad("gw", T("Enter the gateway address, usually your router."));
+  if (ok) {
+    var nw = (ip & mk) >>> 0, bc = (nw | ~mk) >>> 0;
+    if (ip >>> 0 === nw) bad("ip", T("This is the network address, not a device address."));
+    else if (ip >>> 0 === bc) bad("ip", T("This is the broadcast address, not a device address."));
+    if ((gw & mk) >>> 0 !== nw) bad("gw", T("The gateway must be in the same subnet as the IP address."));
+    else if (gw >>> 0 === nw || gw >>> 0 === bc) bad("gw", T("The gateway must be a device address, not the network or broadcast address."));
+    else if (gw === ip) bad("gw", T("The gateway must differ from the IP address."));
+  }
+  ["dns1", "dns2"].forEach(function (k) { if (v[k] && ipNum(v[k]) === null) bad(k, T("Enter an IPv4 address or leave empty.")); });
+  return ok;
+}
+function netFill(j) {
+  $("ipmode").value = j.dhcp ? "dhcp" : "fixed"; ipShow(!j.dhcp);
+  NF.forEach(function (f) { $("ip_" + f[0]).value = j[f[0]] || ""; });
+}
+function loadNet() {
+  api("GET", "/api/net", null, 5000).then(function (j) {
+    if (j._s === 404) { netMissing = true; $("ipbody").hidden = true; $("ipold").hidden = false; return; }
+    if (j.dhcp === undefined) return;
+    var edited = netBase && !$("ipsave").disabled;
+    net = j; netBase = { dhcp: j.dhcp }; NF.forEach(function (f) { netBase[f[0]] = j[f[0]] || ""; });
+    if (!edited) netFill(j);
+    var c = j.cur || {};
+    $("n-mask").textContent = c.ip && c.mask || "-";
+    $("n-gw").textContent = c.ip && c.gw || "-";
+    $("n-dns1").textContent = c.ip && c.dns1 || "-";
+    $("n-dns2").textContent = c.dns2 || "-";
+    $("n-dns2").hidden = $("n-dns2").previousElementSibling.hidden = !(c.ip && c.dns2);
+    netDirty();
+  }).then(null, function () {});
+}
+/* the Manual fields slide open */
+function ipShow(f) { $("ipfixw").classList.toggle("open", f); }
+$("ipmode").onchange = function () {
+  var f = this.value === "fixed";
+  ipShow(f);
+  if (f && net && net.cur) NF.forEach(function (x) { var i = $("ip_" + x[0]); if (!i.value && net.cur[x[0]]) i.value = net.cur[x[0]]; });
+  netDirty();
+};
+$("ipsave").onclick = function () {
+  var v = netVals();
+  if (!netCheck(v)) { toast(T(BAD), "err"); return; }
+  var host = (S && S.wifi && /^[a-z0-9-]+$/.test(S.wifi.hostname || "")) ? S.wifi.hostname : "";
+  trig = this;
+  pend = { kind: "net", v: "net", phase: "net", body: v.dhcp ? { dhcp: true } : { dhcp: false, ip: v.ip, mask: v.mask, gw: v.gw, dns1: v.dns1, dns2: v.dns2 }, ip: v.dhcp ? "" : v.ip, host: host };
+  var where = [];
+  if (!v.dhcp) where.push("http://" + v.ip + "/");
+  where.push(host ? "http://" + host + ".local" : T("the controller’s new address"));
+  modal(T("Change the IP settings?"),
+    [v.dhcp ? T("The controller will reconnect to WiFi with an automatic address. This page may stop responding. The BC-250\u2019s power state is unaffected.") : T("The controller will reconnect to WiFi with the address {ip}. This page may stop responding. The BC-250\u2019s power state is unaffected.", { ip: v.ip }),
+     T("Afterwards open {address}.", { address: where.length > 1 ? T("{a} or {b}", { a: where[0], b: where[1] }) : where[0] }),
+     T("If it cannot be reached, the BC250-Setup network starts after about 30 s.")],
+    T("Save and reconnect"), T("Cancel"));
+  controls();
+};
+function netDone(p) {
+  netBase = { dhcp: !p.ip }; NF.forEach(function (f) { netBase[f[0]] = p.body[f[0]] || ""; }); netDirty();
+  var n = $("ipnote"), msg = T("Saved. The controller is reconnecting; this page will lose contact. Open {address}.").split("{address}");
+  n.hidden = false; n.replaceChildren(document.createTextNode(msg[0]));
+  function link(h) { var a = el("a", "", h); a.href = h; return a; }
+  if (p.ip) n.append(link("http://" + p.ip + "/"), document.createTextNode(p.host ? " " + T("or") + " " : "")); 
+  if (p.host) n.append(link("http://" + p.host + ".local/"));
+  if (!p.ip && !p.host) n.append(document.createTextNode(T("the controller’s new address (see your router)")));
+  n.append(document.createTextNode(msg.slice(1).join("{address}")));
+}
+
+/* ---------- hostname ---------- */
+function hnVal() { return $("hn").value.trim().toLowerCase(); }
+function hnUpd() {
+  $("hnaddr").textContent = "http://" + (hnVal() || "...") + ".local";
+  $("hnsave").disabled = !cfg || !online || hnVal() === cfg.hostname;
+}
+$("hn").addEventListener("input", function () { $("hnerr").textContent = ""; hnUpd(); });
+$("hnsave").onclick = function () {
+  var v = hnVal();
+  if (!/^[a-z0-9-]{1,31}$/.test(v)) { $("hnerr").textContent = T("Use 1 to 31 characters: a-z, 0-9 and -."); toast(T(BAD), "err"); return; }
+  $("hnsave").disabled = true;
+  post("/api/config", { hostname: v }).then(function (j) {
+    if (j.ok) { cfg.hostname = v; $("hn").value = v; $("hnerr").textContent = ""; toast(T("Saved. The hostname applies after a restart.")); }
+    else toast(j.error || T("Not saved"), "err");
+    hnUpd();
+  });
+};
+
+/* ---------- network ---------- */
+$("forget").onclick = function () {
+  ask($("fconf"), T("Clears the saved WiFi login. The controller drops off this network and starts the BC250-Setup access point; you will need to join it to set up WiFi again."), function () {
+    post("/api/wifi/forget").then(function (j) {
+      if (j.ok) toast(T("Network forgotten. Join the BC250-Setup WiFi to set it up again."));
+      else toast(j.error || T("Could not forget the network"), "err");
+    });
+  });
+};
+
+/* ---------- firmware ---------- */
+/* firmware file: read locally, show what it is, install only on request */
+var fsel = null, fid = 0;
+var MK = "@@" + "BC" + "250" + "FW|";   /* built at run time: this page is embedded in every image */
+function parseMk(t) {
+  if (typeof t !== "string" || t.indexOf(MK) !== 0) return null;
+  var m = /^([0-9]+\.[0-9]+\.[0-9]+)(?:-[a-z0-9]+)?\|(\d{4})-(\d\d)-(\d\d) (\d\d):(\d\d):(\d\d)\|@@/.exec(t.slice(MK.length));
+  if (!m || m[2] < 2020 || m[2] > 2099 || m[3] < 1 || m[3] > 12 || m[4] < 1 || m[4] > 31 || m[5] > 23 || m[6] > 59 || m[7] > 59) return null;
+  return { ver: m[1], build: m[2] + "-" + m[3] + "-" + m[4] + " " + m[5] + ":" + m[6] + ":" + m[7] };
+}
+function findMk(u8) {
+  var n = MK.length, i = u8.indexOf(64), k, m;
+  while (i >= 0 && i + n < u8.length) {
+    for (k = 1; k < n; k++) if (u8[i + k] !== MK.charCodeAt(k)) break;
+    if (k === n && (m = parseMk(String.fromCharCode.apply(null, u8.subarray(i, i + 96))))) return m;
+    i = u8.indexOf(64, i + 1);
+  }
+  return null;
+}
+function cmpVer(a, b) {
+  a = a.split("."); b = b.split(".");
+  for (var i = 0; i < 3; i++) { var d = (parseInt(a[i], 10) || 0) - (parseInt(b[i], 10) || 0); if (d) return d; }
+  return 0;
+}
+function readFile(f) {
+  if (f.arrayBuffer) return f.arrayBuffer();
+  return new Promise(function (res, rej) { var r = new FileReader(); r.onload = function () { res(r.result); }; r.onerror = function () { rej(r.error); }; r.readAsArrayBuffer(f); });
+}
+function clearFile() {
+  fid++; fsel = null; $("fpanel").hidden = true; $("anyway").checked = false;
+  try { $("file").value = ""; } catch (e) {}
+  controls();
+}
+function pickFile(f) {
+  if (!f || paused || pend) return;
+  var id = ++fid;
+  fsel = { busy: true }; $("anyway").checked = false;
+  $("fpanel").hidden = false; $("fchecks").replaceChildren(); $("fany").hidden = true;
+  $("fname").textContent = T("Reading {name}\u2026", { name: f.name });
+  controls();
+  readFile(f).then(function (buf) {
+    if (id === fid) analyze(f, new Uint8Array(buf));
+  }, function () {
+    if (id !== fid) return;
+    clearFile(); toast(T("Could not read the file"), "err");
+  });
+}
+function analyze(f, u8) {
+  var slot = (info && info.app_slot) || MAXFW, r = { file: f, blocked: "", noMarker: false, ver: "" }, c = [];
+  function add(st, t) { c.push([st, t]); if (st === "err" && !r.blocked) r.blocked = t; }
+  if (!u8.length) add("err", T("The file is empty."));
+  else {
+    add(u8[0] === 0xE9 ? "ok" : "err", u8[0] === 0xE9 ? T("Valid ESP firmware image.") : T("Not an ESP firmware image (the first byte is not 0xE9)."));
+    var chip = u8.length >= 14 ? u8[12] | u8[13] << 8 : -1;
+    add(chip === 5 ? "ok" : "err", chip === 5 ? T("Built for the ESP32-C3.") : T("Not built for the ESP32-C3 (chip id {id}).", { id: chip }));
+  }
+  var pct = Math.round(u8.length / slot * 100);
+  add(u8.length <= slot ? "ok" : "err", u8.length <= slot ? T("Fits the update slot ({pct} % of {size}).", { pct: pct, size: fmtB(slot) }) : T("Too large for the update slot ({size} of {slot}).", { size: fmtB(u8.length), slot: fmtB(slot) }));
+  var mk = u8.length ? findMk(u8) : null, inst = (info && info.fw) || (S && S.fw);
+  if (mk) {
+    r.ver = mk.ver;
+    add("ok", T("BC-250 controller firmware, version {ver}, built {build}.", { ver: mk.ver, build: mk.build }));
+    if (inst) {
+      var d = cmpVer(mk.ver, inst), im = info && parseMk(info.marker);
+      if (d > 0) add("ok", T("Newer than the installed version ({installed} \u2192 {new}).", { installed: inst, "new": mk.ver }));
+      else if (d < 0) add("warn", T("Older than the installed version ({installed} \u2192 {new}).", { installed: inst, "new": mk.ver }));
+      else add("i", T("Same version as installed ({ver}).", { ver: inst }) + (im ? " " + (im.build === mk.build ? T("Same build time.") : T("This file was built {file}; the installed one {installed}.", { file: mk.build, installed: im.build })) : ""));
+    }
+  } else if (u8.length) { r.noMarker = true; add("warn", T("This file does not identify itself as BC-250 controller firmware.")); }
+  fsel = r;
+  $("fname").textContent = f.name + " \u00b7 " + fmtB(u8.length);
+  var ul = $("fchecks"), W = { ok: N("OK"), warn: N("Warning"), err: N("Error"), i: N("Note") };
+  ul.replaceChildren.apply(ul, c.map(function (x) {
+    var li = el("li"); li.append(el("span", "mk " + x[0], T(W[x[0]])), el("span", "", x[1])); return li;
+  }));
+  $("fany").hidden = !r.noMarker || !!r.blocked;
+  controls();
+}
+$("file").onchange = function () { pickFile(this.files[0]); };
+$("fclear").onclick = clearFile;
+$("anyway").onchange = controls;
+(function () {
+  var c = $("fw");
+  c.addEventListener("dragover", function (e) { e.preventDefault(); c.classList.add("drag"); });
+  c.addEventListener("dragleave", function () { c.classList.remove("drag"); });
+  c.addEventListener("drop", function (e) { e.preventDefault(); c.classList.remove("drag"); if (e.dataTransfer && e.dataTransfer.files[0]) pickFile(e.dataTransfer.files[0]); });
+})();
+function waitBack(note) {
+  paused = true; controls();
+  if (pend && pend.hold) try { sessionStorage.setItem("bc250_keepon", "1"); } catch (e) {}
+  busy(note || T("Restarting\u2026 waiting for the controller to come back."), true);
+  var t0 = Date.now();
+  function again() {
+    if (Date.now() - t0 > 90000) { busy(""); paused = false; if (pend) flowEnd(T("The controller did not come back within 90 s.")); else toast(T("The controller did not come back within 90 s. Reload the page when it is up."), "err"); schedule(1000); controls(); }
+    else setTimeout(poll, 1000);
+  }
+  // The controller restarts 0.5 s after its answer (later while the power
+  // state settles) and is back about 2 s after that. Until it restarts it
+  // still answers, logged in: only another answer or one with an uptime
+  // shorter than the wait is the new start.
+  function poll() {
+    var ac = new AbortController(), to = setTimeout(function () { ac.abort(); }, 3000);
+    fetch("/api/state", { cache: "no-store", signal: ac.signal }).then(function (r) {
+      clearTimeout(to);
+      if (r.status !== 200) return true;
+      return r.json().then(function (j) { return !(j && j.uptime_s >= (Date.now() - t0) / 1000); }, function () { return true; });
+    }).then(function (back) {
+      if (!back) return again();
+      busy(T("Back online. Reloading\u2026"), true);
+      setTimeout(function () { location.reload(); }, 800);
+    }, function () { clearTimeout(to); again(); });
+  }
+  setTimeout(poll, 1500);
+}
+function fileOk(f) {
+  if (!f) return false;
+  var slot = (info && info.app_slot) || MAXFW;
+  if (f.size > slot) { toast(T("This file is larger than the update slot ({size})", { size: fmtB(slot) }), "err"); return false; }
+  return true;
+}
+function doUpload(f) {
+  paused = true; controls();
+  var x = new XMLHttpRequest(), fd = new FormData(), sent = false, ver = fsel && fsel.ver;
+  fd.append("firmware", f, f.name);
+  busy(T("Updating the controller\u2026"));
+  $("upbar").hidden = false; $("upfill").style.width = "0";
+  say("upmsg", T("Uploading\u2026 {p}%", { p: 0 }));
+  x.open("POST", "/api/update");
+  x.timeout = 300000;
+  x.upload.onprogress = function (e) {
+    if (!e.lengthComputable) return;
+    var p = Math.round(e.loaded / e.total * 100);
+    $("upfill").style.width = p + "%";
+    say("upmsg", T("Uploading\u2026 {p}%", { p: p }));
+    if (e.loaded >= e.total) sent = true;
+  };
+  function fail(m) { busy(""); paused = false; $("upbar").hidden = true; say("upmsg", ""); if (pend) flowEnd(m); else toast(m, "err"); schedule(500); controls(); }
+  x.onload = function () {
+    var j = {};
+    try { j = JSON.parse(x.responseText); } catch (e) {}
+    if (x.status >= 200 && x.status < 300 && j.ok !== false) { $("upfill").style.width = "100%"; try { sessionStorage.setItem("bc250_expect", ver || ""); } catch (e) {} waitBack(T("Update installed. Restarting\u2026")); }
+    else { if (x.status === 401) gate("login"); fail(T("Update refused: {reason}", { reason: TE(j.error) || "HTTP " + x.status })); }
+  };
+  x.onerror = x.ontimeout = function () {
+    if (sent) { try { sessionStorage.setItem("bc250_expect", ver || ""); } catch (e) {} waitBack(T("Upload finished, the controller is restarting\u2026")); }
+    else fail(T("Upload failed: connection lost. Nothing was installed."));
+  };
+  x.send(fd);
+}
+function doRestart() {
+  busy(T("Restarting the controller\u2026"));
+  post("/api/restart").then(function (j) {
+    if (j.ok) waitBack(T("Restarting\u2026 waiting for the controller to come back."));
+    else { busy(""); var m = T("Restart refused: {reason}", { reason: j.error || T("unknown error") }); if (pend) flowEnd(m); else toast(m, "err"); }
+  });
+}
+
+/* ---------- guided "shut down first" flow ---------- */
+function modal(title, lines, go, cancel) {
+  $("mt").textContent = title;
+  var b = $("mb"); b.replaceChildren.apply(b, lines.map(function (t) { return el("p", "", t); }));
+  $("mgo").hidden = !go; if (go) $("mgo").textContent = go;
+  $("mcancel").hidden = !cancel; if (cancel) $("mcancel").textContent = cancel;
+  if ($("modal").hidden) { $("modal").hidden = false; $("app").inert = true; }
+  (go ? $("mgo") : cancel ? $("mcancel") : $("mbox")).focus();
+}
+function pendUi() {
+  var run = pend && pend.phase === "run", s = "";
+  if (pend && pend.phase === "wait") s = pend.kind === "update" ? T("Pending: update after the BC-250 shuts down") : T("Pending: restart after the BC-250 shuts down");
+  else if (busyMsg) s = busyMsg + (run && pend.hold ? " " + T("The BC-250\u2019s power state is unaffected.") : "");
+  else if (run) s = pend.kind === "update" ? (pend.hold ? T("Updating the controller. The BC-250\u2019s power state is unaffected.") : T("Updating the controller\u2026"))
+    : (pend.hold ? T("Restarting the controller. The BC-250\u2019s power state is unaffected.") : T("Restarting the controller\u2026"));
+  $("pend").textContent = s; $("pend").hidden = !s;
+}
+function closeModal() {
+  pend = null; pendUi();
+  $("modal").hidden = true; $("app").inert = false;
+  controls();
+  if (trig && !trig.disabled && !$("app").hidden) trig.focus();
+}
+function flowEnd(msg) {
+  if (!pend) return;
+  pend.phase = "fail"; pendUi(); paused = false;
+  modal(T("Not done"), [msg], null, T("Close")); controls();
+}
+function openFlow(kind, btn) {
+  if (pend || !S) return;
+  var st = S.state, f = fsel && fsel.file;
+  if (kind === "update" && (!f || !fileOk(f))) return;
+  if (st === "off") {
+    if (kind === "update") doUpload(f);
+    else ask($("rconf"), T("The page reloads when the controller is back."), doRestart);
+    return;
+  }
+  if (st !== "on") return;
+  var v = kind === "update" ? "update" : "restart";
+  trig = btn;
+  pend = { kind: kind, v: v, past: kind === "update" ? "updated" : "restarted", phase: "ask", file: f, saw: false, t0: 0, hold: S.hold === true };
+  askModal();
+  controls();
+}
+function askModal() {
+  var p = pend, up = p.kind === "update";
+  if (p.hold) {
+    p.phase = "hold";
+    modal(up ? (fsel.ver ? T("Install {version}?", { version: fsel.ver }) : T("Install the update?")) : T("Restart the controller?"),
+      [T("The BC-250\u2019s power state is unaffected."), T("The front button and this page do not respond for a few seconds while the controller restarts (longer after an update).")],
+      up ? T("Install") : T("Restart"), T("Cancel"));
+  } else {
+    p.phase = "ask";
+    modal(up ? T("The controller cannot update while the BC-250 is running") : T("The controller cannot restart while the BC-250 is running"),
+      [T("That would cut power to the running BC-250."),
+       up ? (fsel.ver ? T("The BC-250 will be shut down cleanly first, then the controller will install version {version} and restart.", { version: fsel.ver }) : T("The BC-250 will be shut down cleanly first, then the controller will install the selected file and restart.")) : T("The BC-250 will be shut down cleanly first, then the controller will restart.")],
+      up ? T("Shut down and update") : T("Shut down and restart"), T("Cancel"));
+  }
+}
+$("mgo").onclick = function () {
+  var p = pend;
+  if (p && p.phase === "net") {
+    var body = p.body; closeModal();
+    post("/api/net", body).then(function (j) {
+      if (j.ok) { netDone({ body: body, ip: p.ip, host: p.host }); }
+      else toast(j.error || T("Not saved"), "err");
+    });
+    return;
+  }
+  if (p && p.phase === "hold") {
+    p.phase = "run"; pendUi();
+    modal(p.kind === "update" ? T("Updating") : T("Restarting"), [p.kind === "update" ? T("Uploading\u2026 {p}%", { p: 0 }) : T("Restarting the controller\u2026")], null, null);
+    if (p.kind === "update") doUpload(p.file); else doRestart();
+    controls(); return;
+  }
+  if (!p || p.phase !== "ask") return;
+  p.phase = "wait"; p.t0 = Date.now(); pendUi();
+  var upd = p.kind === "update";
+  modal(T("Waiting for the BC-250 to shut down"),
+    [T("Waiting for the BC-250 to shut down\u2026"), upd ? T("Keep this page open: if you close or reload it, nothing will be updated.") : T("Keep this page open: if you close or reload it, nothing will be restarted."),
+     upd ? T("Cancel only abandons the update. It does not stop the shutdown already requested from the BC-250.") : T("Cancel only abandons the restart. It does not stop the shutdown already requested from the BC-250.")], null, T("Cancel"));
+  post("/api/power", { action: "shutdown" }).then(function (j) {
+    if (pend !== p) return;
+    if (!j.ok) flowEnd(upd ? T("The shutdown request was refused: {reason}. Nothing was updated.", { reason: j.error || T("unknown error") }) : T("The shutdown request was refused: {reason}. Nothing was restarted.", { reason: j.error || T("unknown error") }));
+    else flowTick();
+  });
+};
+$("mcancel").onclick = function () {
+  if (pend && pend.phase === "wait") toast(T("Cancelled. The shutdown already requested is still in progress."), "info");
+  closeModal();
+};
+/* called after every /api/state poll */
+function flowTick() {
+  var p = pend;
+  if (!p || p.phase !== "wait" || !S) return;
+  var st = S.state, sec = Math.round((Date.now() - p.t0) / 1000);
+  $("mb").firstChild.textContent = (online ? T("Waiting for the BC-250 to shut down\u2026 {sec} s (state: {state})", { sec: sec, state: T(STN[st] || st) }) : T("Connection lost, reconnecting\u2026 {sec} s (state: {state})", { sec: sec, state: T(STN[st] || st) }));
+  if (st === "shutting_down") p.saw = true;
+  if (st === "off") {
+    p.phase = "run";
+    if (p.kind === "restart") { modal(T("Restarting"), [T("Restarting the controller\u2026")], null, null); doRestart(); }
+    else { modal(T("Updating"), [T("Uploading\u2026 {p}%", { p: 0 })], null, null); doUpload(p.file); }
+    controls();
+  } else if (st === "on" && (p.saw || sec > 15)) flowEnd(p.kind === "update" ? T("The BC-250 did not shut down. Nothing was updated.") : T("The BC-250 did not shut down. Nothing was restarted."));
+}
+$("upbtn").onclick = function () { openFlow("update", this); };
+$("restart").onclick = function () { openFlow("restart", this); };
+var frDone = false;
+/* settings back to their defaults */
+$("crbtn").onclick = function () {
+  ask($("crask"), T("Reset all settings to their defaults?"), function () {
+    $("crbtn").disabled = true;
+    post("/api/config/reset", {}).then(function (j) {
+      $("crbtn").disabled = !online;
+      if (!j.ok) { toast(j.error || T("Could not reset the settings"), "err"); return; }
+      if (cfg) for (var k in fi) if (k in cfg) setVal(fi[k], cfg[k]);   // drop unsaved edits, then load the defaults
+      toast(T("Settings reset to defaults"));
+      loadCfg();
+    });
+  });
+};
+$("frbtn").onclick = function () {
+  ask($("frask"), T("Erase everything and restart? Then join the WiFi network BC250-Setup (password bc250setup) and open http://192.168.4.1."), function () {
+    $("frbtn").disabled = true;
+    post("/api/factory_reset", { confirm: true }).then(function (j) {
+      if (!j.ok) { note("frmsg", ""); toast(T("Factory reset refused: {reason}", { reason: j.error || T("error") }), "err"); controls(); return; }
+      frDone = true;
+      note("frmsg", T("Erased. The controller is restarting in setup mode: join BC250-Setup (password bc250setup) and open http://192.168.4.1. This page will not reconnect."));
+    });
+  });
+};
+document.addEventListener("keydown", function (e) {
+  if ($("modal").hidden) return;
+  if (e.key === "Escape" && pend && pend.phase !== "run") { e.stopImmediatePropagation(); $("mcancel").click(); }
+  if (e.key === "Tab") {
+    var b = [$("mgo"), $("mcancel")].filter(function (x) { return !x.hidden; });
+    if (!b.length) { e.preventDefault(); return; }
+    var i = b.indexOf(document.activeElement);
+    if (e.shiftKey ? i <= 0 : i === b.length - 1) { e.preventDefault(); b[e.shiftKey ? b.length - 1 : 0].focus(); }
+  }
+}, true);
+
+/* ---------- log ---------- */
+function loadLog() {
+  return api("GET", "/api/log", null, 4000).then(function (j) {
+    lastLog = Date.now();
+    var ev = j.events || [], now = j.now;
+    $("logempty").hidden = ev.length > 0;
+    var ul = $("log");
+    ul.replaceChildren.apply(ul, ev.map(function (e) {
+      var li = el("li"), t = el("time", "", rel(now - e.t));
+      li.append(t, el("span", "", e.msg));
+      return li;
+    }));
+  });
+}
+
+/* ---------- debug ---------- */
+function setDebug(m) {
+  dbgBusy = true;
+  post("/api/debug", { sense: m }).then(function (j) {
+    dbgBusy = false;
+    if (!j.ok) toast(j.error || T("Could not change debug mode"), "err");
+    else if (m === "real") toast(T("LED sense: {mode}", { mode: T(DL[m]) }));   // a spoof mode shows the yellow bar instead
+    schedule(100);
+  });
+}
+$("dbgsel").onchange = function () { $("dbgdesc").textContent = T(DD[this.value]); setDebug(this.value); };
+$("dbgback").onclick = function () { $("dbgsel").value = "real"; setDebug("real"); };
+
+/* ---------- password gate ---------- */
+var lockT = 0, lockLeft = 0;
+function eye(b, i) { b.onclick = function () { var s = i.type === "password"; i.type = s ? "text" : "password"; b.textContent = s ? T("Hide") : T("Show"); }; }
+eye($("geye"), $("gp"));
+function gate(mode) {
+  if (gated && !$("glog").hidden === (mode === "login")) return;
+  if (pend) { pendNote = pend.kind === "update" ? T("Login was lost. The pending update was cancelled.") : T("Login was lost. The pending restart was cancelled."); closeModal(); }
+  gated = true; $("gate").hidden = false; $("app").hidden = true; closeDrawer();
+  $("gset").hidden = mode !== "set"; $("glog").hidden = mode !== "login";
+  $("gh").textContent = mode === "set" ? T("Set a password") : T("Log in");
+  ["gn1", "gn2", "gp"].forEach(function (i) { $(i).value = ""; });
+  $("gserr").textContent = $("glerr").textContent = "";
+  if (mode === "login") { $("gp").focus(); api("GET", "/api/auth", null, 4000).then(function (a) { if (a.locked_s > 0) lock(a.locked_s); }, function () {}); }
+}
+function ungate() {
+  if (pendNote) { toast(pendNote, "err"); pendNote = ""; }
+  gated = false; started = true; dashInfo = false; $("gate").hidden = true; $("app").hidden = false; clearInterval(lockT); lockLeft = 0;
+  cfg = null; enter();
+}
+function lock(n) {
+  lockLeft = n; clearInterval(lockT);
+  function upd() {
+    $("glbtn").disabled = lockLeft > 0;
+    $("glerr").textContent = lockLeft > 0 ? T("Too many wrong attempts. Try again in {n} s.", { n: lockLeft }) : "";
+    if (lockLeft <= 0) clearInterval(lockT); else lockLeft--;
+  }
+  upd(); lockT = setInterval(upd, 1000);
+}
+function doLogin(pw) {
+  return post("/api/login", { password: pw }).then(function (j) {
+    if (j.ok) { ungate(); return true; }
+    if (j._s === 429) lock(j.locked_s || 30);
+    else $("glerr").textContent = j._s === 401 ? T("Wrong password.") : j.error || T("Login failed.");
+    return false;
+  });
+}
+$("glog").onsubmit = function (e) {
+  e.preventDefault();
+  if (lockLeft > 0 || !$("gp").value) return;
+  doLogin($("gp").value);
+};
+function pwCheck(a, b) { return a.length < 8 || a.length > 64 ? T("Use 8 to 64 characters.") : a !== b ? T("The two passwords do not match.") : ""; }
+$("gset").onsubmit = function (e) {
+  e.preventDefault();
+  var n = $("gn1").value, m = pwCheck(n, $("gn2").value);
+  if (m) { $("gserr").textContent = m; return; }
+  post("/api/auth/password", { "new": n }).then(function (j) {
+    if (!j.ok) { $("gserr").textContent = j.error || T("Could not set the password."); return; }
+    doLogin(n).then(function (ok) { if (ok) toast(T("Password set")); else gate("login"); });
+  });
+};
+$("secform").onsubmit = function (e) {
+  e.preventDefault();
+  var o = $("so").value, n = $("s1").value, m = pwCheck(n, $("s2").value);
+  $("secerr").textContent = m;
+  if (m) { toast(T(BAD), "err"); return; }
+  post("/api/auth/password", { old: o, "new": n }).then(function (j) {
+    if (j.ok) { $("secform").reset(); toast(T("Password changed. Other sessions were logged out.")); }
+    else toast(j.error || T("Could not change the password"), "err");
+  });
+};
+$("logout").onclick = $("sidelogout").onclick = function () { post("/api/logout").then(function () { gate("login"); toast(T("Logged out"), "info"); }); };
+
+/* ---------- start ---------- */
+function boot() {
+  api("GET", "/api/auth", null, 4000).then(function (a) {
+    setOnline(true);
+    if (!a.password_set) gate("set");
+    else if (!a.authed) gate("login");
+    else { started = true; enter(); }
+  }, function () { setOnline(false); setTimeout(boot, 2500); });
+}
+/* ---------- OS updates (spec section 26) ---------- */
+var OS = null, osBase = null, lastOs = 0, osBusy = false, osMissing = false, osEn = null;
+var OSJ = { idle: N("Idle"), starting: N("Starting the BC-250"), waiting: N("Waiting for the BC-250"), updating: N("Updating"), rebooting: N("Restarting the BC-250"), shutting_down: N("Shutting the BC-250 down") };
+var OSK = { night: N("automatic"), manual: N("manual"), test: N("connection test") };
+var OSR = { ok: N("Succeeded"), failed: N("Failed"), skipped: N("Skipped"), stopped: N("Stopped") };
+var OSN = [[1, N("Mon")], [2, N("Tue")], [3, N("Wed")], [4, N("Thu")], [5, N("Fri")], [6, N("Sat")], [0, N("Sun")]];
+function osJob() { return !!(OS && OS.job && OS.job.state !== "idle"); }
+OSN.forEach(function (d) {
+  var l = el("label", "tag"), c = el("input");
+  c.type = "checkbox"; c.id = "osu-d" + d[0];
+  l.append(c, tt(el("span"), d[1])); $("osu-days").append(l);
+});
+function osVals() {
+  var p = $("osu-from").value.split(":"), d = 0, i, n = function (id) { return $(id).value === "" ? NaN : +$(id).value; };
+  for (i = 0; i < 7; i++) if ($("osu-d" + i).checked) d |= 1 << i;
+  return { host: $("osu-host").value.trim(), port: n("osu-port"), user: $("osu-user").value.trim(), from: p.length < 2 ? NaN : +p[0] * 60 + +p[1], len: n("osu-len"), days: d, after: $("osu-after").value };
+}
+function osSet(j) {
+  var i;
+  $("osu-host").value = j.host; $("osu-port").value = j.port; $("osu-user").value = j.user;
+  $("osu-from").value = hm(j.from); $("osu-len").value = j.len; $("osu-after").value = j.after;
+  for (i = 0; i < 7; i++) $("osu-d" + i).checked = !!(j.days >> i & 1);
+  osBase = osVals(); osDirty();
+}
+function osChanged() {
+  var v = osVals(), o = {}, k;
+  if (osBase) for (k in v) if (v[k] !== osBase[k] && !(v[k] !== v[k] && osBase[k] !== osBase[k])) o[k] = v[k];
+  return o;
+}
+function osDirty() {
+  var n = Object.keys(osChanged()).length;
+  $("osu-save").disabled = !n || !online || osJob(); $("osu-uns").hidden = !n; $("mark-osupdate").hidden = !n;
+}
+function osCheck(o) {
+  var m = "";
+  if ("host" in o && !(o.host.length >= 1 && o.host.length <= 63)) m = T("Enter the BC-250’s address (1 to 63 characters).");
+  else if ("port" in o && !(o.port >= 1 && o.port <= 65535)) m = T("Port: 1 to 65535.");
+  else if ("user" in o && !(o.user.length >= 1 && o.user.length <= 32)) m = T("Enter the user name (1 to 32 characters).");
+  else if ("from" in o && o.from !== o.from) m = T("Enter a time.");
+  else if ("len" in o && !(o.len >= 15 && o.len <= 120)) m = T("Length: 15 to 120 minutes.");
+  else if ("days" in o && !o.days) m = T("Choose at least one day.");
+  $("osu-err").textContent = m;
+  return !m;
+}
+function osShow(j) {
+  var l = j.last, s = j.job && j.job.state || "idle", jt;
+  OS = j;
+  $("osu-en").checked = !!j.enabled; $("osu-en").disabled = !online;
+  if (osEn !== j.enabled + "" + j.linked) { osEn = j.enabled + "" + j.linked; vis(); }
+  if (!j.enabled) return;
+  if (JSON.stringify(osVals()) === JSON.stringify(osBase) || !osBase) osSet(j);
+  jt = [T(OSJ[s] || s)];
+  if (s !== "idle") { if (OSK[j.job.kind]) jt.push(T(OSK[j.job.kind])); if (j.job.since_s > 0) jt.push(fmtUp(j.job.since_s | 0)); }
+  kv("osu-job", jt.join(", "));
+  kv("osu-next", j.next || (j.clock ? T("None") : "-"));
+  kv("osu-link", j.linked ? T("Linked: the controller can log in") : T("Not set up yet"));
+  $("osu-clk").hidden = j.clock !== false;
+  $("osu-nolast").hidden = !!l; $("osu-last").hidden = !l;
+  if (l) {
+    kv("osu-l-at", l.at);
+    kv("osu-l-res", T(OSR[l.result] || l.result) + (OSK[l.kind] ? " (" + T(OSK[l.kind]) + ")" : ""));
+    kv("osu-l-err", l.error ? TE(l.error) : null);
+    kv("osu-l-dur", fmtUp(l.duration_s | 0));
+    kv("osu-l-rb", l.result === "ok" ? (l.reboot_needed ? T("Yes, to finish the update") : T("No")) : null);
+    kv("osu-l-end", l.end === "off" ? T("Off") : l.end === "on" ? T("On") : null);
+    var o = $("osu-out"), tx = l.tail || "";
+    $("osu-outd").hidden = !tx;
+    if (o.textContent !== tx) { o.textContent = tx; o.scrollTop = o.scrollHeight; }
+  } else $("osu-outd").hidden = true;
+  $("osu-run").disabled = osJob() || !online; $("osu-stop").hidden = !osJob();
+  $("osu-test").disabled = $("osu-test2").disabled = osJob() || !online;
+  $("osu-forget").hidden = !j.host_key; $("osu-forget").disabled = osJob() || !online;
+  $("osu-fp").textContent = j.fingerprint ? T("Fingerprint: {fp}", { fp: j.fingerprint }) : "";
+  $("osu-key").textContent = j.pubkey || ""; $("osu-kbox").hidden = !j.pubkey;
+  $("osu-hk").hidden = !j.host_key; $("osu-hk").textContent = j.host_key ? T("BC-250 host key: {fp}", { fp: j.host_key }) : "";
+  $("osu-cmd").textContent = j.setup_cmd || ""; $("osu-cbox").hidden = !j.setup_cmd; $("osu-nocmd").hidden = !!j.setup_cmd;
+  osDirty();
+}
+function loadOs() {
+  if (osBusy) return Promise.resolve();
+  return api("GET", "/api/osupdate", null, 4000).then(function (j) {
+    lastOs = Date.now();
+    if (j._s === 404) { osMissing = true; $("osu-old").hidden = false; $("osu-top").hidden = true; return; }
+    if (j.enabled === undefined) return;
+    osMissing = false; $("osu-old").hidden = true; $("osu-top").hidden = false;
+    osShow(j);
+  });
+}
+function osPost(path, body, done) {
+  osBusy = true;
+  return post(path, body).then(function (j) {
+    osBusy = false;
+    if (j.ok) { if (done) toast(done, "info"); } else toast(j.error || T("Could not do that"), "err");
+    lastOs = 0; return loadOs().then(null, function () {}).then(function () { return j; });
+  });
+}
+$("osu-en").onchange = function () {
+  var c = this.checked;
+  osPost("/api/osupdate", { enabled: c }, c ? T("OS updates on") : T("OS updates off")).then(function (j) { if (!j.ok) $("osu-en").checked = !c; });
+};
+$("osu-save").onclick = function () {
+  var o = osChanged();
+  if (!osCheck(o)) return;
+  osPost("/api/osupdate", o, T("Saved")).then(function (j) { if (j.ok) osSet(OS); });
+};
+["osu-host", "osu-port", "osu-user", "osu-from", "osu-len", "osu-after"].concat(OSN.map(function (d) { return "osu-d" + d[0]; })).forEach(function (id) {
+  $(id).addEventListener("input", osDirty); $(id).addEventListener("change", osDirty);
+});
+$("osu-run").onclick = function () { osPost("/api/osupdate/run", null, T("Update started")); };
+$("osu-stop").onclick = function () { osPost("/api/osupdate/stop", null, T("Stopping")); };
+$("osu-test").onclick = $("osu-test2").onclick = function () { osPost("/api/osupdate/test", null, T("Testing the connection")); };
+$("osu-forget").onclick = function () { osPost("/api/osupdate/forget_host", null, T("Host key forgotten")); };
+cpWire($("osu-cp1"), "osu-key"); cpWire($("osu-cp2"), "osu-cmd");
+$("osu-cp1").innerHTML = $("osu-cp2").innerHTML = $("bth-cp").innerHTML;
+/* the scripts that go onto the BC-250, fetched when first opened (no login needed) */
+["osu-sh1", "osu-sh2"].forEach(function (id) {
+  var d = $(id), pre = d.querySelector("pre"), got = false;
+  d.addEventListener("toggle", function () {
+    if (!d.open || got) return;
+    var ac = new AbortController(), to = setTimeout(function () { ac.abort(); }, 6000);
+    fetch(d.dataset.src, { cache: "no-store", signal: ac.signal }).then(function (r) { clearTimeout(to); return r.ok ? r.text() : Promise.reject(); }).then(function (t) { got = true; pre.textContent = t; }, function () { pre.textContent = T("Could not load the script."); });
+  });
+});
+
+/* ---------- views, sidebar, routing ---------- */
+var VT = { dashboard: N("Dashboard"), wake: N("Wake"), osupdate: N("OS updates"), settings: N("Settings"), network: N("Network"), security: N("Security"), controller: N("Controller"), debug: N("Debug"), log: N("Log") };
+function titleShow() { var t = T(VT[view]); $("vtitle").textContent = t; document.title = t + " - BC-250 Power"; }
+function closeDrawer(focus) {
+  $("side").classList.remove("open"); $("backdrop").hidden = true; $("menu").setAttribute("aria-expanded", "false");
+  if (focus) $("menu").focus();
+}
+function openDrawer() {
+  $("side").classList.add("open"); $("backdrop").hidden = false; $("menu").setAttribute("aria-expanded", "true");
+  var c = document.querySelector('.nv[aria-current=page]'); if (c) c.focus();
+}
+$("menu").onclick = function () { $("side").classList.contains("open") ? closeDrawer(true) : openDrawer(); };
+$("backdrop").onclick = function () { closeDrawer(true); };
+document.addEventListener("keydown", function (e) { if (e.key === "Escape" && $("side").classList.contains("open")) closeDrawer(true); });
+/* data for the view that was just shown: refreshed once, then by the poll loop */
+function needCfg() { return view === "settings" || view === "network" || view === "wake"; }
+function enter() {
+  if (!started || gated) return;
+  if ((needCfg() || !autoTz) && !cfg) loadCfg();
+  if (view === "network" && !netMissing) loadNet();
+  if (view === "controller") loadLists().then(null, function () {});
+  if (view === "dashboard" && !dashInfo && !infoMissing) { dashInfo = true; loadInfo().then(null, function () {}); }
+  lastWake = lastLog = lastInfo = lastOs = 0; needDev = true;
+  schedule(0);
+}
+function bleOn() { return !!(S && S.ble && S.ble.wake); }
+/* show only the current view; in Bluetooth, the dependent cards need wake on and a known state */
+function vis() {
+  var on = bleOn();
+  bleSeen = S ? on : null;
+  document.querySelectorAll("main>section").forEach(function (e) {
+    e.hidden = e.dataset.view !== view || (view === "wake" && (!S || (e.dataset.need && !on))) || (e.dataset.key && cfg && !(e.dataset.key in cfg)) || e.classList.contains("nd") || (e.dataset.osu !== undefined && !(OS && OS.enabled && !(e.dataset.osu === "setup" && OS.linked)));
+  });
+  $("blenote").hidden = !S || on;
+  if (!on && scanActive) { endScan(); toast(T("Scan stopped"), "info"); }
+  if (!on && learnActive) { learnEnd(); toast(T("Learning stopped"), "info"); }
+}
+function route() {
+  var h = location.hash.slice(1);
+  if (h === "firmware") { history.replaceState(null, "", "#controller"); h = "controller"; }   // old name and bookmarks
+  if (!VT[h]) h = "dashboard";
+  view = h;
+  vis();
+  document.querySelectorAll(".nv[data-view]").forEach(function (b) {
+    if (b.dataset.view === h) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
+    b.onclick = function () { if (location.hash === "#" + b.dataset.view) route(); else location.hash = b.dataset.view; };
+  });
+  titleShow();
+  closeDrawer();
+  dirty();
+  window.scrollTo(0, 0);
+  enter();
+}
+window.addEventListener("hashchange", route);
+try { var rr = localStorage.getItem("bc250_radio"); if (RTX[rr]) radioLook(rr); } catch (e) {}
+/* theme: auto follows the browser; the others are kept in this browser.
+   Each tile previews its theme with the theme's own colours. */
+var THEMES = [["auto", N("Auto")], ["light", N("Light")], ["dark", N("Dark")], ["neon", N("Synthwave")], ["toxic", N("Toxic")], ["ember", N("Ember")], ["frost", N("Glacier")], ["arcade", N("Arcade")]];
+function themeShow() {
+  var t = document.documentElement.dataset.theme || "auto";
+  document.querySelectorAll("#ths [data-t]").forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.t === t ? "true" : "false"); });
+  $("themeh").textContent = t === "auto" ? T("Follows the system setting.") : "";
+}
+THEMES.forEach(function (x) {
+  var b = el("button", "th"), pv = el("span", "pv");
+  b.type = "button"; b.dataset.t = x[0];
+  (x[0] === "auto" ? ["light", "dark"] : [x[0]]).forEach(function (k) { var h = el("span"); h.dataset.theme = k; h.append(el("i")); pv.append(h); });
+  pv.setAttribute("aria-hidden", "true");
+  b.append(pv, tt(el("span"), x[1]));
+  b.onclick = function () {
+    var t = x[0];
+    if (t === "auto") delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = t;
+    try { if (t === "auto") localStorage.removeItem("bc250_theme"); else localStorage.setItem("bc250_theme", t); } catch (e) {}
+    themeShow();
+  };
+  $("ths").append(b);
+});
+themeShow();
+/* card icons: a view's nav icon, or one of these */
+var ICS = {
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  gpu: '<path d="M2 4h2v16"/><rect x="4" y="6" width="18" height="11" rx="1.5"/><circle cx="10" cy="11.5" r="3"/><path d="M16 9.5h3M16 13.5h3M8 17v2.5M12 17v2.5M16 17v2.5"/>',
+  power: '<path d="M12 3v9M6.4 6.6a8 8 0 1 0 11.2 0"/>'
+};
+document.querySelectorAll("[data-ic]").forEach(function (e) {
+  var k = e.dataset.ic, v = document.querySelector(".nv[data-view=" + k + "] svg");
+  if (ICS[k]) e.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true">' + ICS[k] + "</svg>"; else if (v) e.append(v.cloneNode(true));
+});
+kv("c-start", null);
+buildForm();
+syncHold();
+route();
+
+/* the language changed: redraw what the poll loop does not redraw by itself */
+function langApply() {
+  applyStatic();
+  langFill();
+  document.querySelectorAll("[data-tk]").forEach(function (e) { e.textContent = T(e.dataset.tk); });
+  document.querySelectorAll("[data-tkl]").forEach(function (e) { e.setAttribute("aria-label", T(e.dataset.tkl)); });
+  document.querySelectorAll("[data-tkp]").forEach(function (e) { e.placeholder = T(e.dataset.tkp); });
+  if (!S) $("stsub").textContent = T("Waiting for the controller");
+  if (radio) { radioLook(radio); radioTexts(); }
+  if (rbFor) radioButtons(rbFor === "2g4" ? "2g4" : "ble");
+  applyFolds(); titleShow(); themeShow(); tzList(); syncHold(); pendUi();
+  $("scanbtn").textContent = scanActive ? T("Stop") : T("Scan for devices");
+  for (var k in LP) $(LP[k].btn).textContent = learnActive && learnKind === k ? T("Stop") : T("Learn");
+  $("geye").textContent = $("gp").type === "password" ? T("Show") : T("Hide");
+  if (gated) $("gh").textContent = $("gset").hidden ? T("Log in") : T("Set a password");
+  if (S) renderState();
+  renderLists(); renderWake(); renderDevices(); if (radio === "2g4") renderLearn();
+  if (info) showInfo(info);
+  lastLog = 0; lastWake = 0;
+}
+langInit().then(boot, boot);
+</script>
+</body>
+</html>

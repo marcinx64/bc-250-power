@@ -1,0 +1,37 @@
+name: New device
+description: Report a controller, keyboard or remote that wakes (or does not wake) the PC
+labels: [device]
+body:
+  - type: input
+    id: device
+    attributes:
+      label: Device name and model
+    validations: {required: true}
+  - type: dropdown
+    id: method
+    attributes:
+      label: Wake method
+      options: [BLE, 2.4G/BT]
+    validations: {required: true}
+  - type: dropdown
+    id: radio
+    attributes:
+      label: Radio mode of the device
+      options: [Bluetooth LE, Bluetooth Classic, 2.4G USB dongle, Other or unknown]
+    validations: {required: true}
+  - type: dropdown
+    id: result
+    attributes:
+      label: Result
+      options: [Wakes the PC, Found by Learn but does not wake, Not found, Not tried yet]
+    validations: {required: true}
+  - type: textarea
+    id: tried
+    attributes:
+      label: What did you try?
+      description: Firmware version, how you switched the device on, whether the dongle was unplugged.
+  - type: textarea
+    id: sniff
+    attributes:
+      label: Sniff results or attachments
+      description: See docs/SNIFFING.md. Attach capture files; remove nothing that identifies the protocol, but do not post addresses of devices you do not own.

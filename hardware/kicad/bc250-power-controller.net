@@ -1,0 +1,1978 @@
+(export
+	(version "E")
+	(design
+		(source "bc250-power-controller.kicad_sch")
+		(date "2026-11-17T16:25:41")
+		(tool "Eeschema 10.0.8")
+		(sheet
+			(number "1")
+			(name "/")
+			(tstamps "/")
+			(title_block
+				(title "BC-250 Power Controller")
+				(company "Marcin K. - github.com/marcinx64")
+				(rev "A")
+				(date "2026-11-17")
+				(source "bc250-power-controller.kicad_sch")
+				(comment
+					(number "1")
+					(value "License: CERN-OHL-S-2.0")
+				)
+				(comment
+					(number "2")
+					(value "Same circuit and GPIO map as the tested perfboard build")
+				)
+				(comment
+					(number "3")
+					(value "")
+				)
+				(comment
+					(number "4")
+					(value "")
+				)
+				(comment
+					(number "5")
+					(value "")
+				)
+				(comment
+					(number "6")
+					(value "")
+				)
+				(comment
+					(number "7")
+					(value "")
+				)
+				(comment
+					(number "8")
+					(value "")
+				)
+				(comment
+					(number "9")
+					(value "")
+				)
+			)
+		)
+	)
+	(components
+		(comp
+			(ref "BZ1")
+			(value "Active buzzer 12 mm")
+			(footprint "Buzzer_Beeper:Buzzer_12x9.5RM7.6")
+			(description "12 mm active buzzer, 5 V, pin spacing 7.6 mm")
+			(fields
+				(field
+					(name "Footprint") "Buzzer_Beeper:Buzzer_12x9.5RM7.6")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "12 mm active buzzer, 5 V, pin spacing 7.6 mm")
+			)
+			(libsource
+				(lib "Device")
+				(part "Buzzer")
+				(description "Buzzer, polarized")
+			)
+			(property
+				(name "Sheetname")
+				(value "bc250-power-controller")
+			)
+			(property
+				(name "Sheetfile")
+				(value "bc250-power-controller.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "quartz resonator ceramic")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "*Buzzer*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "7ca0ea9d-32fd-5784-8195-0d54fa5371c7")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "D1")
+			(value "1N5819")
+			(footprint "Diode_THT:D_DO-41_SOD81_P3.81mm_Vertical_CathodeUp")
+			(description "Optional Schottky diode in the +5VSB line (bridged by JP2)")
+			(fields
+				(field
+					(name "Footprint") "Diode_THT:D_DO-41_SOD81_P3.81mm_Vertical_CathodeUp")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Optional Schottky diode in the +5VSB line (bridged by JP2)")
+			)
+			(libsource
+				(lib "Device")
+				(part "D_Schottky")
+				(description "Schottky diode")
+			)
+			(property
+				(name "Sheetname")
+				(value "bc250-power-controller")
+			)
+			(property
+				(name "Sheetfile")
+				(value "bc250-power-controller.kicad_sch")
+			)
+			(property
+				(name "dnp")
+			)
+			(property
+				(name "ki_keywords")
+				(value "diode Schottky")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "TO-???* *_Diode_* *SingleDiode* D_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "f1ad9422-a02f-5ba0-a11b-2c8a02a33a21")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "J1")
+			(value "ATX")
+			(footprint "Connector_JST:JST_XH_B3B-XH-A_1x03_P2.50mm_Vertical")
+			(description "JST XH 3-pin: ATX PS_ON# (green), GND (black), +5VSB (purple)")
+			(fields
+				(field
+					(name "Footprint") "Connector_JST:JST_XH_B3B-XH-A_1x03_P2.50mm_Vertical")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "JST XH 3-pin: ATX PS_ON# (green), GND (black), +5VSB (purple)")
+			)
+			(libsource
+				(lib "Connector_Generic")
+				(part "Conn_01x03")
+				(description "Generic connector, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			)
+			(property
+				(name "Sheetname")
+				(value "bc250-power-controller")
+			)
+			(property
+				(name "Sheetfile")
+				(value "bc250-power-controller.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "connector")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "Connector*:*_1x??_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "266df92a-06c0-5ac0-af83-8fceaea16d93")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "J2")
+			(value "BC-250")
+			(footprint "Connector_JST:JST_XH_B4B-XH-A_1x04_P2.50mm_Vertical")
+			(description "JST XH 4-pin: BC-250 power LED +, LED -, power button, reset button")
+			(fields
+				(field
+					(name "Footprint") "Connector_JST:JST_XH_B4B-XH-A_1x04_P2.50mm_Vertical")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "JST XH 4-pin: BC-250 power LED +, LED -, power button, reset button")
+			)
+			(libsource
+				(lib "Connector_Generic")
+				(part "Conn_01x04")
+				(description "Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			)
+			(property
+				(name "Sheetname")
+				(value "bc250-power-controller")
+			)
+			(property
+				(name "Sheetfile")
+				(value "bc250-power-controller.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "connector")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "Connector*:*_1x??_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "522b2869-f31d-534e-af85-7df90b7abe8c")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "J3")
+			(value "FRONT SWITCH")
+			(footprint "Connector_JST:JST_XH_B4B-XH-A_1x04_P2.50mm_Vertical")
+			(description "JST XH 4-pin: front switch contact NO, common, LED +, LED -")
+			(fields
+				(field
+					(name "Footprint") "Connector_JST:JST_XH_B4B-XH-A_1x04_P2.50mm_Vertical")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "JST XH 4-pin: front switch contact NO, common, LED +, LED -")
+			)
+			(libsource
+				(lib "Connector_Generic")
+				(part "Conn_01x04")
+				(description "Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			)
+			(property
+				(name "Sheetname")
+				(value "bc250-power-controller")
+			)
+			(property
+				(name "Sheetfile")
+				(value "bc250-power-controller.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "connector")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "Connector*:*_1x??_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "71d37473-a369-5831-ad1c-4fabdf5c985d")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "JP1")
+			(value "R4 bypass")
+			(footprint "Jumper:SolderJumper-2_P1.3mm_Bridged_Pad1.0x1.5mm")
+			(description "Solder jumper across R4, closed by default. Cut it when R4 is fitted")
+			(fields
+				(field
+					(name "Footprint") "Jumper:SolderJumper-2_P1.3mm_Bridged_Pad1.0x1.5mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Solder jumper across R4, closed by default. Cut it when R4 is fitted")
+			)
+			(libsource
+				(lib "Jumper")
+				(part "SolderJumper_2_Bridged")
+				(description "Solder Jumper, 2-pole, closed/bridged")
+			)
+			(property
+				(name "Sheetname")
+				(value "bc250-power-controller")
+			)
+			(property
+				(name "Sheetfile")
+				(value "bc250-power-controller.kicad_sch")
+			)
+			(property
+				(name "exclude_from_bom")
+			)
+			(property
+				(name "ki_keywords")
+				(value "solder jumper SPST")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "SolderJumper*Bridged*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "58cc13c6-177c-5d02-b7a8-3d917cd84a37")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "JP2")
+			(value "D1 bypass")
+			(footprint "Jumper:SolderJumper-2_P1.3mm_Bridged_Pad1.0x1.5mm")
+			(description "Solder jumper across D1, closed by default. Cut it when D1 is fitted")
+			(fields
+				(field
+					(name "Footprint") "Jumper:SolderJumper-2_P1.3mm_Bridged_Pad1.0x1.5mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Solder jumper across D1, closed by default. Cut it when D1 is fitted")
+			)
+			(libsource
+				(lib "Jumper")
+				(part "SolderJumper_2_Bridged")
+				(description "Solder Jumper, 2-pole, closed/bridged")
+			)
+			(property
+				(name "Sheetname")
+				(value "bc250-power-controller")
+			)
+			(property
+				(name "Sheetfile")
+				(value "bc250-power-controller.kicad_sch")
+			)
+			(property
+				(name "exclude_from_bom")
+			)
+			(property
+				(name "ki_keywords")
+				(value "solder jumper SPST")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "SolderJumper*Bridged*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "000b1c15-c8e5-5f34-ba55-d71e517cf4c9")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "MH1")
+			(value "M3")
+			(footprint "MountingHole:MountingHole_3.2mm_M3")
+			(description "M3 mounting hole")
+			(fields
+				(field
+					(name "Footprint") "MountingHole:MountingHole_3.2mm_M3")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "M3 mounting hole")
+			)
+			(libsource
+				(lib "Mechanical")
+				(part "MountingHole")
+				(description "Mounting Hole without connection")
+			)
+			(property
+				(name "Sheetname")
+				(value "bc250-power-controller")
+			)
+			(property
+				(name "Sheetfile")
+				(value "bc250-power-controller.kicad_sch")
+			)
+			(property
+				(name "exclude_from_bom")
+			)
+			(property
+				(name "ki_keywords")
+				(value "mounting hole")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "MountingHole*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "daf277f8-f52a-57c3-9a1c-c00026ac6be8")
+			(units
+				(unit
+					(name "A")
+					(pins)
+				)
+			)
+		)
+		(comp
+			(ref "MH2")
+			(value "M3")
+			(footprint "MountingHole:MountingHole_3.2mm_M3")
+			(description "M3 mounting hole")
+			(fields
+				(field
+					(name "Footprint") "MountingHole:MountingHole_3.2mm_M3")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "M3 mounting hole")
+			)
+			(libsource
+				(lib "Mechanical")
+				(part "MountingHole")
+				(description "Mounting Hole without connection")
+			)
+			(property
+				(name "Sheetname")
+				(value "bc250-power-controller")
+			)
+			(property
+				(name "Sheetfile")
+				(value "bc250-power-controller.kicad_sch")
+			)
+			(property
+				(name "exclude_from_bom")
+			)
+			(property
+				(name "ki_keywords")
+				(value "mounting hole")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "MountingHole*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "abf8cce3-169b-5ced-a352-94a3ed973d16")
+			(units
+				(unit
+					(name "A")
+					(pins)
+				)
+			)
+		)
+		(comp
+			(ref "MH3")
+			(value "M3")
+			(footprint "MountingHole:MountingHole_3.2mm_M3")
+			(description "M3 mounting hole")
+			(fields
+				(field
+					(name "Footprint") "MountingHole:MountingHole_3.2mm_M3")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "M3 mounting hole")
+			)
+			(libsource
+				(lib "Mechanical")
+				(part "MountingHole")
+				(description "Mounting Hole without connection")
+			)
+			(property
+				(name "Sheetname")
+				(value "bc250-power-controller")
+			)
+			(property
+				(name "Sheetfile")
+				(value "bc250-power-controller.kicad_sch")
+			)
+			(property
+				(name "exclude_from_bom")
+			)
+			(property
+				(name "ki_keywords")
+				(value "mounting hole")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "MountingHole*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "660e414d-74af-5a66-a237-2af888c7b38b")
+			(units
+				(unit
+					(name "A")
+					(pins)
+				)
+			)
+		)
+		(comp
+			(ref "MH4")
+			(value "M3")
+			(footprint "MountingHole:MountingHole_3.2mm_M3")
+			(description "M3 mounting hole")
+			(fields
+				(field
+					(name "Footprint") "MountingHole:MountingHole_3.2mm_M3")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "M3 mounting hole")
+			)
+			(libsource
+				(lib "Mechanical")
+				(part "MountingHole")
+				(description "Mounting Hole without connection")
+			)
+			(property
+				(name "Sheetname")
+				(value "bc250-power-controller")
+			)
+			(property
+				(name "Sheetfile")
+				(value "bc250-power-controller.kicad_sch")
+			)
+			(property
+				(name "exclude_from_bom")
+			)
+			(property
+				(name "ki_keywords")
+				(value "mounting hole")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "MountingHole*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "d08273d9-15a6-564e-b3e8-916d5b29c2d2")
+			(units
+				(unit
+					(name "A")
+					(pins)
+				)
+			)
+		)
+		(comp
+			(ref "R1")
+			(value "220R")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+			(description "PS_ON opto LED resistor")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "PS_ON opto LED resistor")
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "Sheetname")
+				(value "bc250-power-controller")
+			)
+			(property
+				(name "Sheetfile")
+				(value "bc250-power-controller.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "b9623334-9caa-5782-b043-03ab87475775")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R2")
+			(value "220R")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+			(description "Power button opto LED resistor")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Power button opto LED resistor")
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "Sheetname")
+				(value "bc250-power-controller")
+			)
+			(property
+				(name "Sheetfile")
+				(value "bc250-power-controller.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "158878cd-80dd-5d53-ae35-8a8ec3a09b62")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R3")
+			(value "220R")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+			(description "Reset button opto LED resistor")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Reset button opto LED resistor")
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "Sheetname")
+				(value "bc250-power-controller")
+			)
+			(property
+				(name "Sheetfile")
+				(value "bc250-power-controller.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "62254b6c-340b-5d91-b1f8-8b394a0e19b9")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R4")
+			(value "470R")
+			(footprint "Resistor_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical")
+			(description "Optional series resistor for the LED sense input (bridged by JP1)")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Optional series resistor for the LED sense input (bridged by JP1)")
+			)
+			(libsource
+				(lib "Device")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "Sheetname")
+				(value "bc250-power-controller")
+			)
+			(property
+				(name "Sheetfile")
+				(value "bc250-power-controller.kicad_sch")
+			)
+			(property
+				(name "dnp")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "d67f207d-d6c3-5074-bbde-857d4eeeb20f")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "U1")
+			(value "TLP521-2")
+			(footprint "Package_DIP:DIP-8_W7.62mm")
+			(description "Dual optocoupler DIP-8 (LTV-827 / PC827 / EL827 are pin-compatible)")
+			(fields
+				(field
+					(name "Footprint") "Package_DIP:DIP-8_W7.62mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Dual optocoupler DIP-8 (LTV-827 / PC827 / EL827 are pin-compatible)")
+			)
+			(libsource
+				(lib "bc250")
+				(part "TLP521-2")
+				(description "Dual DC Optocoupler, Vce 35V, CTR 50%, DIP-8")
+			)
+			(property
+				(name "Sheetname")
+				(value "bc250-power-controller")
+			)
+			(property
+				(name "Sheetfile")
+				(value "bc250-power-controller.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "NPN DC Dual Optocoupler")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "DIP*W7.62mm*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "d9ed3c89-c8d9-54f7-a81f-d65145c45f69" "7e3e3fba-7406-5122-8f77-fee7deb72411")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "8")
+						)
+						(pin
+							(num "7")
+						)
+					)
+				)
+				(unit
+					(name "B")
+					(pins
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "6")
+						)
+						(pin
+							(num "5")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "U2")
+			(value "TLP521-2")
+			(footprint "Package_DIP:DIP-8_W7.62mm")
+			(description "Dual optocoupler DIP-8 (LTV-827 / PC827 / EL827 are pin-compatible)")
+			(fields
+				(field
+					(name "Footprint") "Package_DIP:DIP-8_W7.62mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Dual optocoupler DIP-8 (LTV-827 / PC827 / EL827 are pin-compatible)")
+			)
+			(libsource
+				(lib "bc250")
+				(part "TLP521-2")
+				(description "Dual DC Optocoupler, Vce 35V, CTR 50%, DIP-8")
+			)
+			(property
+				(name "Sheetname")
+				(value "bc250-power-controller")
+			)
+			(property
+				(name "Sheetfile")
+				(value "bc250-power-controller.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "NPN DC Dual Optocoupler")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "DIP*W7.62mm*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "ada70f15-621a-55c3-8c53-0df7b6899dbe" "13aa5f1d-99d6-5d05-a5b6-81ec446ee60a")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "8")
+						)
+						(pin
+							(num "7")
+						)
+					)
+				)
+				(unit
+					(name "B")
+					(pins
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "6")
+						)
+						(pin
+							(num "5")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "U3")
+			(value "XIAO_ESP32C3")
+			(footprint "bc250:XIAO_ESP32C3_THT")
+			(description "Seeed Studio XIAO ESP32-C3 on two 1x7 2.54 mm female headers")
+			(fields
+				(field
+					(name "Footprint") "bc250:XIAO_ESP32C3_THT")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Seeed Studio XIAO ESP32-C3 on two 1x7 2.54 mm female headers")
+			)
+			(libsource
+				(lib "bc250")
+				(part "XIAO_ESP32C3")
+				(description "Seeed Studio XIAO ESP32-C3 module, 2 x 7 pins on 2.54 mm, pins as seen with the USB-C connector at the top")
+			)
+			(property
+				(name "Sheetname")
+				(value "bc250-power-controller")
+			)
+			(property
+				(name "Sheetfile")
+				(value "bc250-power-controller.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "a83bd161-8be6-565c-8a0f-2682b94ce20d")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "6")
+						)
+						(pin
+							(num "7")
+						)
+						(pin
+							(num "8")
+						)
+						(pin
+							(num "9")
+						)
+						(pin
+							(num "10")
+						)
+						(pin
+							(num "11")
+						)
+						(pin
+							(num "12")
+						)
+						(pin
+							(num "13")
+						)
+						(pin
+							(num "14")
+						)
+					)
+				)
+			)
+		)
+	)
+	(groups)
+	(variants)
+	(libparts
+		(libpart
+			(lib "Connector_Generic")
+			(part "Conn_01x03")
+			(description "Generic connector, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			(footprints
+				(fp "Connector*:*_1x??_*")
+			)
+			(fields
+				(field
+					(name "Reference") "J")
+				(field
+					(name "Value") "Conn_01x03")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Generic connector, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "Pin_1")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "Pin_2")
+					(type "passive")
+				)
+				(pin
+					(num "3")
+					(name "Pin_3")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "Connector_Generic")
+			(part "Conn_01x04")
+			(description "Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			(footprints
+				(fp "Connector*:*_1x??_*")
+			)
+			(fields
+				(field
+					(name "Reference") "J")
+				(field
+					(name "Value") "Conn_01x04")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "Pin_1")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "Pin_2")
+					(type "passive")
+				)
+				(pin
+					(num "3")
+					(name "Pin_3")
+					(type "passive")
+				)
+				(pin
+					(num "4")
+					(name "Pin_4")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "Device")
+			(part "Buzzer")
+			(description "Buzzer, polarized")
+			(footprints
+				(fp "*Buzzer*")
+			)
+			(fields
+				(field
+					(name "Reference") "BZ")
+				(field
+					(name "Value") "Buzzer")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Buzzer, polarized")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "+")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "-")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "Device")
+			(part "D_Schottky")
+			(description "Schottky diode")
+			(footprints
+				(fp "TO-???*")
+				(fp "*_Diode_*")
+				(fp "*SingleDiode*")
+				(fp "D_*")
+			)
+			(fields
+				(field
+					(name "Reference") "D")
+				(field
+					(name "Value") "D_Schottky")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Schottky diode")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "K")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "A")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "Device")
+			(part "R")
+			(description "Resistor")
+			(footprints
+				(fp "R_*")
+			)
+			(fields
+				(field
+					(name "Reference") "R")
+				(field
+					(name "Value") "R")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "Jumper")
+			(part "SolderJumper_2_Bridged")
+			(description "Solder Jumper, 2-pole, closed/bridged")
+			(footprints
+				(fp "SolderJumper*Bridged*")
+			)
+			(fields
+				(field
+					(name "Reference") "JP")
+				(field
+					(name "Value") "SolderJumper_2_Bridged")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Solder Jumper, 2-pole, closed/bridged")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "A")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "B")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "Mechanical")
+			(part "MountingHole")
+			(description "Mounting Hole without connection")
+			(footprints
+				(fp "MountingHole*")
+			)
+			(fields
+				(field
+					(name "Reference") "H")
+				(field
+					(name "Value") "MountingHole")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Mounting Hole without connection")
+			)
+		)
+		(libpart
+			(lib "bc250")
+			(part "TLP521-2")
+			(description "Dual DC Optocoupler, Vce 35V, CTR 50%, DIP-8")
+			(docs "http://optoelectronics.liteon.com/upload/download/DS-70-96-0016/LTV-8X7%20series.PDF")
+			(footprints
+				(fp "DIP*W7.62mm*")
+			)
+			(fields
+				(field
+					(name "Reference") "U")
+				(field
+					(name "Value") "TLP521-2")
+				(field
+					(name "Footprint") "Package_DIP:DIP-8_W7.62mm")
+				(field
+					(name "Datasheet") "http://optoelectronics.liteon.com/upload/download/DS-70-96-0016/LTV-8X7%20series.PDF")
+				(field
+					(name "Description") "Dual DC Optocoupler, Vce 35V, CTR 50%, DIP-8")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "")
+					(type "passive")
+				)
+				(pin
+					(num "3")
+					(name "")
+					(type "passive")
+				)
+				(pin
+					(num "4")
+					(name "")
+					(type "passive")
+				)
+				(pin
+					(num "5")
+					(name "")
+					(type "passive")
+				)
+				(pin
+					(num "6")
+					(name "")
+					(type "passive")
+				)
+				(pin
+					(num "7")
+					(name "")
+					(type "passive")
+				)
+				(pin
+					(num "8")
+					(name "")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "bc250")
+			(part "XIAO_ESP32C3")
+			(description "Seeed Studio XIAO ESP32-C3 module, 2 x 7 pins on 2.54 mm, pins as seen with the USB-C connector at the top")
+			(docs "https://wiki.seeedstudio.com/XIAO_ESP32C3_Getting_Started/")
+			(fields
+				(field
+					(name "Reference") "U")
+				(field
+					(name "Value") "XIAO_ESP32C3")
+				(field
+					(name "Footprint") "bc250:XIAO_ESP32C3_THT")
+				(field
+					(name "Datasheet") "https://wiki.seeedstudio.com/XIAO_ESP32C3_Getting_Started/")
+				(field
+					(name "Description") "Seeed Studio XIAO ESP32-C3 module, 2 x 7 pins on 2.54 mm, pins as seen with the USB-C connector at the top")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "D0/GPIO2")
+					(type "bidirectional")
+				)
+				(pin
+					(num "2")
+					(name "D1/GPIO3")
+					(type "bidirectional")
+				)
+				(pin
+					(num "3")
+					(name "D2/GPIO4")
+					(type "bidirectional")
+				)
+				(pin
+					(num "4")
+					(name "D3/GPIO5")
+					(type "bidirectional")
+				)
+				(pin
+					(num "5")
+					(name "D4/GPIO6")
+					(type "bidirectional")
+				)
+				(pin
+					(num "6")
+					(name "D5/GPIO7")
+					(type "bidirectional")
+				)
+				(pin
+					(num "7")
+					(name "D6/GPIO21")
+					(type "bidirectional")
+				)
+				(pin
+					(num "8")
+					(name "5V")
+					(type "power_in")
+				)
+				(pin
+					(num "9")
+					(name "GND")
+					(type "power_in")
+				)
+				(pin
+					(num "10")
+					(name "3V3")
+					(type "power_out")
+				)
+				(pin
+					(num "11")
+					(name "D10/GPIO10")
+					(type "bidirectional")
+				)
+				(pin
+					(num "12")
+					(name "D9/GPIO9")
+					(type "bidirectional")
+				)
+				(pin
+					(num "13")
+					(name "D8/GPIO8")
+					(type "bidirectional")
+				)
+				(pin
+					(num "14")
+					(name "D7/GPIO20")
+					(type "bidirectional")
+				)
+			)
+		)
+	)
+	(libraries
+		(library
+			(logical "Connector_Generic")
+			(uri "/app/extensions/Library/symbols/Connector_Generic.kicad_sym")
+		)
+		(library
+			(logical "Device")
+			(uri "/app/extensions/Library/symbols/Device.kicad_sym")
+		)
+		(library
+			(logical "Jumper")
+			(uri "/app/extensions/Library/symbols/Jumper.kicad_sym")
+		)
+		(library
+			(logical "Mechanical")
+			(uri "/app/extensions/Library/symbols/Mechanical.kicad_sym")
+		)
+		(library
+			(logical "bc250")
+			(uri "${KIPRJMOD}/bc250.kicad_sym")
+		)
+	)
+	(nets
+		(net
+			(code "1")
+			(name "+5V")
+			(class "Power,Default")
+			(node
+				(ref "D1")
+				(pin "1")
+				(pinfunction "K_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "JP2")
+				(pin "2")
+				(pinfunction "B_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U3")
+				(pin "8")
+				(pinfunction "5V_8")
+				(pintype "power_in")
+			)
+		)
+		(net
+			(code "2")
+			(name "+5VSB")
+			(class "Power,Default")
+			(node
+				(ref "D1")
+				(pin "2")
+				(pinfunction "A_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "J1")
+				(pin "3")
+				(pinfunction "Pin_3_3")
+				(pintype "passive")
+			)
+			(node
+				(ref "JP2")
+				(pin "1")
+				(pinfunction "A_1")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "3")
+			(name "BUZZ")
+			(class "Default")
+			(node
+				(ref "BZ1")
+				(pin "1")
+				(pinfunction "+_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U3")
+				(pin "3")
+				(pinfunction "D2/GPIO4_3")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "4")
+			(name "GND")
+			(class "Default")
+			(node
+				(ref "BZ1")
+				(pin "2")
+				(pinfunction "-_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "J1")
+				(pin "2")
+				(pinfunction "Pin_2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "J3")
+				(pin "2")
+				(pinfunction "Pin_2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "J3")
+				(pin "4")
+				(pinfunction "Pin_4_4")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "5")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "7")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "4")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "5")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "7")
+				(pintype "passive")
+			)
+			(node
+				(ref "U3")
+				(pin "9")
+				(pinfunction "GND_9")
+				(pintype "power_in")
+			)
+		)
+		(net
+			(code "5")
+			(name "LED_A")
+			(class "Default")
+			(node
+				(ref "J2")
+				(pin "1")
+				(pinfunction "Pin_1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "3")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "6")
+			(name "LED_K")
+			(class "Default")
+			(node
+				(ref "JP1")
+				(pin "2")
+				(pinfunction "B_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "R4")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "4")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "7")
+			(name "LED_K_IN")
+			(class "Default")
+			(node
+				(ref "J2")
+				(pin "2")
+				(pinfunction "Pin_2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "JP1")
+				(pin "1")
+				(pinfunction "A_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R4")
+				(pin "1")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "8")
+			(name "PSON")
+			(class "Default")
+			(node
+				(ref "R1")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U3")
+				(pin "2")
+				(pinfunction "D1/GPIO3_2")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "9")
+			(name "PSON_DRV")
+			(class "Default")
+			(node
+				(ref "R1")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "1")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "10")
+			(name "PS_ON#")
+			(class "Default")
+			(node
+				(ref "J1")
+				(pin "1")
+				(pinfunction "Pin_1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "8")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "11")
+			(name "PWR")
+			(class "Default")
+			(node
+				(ref "R2")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U3")
+				(pin "5")
+				(pinfunction "D4/GPIO6_5")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "12")
+			(name "PWR_DRV")
+			(class "Default")
+			(node
+				(ref "R2")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "3")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "13")
+			(name "PWR_HOT")
+			(class "Default")
+			(node
+				(ref "J2")
+				(pin "3")
+				(pinfunction "Pin_3_3")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "6")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "14")
+			(name "RST")
+			(class "Default")
+			(node
+				(ref "R3")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U3")
+				(pin "6")
+				(pinfunction "D5/GPIO7_6")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "15")
+			(name "RST_DRV")
+			(class "Default")
+			(node
+				(ref "R3")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "1")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "16")
+			(name "RST_HOT")
+			(class "Default")
+			(node
+				(ref "J2")
+				(pin "4")
+				(pinfunction "Pin_4_4")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "8")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "17")
+			(name "SENSE")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "6")
+				(pintype "passive")
+			)
+			(node
+				(ref "U3")
+				(pin "4")
+				(pinfunction "D3/GPIO5_4")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "18")
+			(name "SW")
+			(class "Default")
+			(node
+				(ref "J3")
+				(pin "1")
+				(pinfunction "Pin_1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U3")
+				(pin "14")
+				(pinfunction "D7/GPIO20_14")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "19")
+			(name "SW_LED")
+			(class "Default")
+			(node
+				(ref "J3")
+				(pin "3")
+				(pinfunction "Pin_3_3")
+				(pintype "passive")
+			)
+			(node
+				(ref "U3")
+				(pin "11")
+				(pinfunction "D10/GPIO10_11")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "20")
+			(name "unconnected-(U3-3V3-Pad10)")
+			(class "Default")
+			(node
+				(ref "U3")
+				(pin "10")
+				(pinfunction "3V3_10")
+				(pintype "power_out+no_connect")
+			)
+		)
+		(net
+			(code "21")
+			(name "unconnected-(U3-D0{slash}GPIO2-Pad1)")
+			(class "Default")
+			(node
+				(ref "U3")
+				(pin "1")
+				(pinfunction "D0/GPIO2_1")
+				(pintype "bidirectional+no_connect")
+			)
+		)
+		(net
+			(code "22")
+			(name "unconnected-(U3-D6{slash}GPIO21-Pad7)")
+			(class "Default")
+			(node
+				(ref "U3")
+				(pin "7")
+				(pinfunction "D6/GPIO21_7")
+				(pintype "bidirectional+no_connect")
+			)
+		)
+		(net
+			(code "23")
+			(name "unconnected-(U3-D8{slash}GPIO8-Pad13)")
+			(class "Default")
+			(node
+				(ref "U3")
+				(pin "13")
+				(pinfunction "D8/GPIO8_13")
+				(pintype "bidirectional+no_connect")
+			)
+		)
+		(net
+			(code "24")
+			(name "unconnected-(U3-D9{slash}GPIO9-Pad12)")
+			(class "Default")
+			(node
+				(ref "U3")
+				(pin "12")
+				(pinfunction "D9/GPIO9_12")
+				(pintype "bidirectional+no_connect")
+			)
+		)
+	)
+)

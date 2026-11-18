@@ -1,0 +1,8 @@
+{
+  "name": "bc250-screenshots",
+  "private": true,
+  "description": "README screenshots of the web UI, taken against the test mock",
+  "dependencies": {
+    "playwright": "1.60.0"
+  }
+}

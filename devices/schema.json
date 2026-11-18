@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BC-250 power controller device entry",
+  "type": "object",
+  "required": ["id", "vendor", "model", "kind", "modes"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {"type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$", "description": "Unique, lower case, same as the file name without .json"},
+    "vendor": {"type": "string", "minLength": 1},
+    "model": {"type": "string", "minLength": 1},
+    "kind": {"enum": ["gamepad", "keyboard", "mouse", "remote", "headset", "other"]},
+    "modes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["wake_method", "protocol", "status"],
+        "additionalProperties": false,
+        "properties": {
+          "name": {"type": "string", "description": "Name of the mode as the user sees it, e.g. '2.4G dongle'"},
+          "wake_method": {"enum": ["ble", "2g4-esb1m", "bt-classic-page", "other"]},
+          "protocol": {"enum": ["ble", "esb1m", "esb2m", "btpage", "unknown"], "description": "the firmware protocol id (src/proto_*.cpp), ble for BLE mode, unknown if not supported yet"},
+          "status": {"enum": ["works", "works-untested-on-console", "expected", "help-wanted", "does-not-work"]},
+          "tested_on": {"type": ["string", "null"], "description": "Firmware version the result is from"},
+          "notes": {"type": "string"},
+          "how_to_add": {"type": "string"}
+        }
+      }
+    },
+    "references": {"type": "array", "items": {"type": "string"}}
+  }
+}

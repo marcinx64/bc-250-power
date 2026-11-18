@@ -1,0 +1,147 @@
+# ESP-IDF 6.1.1 settings of the firmware (env xiao_esp32c3). Everything not
+# listed is the IDF default. Explained in docs/ESP_IDF_BUILD.md.
+# Rule: switch off whatever this firmware does not use.
+# After editing, delete sdkconfig.xiao_esp32c3 so that it is regenerated.
+
+# ---- chip, flash, partitions -------------------------------------------
+# Same table as Arduino's min_spiffs.csv: devices updating over WiFi from 2.1.20 or later keep theirs.
+CONFIG_ESPTOOLPY_FLASHSIZE_4MB=y
+CONFIG_ESPTOOLPY_FLASHMODE_QIO=y
+CONFIG_ESPTOOLPY_FLASHFREQ_80M=y
+CONFIG_PARTITION_TABLE_CUSTOM=y
+CONFIG_PARTITION_TABLE_CUSTOM_FILENAME="partitions.csv"
+CONFIG_PARTITION_TABLE_OFFSET=0x8000
+CONFIG_PARTITION_TABLE_MD5=y
+# Boot compatibility with the IDF 5.5 bootloader of the devices in the field
+# (the bootloader and the partition table are not updated over WiFi):
+# - chip revision 0.3 and up, as the 2.1.20 build (header min_chip_rev)
+# - rollback enabled and the 16 RTC bytes the bootloader writes kept free (that
+#   is what SKIP_VALIDATE_IN_DEEP_SLEEP reserves), as that bootloader;
+#   app_main marks the running app valid at once (src/main.cpp)
+CONFIG_ESP32C3_REV_MIN_3=y
+CONFIG_BOOTLOADER_APP_ROLLBACK_ENABLE=y
+CONFIG_BOOTLOADER_SKIP_VALIDATE_IN_DEEP_SLEEP=y
+
+# ---- core ----------------------------------------------------------------
+CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ_160=y
+# the code uses millisecond delays and tick arithmetic
+CONFIG_FREERTOS_HZ=1000
+CONFIG_COMPILER_OPTIMIZATION_SIZE=y
+# console and log: USB-Serial-JTAG only. UART0's RX pin is the front switch
+# (GPIO20), so UART0 is never used. Errors only.
+CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG=y
+CONFIG_LOG_DEFAULT_LEVEL_ERROR=y
+# app_main runs the whole start-up (NVS, settings, logging)
+CONFIG_ESP_MAIN_TASK_STACK_SIZE=8192
+# crash dump to the coredump partition
+CONFIG_ESP_COREDUMP_ENABLE_TO_FLASH=y
+
+# ---- Bluetooth: scanning only -----------------------------------------------
+CONFIG_BT_ENABLED=y
+CONFIG_BT_NIMBLE_ENABLED=y
+# controller code in flash: frees ~19 KB of RAM code
+CONFIG_BT_CTRL_RUN_IN_FLASH_ONLY=y
+# observer role only: no connections, no advertising, no pairing, no GATT, so
+# the GATT services, bonding storage and connection pools have nothing left
+# to switch off
+CONFIG_BT_NIMBLE_ROLE_OBSERVER=y
+CONFIG_BT_NIMBLE_ROLE_CENTRAL=n
+CONFIG_BT_NIMBLE_ROLE_PERIPHERAL=n
+CONFIG_BT_NIMBLE_ROLE_BROADCASTER=n
+CONFIG_BT_NIMBLE_SECURITY_ENABLE=n
+CONFIG_BT_NIMBLE_ENABLE_CONN_REATTEMPT=n
+CONFIG_BT_NIMBLE_WHITELIST_SIZE=1
+CONFIG_BT_NIMBLE_MAX_CCCDS=1
+CONFIG_BT_NIMBLE_50_FEATURE_SUPPORT=n
+CONFIG_BT_NIMBLE_TRANSPORT_ACL_FROM_LL_COUNT=4
+CONFIG_BT_NIMBLE_MSYS_2_BLOCK_COUNT=8
+CONFIG_BT_CTRL_BLE_MAX_ACT=2
+
+# ---- coexistence: WiFi and Bluetooth share the radio ------------------------
+CONFIG_ESP_COEX_ENABLED=y
+CONFIG_ESP_COEX_SW_COEXIST_ENABLE=y
+
+# ---- WiFi: plain WPA2/WPA3 station and the setup hotspot only ---------------
+# 802.11k/v/r and the IDF roaming app are on (section "WiFi roaming" below).
+CONFIG_ESP_WIFI_ENTERPRISE_SUPPORT=n
+CONFIG_ESP_WIFI_ENABLE_WPA3_OWE_STA=n
+CONFIG_ESP_WIFI_ENABLE_SAE_PK=n
+CONFIG_ESP_WIFI_SOFTAP_SAE_SUPPORT=n
+CONFIG_ESP_WIFI_11KV_SUPPORT=y
+CONFIG_ESP_WIFI_MBO_SUPPORT=n
+CONFIG_ESP_WIFI_11R_SUPPORT=y
+CONFIG_ESP_WIFI_FTM_ENABLE=n
+CONFIG_ESP_WIFI_CSI_ENABLED=n
+CONFIG_ESP_WIFI_GCMP_SUPPORT=n
+CONFIG_ESP_WIFI_GMAC_SUPPORT=n
+CONFIG_ESP_WIFI_BSS_MAX_IDLE_SUPPORT=n
+CONFIG_ESP_WIFI_STATIC_RX_BUFFER_NUM=5
+CONFIG_ESP_WIFI_RX_BA_WIN=4
+CONFIG_ESP_WIFI_DYNAMIC_RX_BUFFER_NUM=16
+CONFIG_ESP_WIFI_DYNAMIC_TX_BUFFER_NUM=16
+CONFIG_ESP_WIFI_MGMT_SBUF_NUM=12
+CONFIG_ESP_WIFI_ESPNOW_MAX_ENCRYPT_NUM=0
+
+# ---- WiFi roaming: stay on the best access point of the network -------------
+# Event-driven: nothing is scanned while the signal is good. The weak-signal
+# event (below -72 dBm) makes the app scan once and ask the AP for a BSS
+# transition (802.11v), or reconnect to the better AP (fallback), only when
+# the candidate is at least 10 dB stronger. The STA flags rm/btm/ft are set in
+# src/wifi_mgr.cpp. MBO is not needed (it only adds MBO-certification parts).
+# Explained in docs/ESP_IDF_BUILD.md.
+CONFIG_ESP_WIFI_ENABLE_ROAMING_APP=y
+CONFIG_ESP_WIFI_ROAMING_LOW_RSSI_ROAMING=y
+CONFIG_ESP_WIFI_ROAMING_LOW_RSSI_THRESHOLD=-72
+CONFIG_ESP_WIFI_ROAMING_LOW_RSSI_OFFSET=5
+CONFIG_ESP_WIFI_ROAMING_LOW_RSSI_ROAM_DIFF=10
+CONFIG_ESP_WIFI_ROAMING_PERIODIC_SCAN_MONITOR=n
+CONFIG_ESP_WIFI_ROAMING_PERIODIC_RRM_MONITORING=n
+CONFIG_ESP_WIFI_ROAMING_NETWORK_ASSISTED_ROAM=y
+CONFIG_ESP_WIFI_ROAMING_LEGACY_ROAMING=y
+CONFIG_ESP_WIFI_NETWORK_ASSISTED_ROAMING_RETRY_COUNT=2
+CONFIG_ESP_WIFI_ROAMING_BACKOFF_TIME=30
+# keep IP and DHCP lease over a roam of the 802.11v/r kind (same network)
+CONFIG_ESP_WIFI_ROAMING_IP_RENEW_SKIP=y
+CONFIG_ESP_WIFI_ROAMING_BSSID_BLACKLIST=n
+
+# ---- network: IPv4 only -----------------------------------------------------
+CONFIG_LWIP_IPV6=n
+CONFIG_LWIP_PPP_SUPPORT=n
+# esp_http_server (IDF 6) needs loopback for its control socket
+CONFIG_LWIP_NETIF_LOOPBACK=y
+CONFIG_LWIP_TCP_SACK_OUT=n
+# esp_http_server takes max_open_sockets + 3 of these
+CONFIG_LWIP_MAX_SOCKETS=10
+# SNTP is started by time_mgr.cpp with one server
+CONFIG_LWIP_SNTP_MAX_SERVERS=1
+# no ARP probe of the address DHCP hands out: it waits about a second at
+# every connect, and the router does not hand out an address in use
+CONFIG_LWIP_DHCP_DOES_NOT_CHECK_OFFERED_IP=y
+# long enough for the Cookie header of a browser (1024)
+CONFIG_HTTPD_MAX_REQ_HDR_LEN=1024
+
+# ---- RAM code of drivers we do not use, and the heap functions, to flash ----
+CONFIG_RMT_ENCODER_FUNC_IN_IRAM=n
+CONFIG_RMT_TX_ISR_HANDLER_IN_IRAM=n
+CONFIG_RMT_RX_ISR_HANDLER_IN_IRAM=n
+CONFIG_GPTIMER_ISR_HANDLER_IN_IRAM=n
+CONFIG_I2C_MASTER_ISR_HANDLER_IN_IRAM=n
+CONFIG_I2S_ISR_IRAM_SAFE=n
+CONFIG_HEAP_PLACE_FUNCTION_INTO_FLASH=y
+CONFIG_GDMA_CTRL_FUNC_IN_IRAM=n
+CONFIG_SPI_SLAVE_ISR_IN_IRAM=n
+# WiFi code kept in RAM for speed: not needed
+CONFIG_ESP_WIFI_IRAM_OPT=n
+CONFIG_ESP_WIFI_RX_IRAM_OPT=n
+
+# ---- timing and behaviour of the 2.1.20 release, kept the same -------------
+# flash erase gives the CPU back every 10 ms (the control task ticks every 5 ms)
+CONFIG_SPI_FLASH_ERASE_YIELD_DURATION_MS=10
+CONFIG_SPI_FLASH_ERASE_YIELD_TICKS=2
+CONFIG_SPI_FLASH_WRITE_CHUNK_SIZE=4096
+CONFIG_ESP_PHY_REDUCE_TX_POWER=y
+
+# ---- health figures (src/sysmon.cpp): CPU use from the idle task's run time
+CONFIG_FREERTOS_GENERATE_RUN_TIME_STATS=y
+CONFIG_FREERTOS_RUN_TIME_STATS_USING_ESP_TIMER=y
+CONFIG_FREERTOS_RUN_TIME_COUNTER_TYPE_U64=y

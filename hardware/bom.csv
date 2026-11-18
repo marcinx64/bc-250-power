@@ -1,0 +1,16 @@
+Ref,Qty,Value,Footprint,Description,Example part numbers / sources,Fitted
+U3,1,Seeed Studio XIAO ESP32-C3,2 x PinSocket 1x07 P2.54mm (see next row),ESP32-C3 module with USB-C,"Seeed Studio XIAO ESP32-C3 (SKU 113991054); Seeed shop, DigiKey, Mouser, AliExpress",yes
+-,2,Female header 1x07 2.54 mm,PinSocket_1x07_P2.54mm_Vertical,Sockets for U3 (rows 15.24 mm apart); solder the module directly if you do not want sockets,"Any 1x07 2.54 mm female header, 8.5 mm tall (Samtec SSW-107-01-T-S, Wurth 613007111121, generic)",yes
+U1 U2,2,TLP521-2,DIP-8_W7.62mm,Dual optocoupler. LTV-827 / PC827 / EL827 are pin-compatible,"Toshiba TLP521-2, Lite-On LTV-827, Sharp PC827, Everlight EL827",yes
+-,2,DIP-8 socket (optional),DIP-8 W7.62mm,Socket for U1 and U2,"Any 8-pin DIP socket, 7.62 mm row spacing",optional
+R1 R2 R3,3,220R,"R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal (mounted standing)",1/4 W 1% resistor; opto LED drive about 10 mA at 3.3 V,"Yageo MFR-25FRF52-220R, Vishay MRS25, any 1/4 W 220 R",yes
+R4,1,470R,R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical,Optional series resistor in the LED sense input; fit only if the BC-250 LED current is above about 20 mA and cut JP1,Any 1/4 W or 1/6 W 470 R,optional (DNP)
+JP1,1,R4 bypass,SolderJumper-2_P1.3mm_Bridged_Pad1.0x1.5mm,PCB solder jumper across R4. Closed as shipped; cut the thin trace to use R4,PCB feature (no part),closed
+D1,1,1N5819,D_DO-41_SOD81_P3.81mm_Vertical_CathodeUp,Optional Schottky diode in the +5VSB line (about 0.3 V drop). Fit it and cut JP2 to allow USB and +5VSB together,"1N5819 (ST, Vishay, onsemi), 1N5817 or 1N5822 also fit",optional (DNP)
+JP2,1,D1 bypass,SolderJumper-2_P1.3mm_Bridged_Pad1.0x1.5mm,PCB solder jumper across D1. Closed as shipped; cut the thin trace when D1 is fitted,PCB feature (no part),closed
+BZ1,1,Active buzzer 12 mm,Buzzer_12x9.5RM7.6,12 mm active (self-oscillating) buzzer for 5 V; pin 1 is +,"12x9.5 mm 5 V active buzzer with 7.6 mm pin spacing (often sold as TMB12A05 or similar); check the polarity mark",yes
+J1,1,ATX (3-pin),JST_XH_B3B-XH-A_1x03_P2.50mm_Vertical,JST XH header: PS_ON# / GND / +5VSB,"JST B3B-XH-A; mating housing XHP-3 with SXH-001T-P0.6 contacts, or a pre-crimped XH 3-pin lead",yes
+J2,1,BC-250 (4-pin),JST_XH_B4B-XH-A_1x04_P2.50mm_Vertical,JST XH header: LED+ / LED- / PWR / RST,"JST B4B-XH-A; mating housing XHP-4 with SXH-001T-P0.6 contacts",yes
+J3,1,FRONT SWITCH (4-pin),JST_XH_B4B-XH-A_1x04_P2.50mm_Vertical,JST XH header: SW / COM / LED+ / LED-,"JST B4B-XH-A; mating housing XHP-4 with SXH-001T-P0.6 contacts",yes
+MH1-MH4,4,M3,MountingHole_3.2mm_M3,M3 mounting holes (corners),"M3 screws and standoffs, nylon recommended",yes
+-,1,Front illuminated momentary switch,5-wire pigtail,"Contact NO + common, LED, one NC wire not used (see wiring.svg)",As used in the tested build,yes

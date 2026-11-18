@@ -1,0 +1,36 @@
+name: Bug report
+description: Something does not work as documented
+labels: [bug]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Firmware version
+      description: Shown on the Controller page.
+    validations: {required: true}
+  - type: dropdown
+    id: method
+    attributes:
+      label: Wake method
+      options: [BLE, 2.4G/BT, Not related to wake]
+    validations: {required: true}
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened, and what did you expect?
+    validations: {required: true}
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+  - type: textarea
+    id: log
+    attributes:
+      label: Event log or USB console output
+      description: Remove WiFi names, passwords and addresses of your own devices.
+      render: text
+  - type: input
+    id: hw
+    attributes:
+      label: Hardware
+      description: Perfboard or PCB rev A, power supply, how the BC-250 is wired.

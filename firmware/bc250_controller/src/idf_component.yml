@@ -1,0 +1,3 @@
+# Managed components (downloaded at the first build into managed_components/).
+dependencies:
+  espressif/mdns: "^1.15"

@@ -1,0 +1,6 @@
+# Recordings contain real device addresses: never commit them.
+captures/
+*.sigmf-data
+*.sigmf-meta
+*.npz
+__pycache__/

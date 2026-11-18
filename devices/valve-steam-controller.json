@@ -1,0 +1,17 @@
+{
+  "id": "valve-steam-controller",
+  "vendor": "Valve",
+  "model": "Steam Controller (2.4G dongle)",
+  "kind": "gamepad",
+  "modes": [
+    {
+      "name": "2.4G dongle",
+      "wake_method": "other",
+      "protocol": "unknown",
+      "status": "help-wanted",
+      "tested_on": null,
+      "notes": "Radio protocol not captured yet. The original (2015) and the newer controller may differ. See docs/SNIFFING.md, Next target.",
+      "how_to_add": "Record it with the dongle unplugged as in docs/SNIFFING.md and open a new-device issue."
+    }
+  ]
+}

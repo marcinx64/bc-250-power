@@ -1,0 +1,17 @@
+{
+  "id": "rii-mini-i25",
+  "vendor": "Rii",
+  "model": "mini i25 keyboard",
+  "kind": "keyboard",
+  "modes": [
+    {
+      "name": "2.4G dongle",
+      "wake_method": "2g4-esb1m",
+      "protocol": "esb1m",
+      "status": "works",
+      "tested_on": "2.1.20",
+      "notes": "Found and woke the PC in the owner's tests. A switched-on keyboard searches for its dongle and sends often.",
+      "how_to_add": "Wake method 2.4G: Learn while switching it on with the dongle unplugged."
+    }
+  ]
+}

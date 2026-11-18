@@ -1,0 +1,30 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+"""Write bc250-power-controller.kicad_pro (design rules and net classes)."""
+import json
+import os
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+OUT = os.path.join(os.path.dirname(HERE), "bc250-power-controller.kicad_pro")
+
+nc = {"wire_width": 6, "bus_width": 12, "line_style": 0, "pcb_color": "rgba(0, 0, 0, 0.000)",
+      "schematic_color": "rgba(0, 0, 0, 0.000)", "clearance": 0.25, "via_diameter": 0.8, "via_drill": 0.4}
+pro = {
+    "meta": {"filename": "bc250-power-controller.kicad_pro", "version": 3},
+    "board": {"design_settings": {
+        "defaults": {"board_outline_line_width": 0.1, "copper_line_width": 0.2, "copper_text_size_h": 1.5,
+                     "copper_text_size_v": 1.5, "copper_text_thickness": 0.3, "other_line_width": 0.1,
+                     "silk_line_width": 0.12, "silk_text_size_h": 0.8, "silk_text_size_v": 0.8,
+                     "silk_text_thickness": 0.12, "courtyard_line_width": 0.05, "fab_line_width": 0.1,
+                     "fab_text_size_h": 0.8, "fab_text_size_v": 0.8, "fab_text_thickness": 0.1},
+        "rules": {"min_clearance": 0.2, "min_copper_edge_clearance": 0.3, "min_hole_clearance": 0.25,
+                  "min_hole_to_hole": 0.5, "min_text_height": 0.5, "min_text_thickness": 0.1,
+                  "min_through_hole_diameter": 0.3, "min_track_width": 0.25, "min_via_annular_width": 0.15,
+                  "min_via_diameter": 0.6, "min_silk_clearance": 0.0, "min_resolved_spokes": 1}}},
+    "net_settings": {
+        "classes": [dict(nc, name="Default", track_width=0.3), dict(nc, name="Power", track_width=0.8)],
+        "netclass_patterns": [{"netclass": "Power", "pattern": "+5V"}, {"netclass": "Power", "pattern": "+5VSB"}],
+        "meta": {"version": 3}},
+    "sheets": [],
+    "text_variables": {},
+}
+json.dump(pro, open(OUT, "w"), indent=2)

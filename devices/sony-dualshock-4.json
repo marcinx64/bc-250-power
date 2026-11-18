@@ -1,0 +1,17 @@
+{
+  "id": "sony-dualshock-4",
+  "vendor": "Sony",
+  "model": "DualShock 4",
+  "kind": "gamepad",
+  "modes": [
+    {
+      "name": "Bluetooth (classic)",
+      "wake_method": "bt-classic-page",
+      "protocol": "btpage",
+      "status": "works-untested-on-console",
+      "tested_on": "2.2.16",
+      "notes": "A paired controller pages its host. The packets carry the host's address, so one entry (the BC-250's) covers every controller paired with it, and any other paired device that reconnects by itself, such as a headset. Detection and wake were tested on a spare board; the test in the case is pending.",
+      "how_to_add": "Wake method 2.4G, Bluetooth hosts: type the BC-250's Bluetooth address (bluetoothctl show on the BC-250), or Learn while switching the controller on."
+    }
+  ]
+}

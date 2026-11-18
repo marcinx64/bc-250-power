@@ -1,0 +1,17 @@
+{
+  "id": "8bitdo-ultimate-2c",
+  "vendor": "8BitDo",
+  "model": "Ultimate 2C Wireless Controller",
+  "kind": "gamepad",
+  "modes": [
+    {
+      "name": "2.4G dongle",
+      "wake_method": "2g4-esb1m",
+      "protocol": "esb1m",
+      "status": "works",
+      "tested_on": "2.1.20",
+      "notes": "Same framing as the Ultimate 2 on a different fixed channel, with its own address. The signal is weaker: keep the controller close to the board when learning.",
+      "how_to_add": "Wake method 2.4G: Learn while switching it on with the dongle unplugged."
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "id": "8bitdo-ultimate-2",
+  "vendor": "8BitDo",
+  "model": "Ultimate 2 Wireless Controller",
+  "kind": "gamepad",
+  "modes": [
+    {
+      "name": "Bluetooth",
+      "wake_method": "ble",
+      "protocol": "ble",
+      "status": "works",
+      "tested_on": "2.1.20",
+      "notes": "Found by Scan like any Bluetooth LE device.",
+      "how_to_add": "Wake method Bluetooth: Scan while switching it on, add it."
+    },
+    {
+      "name": "2.4G dongle",
+      "wake_method": "2g4-esb1m",
+      "protocol": "esb1m",
+      "status": "works",
+      "tested_on": "2.1.20",
+      "notes": "Nordic Enhanced ShockBurst, 1 Mbit/s, 5-byte address, CRC-16. A fixed channel plus a hopping second channel while it searches for the dongle. The address is fixed per controller.",
+      "how_to_add": "Wake method 2.4G: Learn while switching it on with the dongle unplugged."
+    }
+  ]
+}

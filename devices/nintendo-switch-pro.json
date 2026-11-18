@@ -1,0 +1,17 @@
+{
+  "id": "nintendo-switch-pro",
+  "vendor": "Nintendo",
+  "model": "Switch Pro Controller",
+  "kind": "gamepad",
+  "modes": [
+    {
+      "name": "Bluetooth (classic)",
+      "wake_method": "bt-classic-page",
+      "protocol": "btpage",
+      "status": "expected",
+      "tested_on": null,
+      "notes": "Expected to page its host like the DualShock 4; not tested.",
+      "how_to_add": "Wake method 2.4G, Bluetooth hosts: type the BC-250's Bluetooth address (bluetoothctl show on the BC-250), or Learn while switching the controller on."
+    }
+  ]
+}

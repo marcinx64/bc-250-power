@@ -1,0 +1,42 @@
+version = 1
+SPDX-PackageName = "bc-250-power"
+SPDX-PackageDownloadLocation = "https://github.com/marcinx64/bc-250-power"
+
+# Licences per kind of work (README.md, "License"). Source files also carry
+# an SPDX-License-Identifier line; this file gives the copyright for every
+# file and the licence for files that cannot carry a comment.
+
+# Firmware, web UI, translations, tools, tests, build and CI files
+[[annotations]]
+path = "**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Marcin K. (marcinx64)"
+SPDX-License-Identifier = "GPL-3.0-or-later"
+
+# Hardware: KiCad project, schematics, drawings, renders, gerbers, BOM
+[[annotations]]
+path = ["hardware/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Marcin K. (marcinx64)"
+SPDX-License-Identifier = "CERN-OHL-S-2.0"
+
+# The scripts that generate the KiCad files are code
+[[annotations]]
+path = ["hardware/kicad/scripts/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Marcin K. (marcinx64)"
+SPDX-License-Identifier = "GPL-3.0-or-later"
+
+# Documentation, photos, images, the device list
+[[annotations]]
+path = ["**.md", "docs/**", "photos/**", "devices/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Marcin K. (marcinx64)"
+SPDX-License-Identifier = "CC-BY-SA-4.0"
+
+# Monocypher, a third-party library kept unmodified
+[[annotations]]
+path = ["firmware/bc250_controller/components/monocypher/monocypher*", "firmware/bc250_controller/components/monocypher/LICENCE.md"]
+precedence = "override"
+SPDX-FileCopyrightText = "Loup Vaillant and the Monocypher contributors"
+SPDX-License-Identifier = "BSD-2-Clause OR CC0-1.0"
